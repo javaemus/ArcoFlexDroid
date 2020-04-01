@@ -1,0 +1,129 @@
+# DISKS
+msx2_dsk_60Hz_sdsne,    KONAMI_8K_SCC2, msx2_dsk_sdsne,      Sdsne1.dsk, e0adb6b6, b4000
+msx2_dsk_60Hz_sdsne,    KONAMI_8K_SCC2, msx2_dsk_sdsne,      Sdsne2.dsk, 1afec5f2, b4000
+msx2_dsk_60Hz_sdsne,    KONAMI_8K_SCC2, msx2_dsk_sdsne,      Sdsne3.dsk, 856c44c2, b4000
+
+msx2_dsk_60Hz_aleste2,  NORMAL, 	msx2_dsk_aleste2, aleste2-1.dsk, e07c42a9, b4000
+msx2_dsk_60Hz_aleste2,  NORMAL, 	msx2_dsk_aleste2, aleste2-2.dsk, 749adbd1, b4000
+msx2_dsk_60Hz_aleste2,  NORMAL, 	msx2_dsk_aleste2, aleste2-3.dsk, 76e2b4f5, b4000
+
+msx2_dsk_60Hz_firehawk, NORMAL, 	msx2_dsk_firehawk,   fireh1.dsk, 9bad7ae6, b4000
+msx2_dsk_60Hz_undeadli, NORMAL, 	msx2_dsk_undeadli, Undeadli.dsk, 7c5cc3a6, b4000
+msx2_dsk_mania001,      NORMAL, 	msx2_dsk_mania001, mania001.dsk, 6e94f6cf, 5a000
+
+msx2_dsk_60Hz_snatc, KONAMI_8K_SCC2, msx2_snatchere,  snatche0.dsk, c2422cca, b4000
+msx2_dsk_60Hz_snatc, KONAMI_8K_SCC2, msx2_snatchere,  snatche1.dsk, beeac3b3, b4000
+msx2_dsk_60Hz_snatc, KONAMI_8K_SCC2, msx2_snatchere,  snatche2.dsk, 4e342d75, b4000
+msx2_dsk_60Hz_snatc, KONAMI_8K_SCC2, msx2_snatchere,  snatche3.dsk, c4349c57, b4000
+
+# Non-working or buggy disks
+msx2_dsk_60Hz_alestes,  NORMAL, msx2_dsk_alestes,  aleste_s.dsk, 32307564, b4000
+msx2_dsk_60Hz_psyworld, NORMAL, msx2_dsk_psyworld, psyworld.dsk, 6dccadfe, b4001
+msx2_dsk_60Hz_gianasis, NORMAL, msx2_dsk_gianasis, gianasis.dsk, f6a63d38, b4000
+msx2_dsk_60Hz_golvell2, NORMAL, msx2_dsk_golvell2, golvell2.dsk, 322fc815, b4000
+msx2_dsk_60Hz_runem2en, NORMAL, msx2_dsk_runem2en, runem2en.dsk, 4876f3e8, b4000
+msx2_dsk_radx8,         NORMAL, msx2_dsk_radx8,       radx8.dsk, 5714813e, b4000
+msx2_dsk_60Hz_feedback, NORMAL, msx2_dsk_feedback, feedback.dsk, c279feb1, b4000
+msx2_dsk_60Hz_valis2,   NORMAL, msx2_dsk_valis2,   valis2-1.dsk, 71478d69, b4000
+msx2_dsk_60Hz_laydock,  NORMAL, msx2_dsk_laydock,   laydock.dsk, 877ab8d5, b4000
+msx2_dsk_60Hz_ys3en,    NORMAL, msx2_dsk_ys3en,       ys3en.dsk, 674b5858, 384000
+msx2_dsk_60Hz_xak1,     NORMAL, msx2_dsk_xak1,         xak1.dsk, 32f044b3, b4000
+msx2_dsk_60Hz_grdriver, NORMAL, msx2_dsk_grdriver, grdrive1.dsk, 7202a68d, b4000
+msx2_dsk_60Hz_grdriver, NORMAL, msx2_dsk_grdriver, grdrive2.dsk, af7013cd, b4000
+msx2_dsk_60Hz_starship, NORMAL, msx2_dsk_starship, starship.dsk, e7aeb15f, 168000
+#msx2_dsk_60Hz_sdsne, KONAMI_8K_SCCP, 	msx2_dsk_sdsnae,     Sdsne1.dsk, a9633544, b4000
+#msx2_dsk_60Hz_sdsne, KONAMI_8K_SCCP, 	msx2_dsk_sdsnae,     Sdsne2.dsk, 4e4aaa7d, b4000
+#msx2_dsk_60Hz_sdsne, KONAMI_8K_SCCP, 	msx2_dsk_sdsnae,     Sdsne3.dsk, 8dc0cbe, b4000
+
+
+# KONAMI ROMS
+msx1_antadv,   NORMAL,        msx_antadv,      antadv.rom, aae7028b,  8000
+msx1_athland1, NORMAL,        msx_athland1,  ATHLAND1.ROM, 5f4b756f,  8000
+msx1_boxing,   NORMAL,        msx_boxing,      KO-BOX.ROM, 3a442408,  8000
+msx1_kvalley,  NORMAL,        msx_kvalley,    kvalley.rom, 201d7691,  4000
+msx1_magitree, NORMAL,        msx_magitree,  magitree.rom, e51b1303,  4000
+msx1_monkey,   NORMAL,        msx_monkey,      monkey.rom, d1896f6e,  4000
+msx1_pippols,  NORMAL,        msx_pippols,    Pippols.rom, f4e97ad5,  4000
+msx1_rally,    NORMAL,        msx_hyprally,     RALLY.ROM, c575cec6,  4000
+msx1_skyjag,   NORMAL,        msx_skyjag,      Skyjag.rom, e4f725fd,  4000
+msx1_soccer,   NORMAL,        msx_soccer,      Soccer.rom, e861d2bd,  8000
+msx1_supcobra, NORMAL,        msx_supcobra,   Sucobra.rom, 6c601fa5,  4000
+msx1_timepil,  NORMAL,        msx_timepil,    Tmpilot.rom, e4abe008,  4000
+msx1_twinbee,  NORMAL,        msx_twinbee,    twinbee.rom, 71309c8f,  8000
+msx1_ykungfu,  NORMAL,        msx_ykungfu,     kungfu.rom, 8a12ec4f,  4000
+msx1_ykungfu2, NORMAL,        msx_ykungfu2,  ykungfu2.rom, d66034a9,  8000
+msx1_yie2sccp, KONAMI_8K_SCCP,msx_yie2sccp,      yie2.rom, 3848c61a, 20000
+msx1_yie1sccp, KONAMI_8K_SCCP,msx_yie1sccp,  yie1sccp.rom, 859b76ef, 20000
+
+# NON-KONAMI ROMS
+msx1_eggland,  NORMAL,        msx_egger,        egger.rom, 232b1050,  8000
+msx1_grogs,    NORMAL,        msx_grogs,        grogs.rom, 5f74ae0e,  8000
+msx1_mario2,   NORMAL,        msx_mario2,      mario2.rom, 7de493ab,  8000
+msx1_wonder,   NORMAL,        msx_wonder,      wonder.rom, 78ab8fd7,  8000
+msx1_mappy,    NORMAL,        msx_mappy,        MAPPY.ROM, a006ad6b,  8000
+msx1_thexder,  NORMAL,        msx_thexder,    thexder.rom, c55e68d9,  8000
+msx1_iriegas,  NORMAL,        msx_iriegas,    iriegas.rom, 36a08e0b,  4000
+
+# KONAMI MEGAROMS
+msx1_nemesis,  KONAMI_8K,     msx_nemesis1,  nemesis1.ROM, 4d44255f, 20000
+msx1_penguin,  KONAMI_8K,     msx_penguin,    penguin.ROM, 0f6418d3, 20000
+msx1_galious,  KONAMI_8K,     msx_galious,    galious.ROM, fe23d253, 20000
+msx1_shalome,  KONAMI_8K,     msx_shalome,    shalome.ROM, 816d3ce0, 80000
+msx1_nemesis2, KONAMI_8K_SCC, msx_nemesis2,  nemesis2.ROM, 32aba4e3, 20000
+msx1_gradiu2d, KONAMI_8K_SCC, msx_gradiu2d,  gradiu2d.ROM, c8fac21a, 20000
+msx2_nemesis3, KONAMI_8K_SCC, msx_nemesis3,  nemesis3.ROM, 4b61ae91, 40000
+msx1_salamand, KONAMI_8K_SCC, msx_salamand,  salamand.ROM, c36f559d, 20000
+msx1_f1spirit, KONAMI_8K_SCC, msx_f1spirit,  f1spirit.ROM, 64d2df7c, 20000
+msx1_parodius, KONAMI_8K_SCC, msx_parodius,  parodius.ROM, 9bb308f5, 20000
+msx1_kvalley2, KONAMI_8K_SCC, msx_kvalley21,kvalley21.ROM, e82a8e8e, 20000
+msx1_nemsccp,  KONAMI_8K_SCCP,msx_nemsccp,    nemsccp.ROM, 619b4b4a, 20000
+
+# KONAMI MSX2 MEGAROMS
+msx2_firebird, KONAMI_8K,     msx_firebird,  firebird.rom, 3ab5ae57, 20000
+msx2_vkiller,  KONAMI_8K,     msx_vkiller,    vkiller.rom, 038c250d, 20000
+msx2_mgear,    KONAMI_8K,     msx_mgear,        mgear.rom, e85c5731, 20000
+msx2_60Hz_mgear2,KONAMI_8K_SCC, msx_mg2,       solide12.rom, 5c4f98d9, 80000
+msx2_usas,     KONAMI_8K,     msx_games32,       usas.rom, 30396650, 20000
+msx2_kvalley2, KONAMI_8K_SCC, msx_games32,   kvalley2.rom, b1cb1052, 20000
+msx2_gryzor,   KONAMI_8K_SCC, msx_gryzor,      GRYZOR.ROM, 4e82660d, 20000
+msx2_quarth,   KONAMI_8K_SCC, msx_games32,     quarth.rom, a0014e7f, 20000
+
+# NON-KONAMI MEGAROMS
+msx1_vaxol,    ASCII_16K,     msx_vaxol,        vaxol.ROM, fea70207, 20000
+msx1_fantasm,  ASCII_8K,      msx_fantasm,    fantasm.rom, 309d996c, 20000
+
+# NON_KONAMI MSX2 MEGAROMS
+msx2_eggland2, ASCII_16K,     msx_egger2a,     egger2.rom, 1d1ec602, 20000
+msx2_ashguin2, ASCII_8K,      msx_ashguin2,  ashguine.rom, 47a82d74, 40000
+msx2_famicle,  ASCII_8K,      msx_games32,    famicle.rom, 0e03847b, 40000
+msx2_dslayer4, ASCII_8K,      msx_games32,   dslayer4.ROM, 98095852, 40000
+msx2_zanacex,  ASCII_16K,     msx_games32,   zanac-ex.rom, d153b2f2, 20000
+msx2_xevious,  ASCII_16K,     msx_games32,    XEVIOUS.ROM, 97591725, 40000
+msx2_pengwar2, ASCII_16K,     msx_games32,   pengwar2.rom, b1b24da1, 40000
+msx2_suprunnr, ASCII_8K,      msx_suprunnr,  suprunnr.rom, 5a5be701, 20000
+msx2_quinpl,   ASCII_8K,      msx_games32,     quinpl.rom, 8d94af7d, 40000
+msx2_aleste,   ASCII_16K,     msx_aleste,      Aleste.rom, c29edd84, 40000
+msx2_monmon,   ASCII_8K,      msx_monmon,      monmon.rom, ebccb796, 20000
+msx2_arkanoi2, ASCII_8K,      msx_arkan2,      arkan2.rom, 00d36af6, 20000
+
+
+# ENHANCED DRIVERS
+msxe_nemesis2, KONAMI_8K_SCC, msx_unsmooth,  nemesis2.ROM, 32aba4e3, 20000
+msxe_kmare,    NORMAL,        msx_knightma,    Knight.rom, 5876a372,  8000, level 2 boss bullets invisible
+msxe_salamand, KONAMI_8K_SCC, msx_salamand,  salamand.ROM, c36f559d, 20000
+
+
+# NOT WORKING OR BUGGY
+msx1_goonies,  NORMAL,        msx_goonies,    GOONIES.ROM, c6445f82,  8000, skull movement
+msx1_kmare,    NORMAL,        msx_knightma,    Knight.rom, 5876a372,  8000, level 2 boss bullets invisible
+msx1_juno,     NORMAL,        msx_juno,        Juno-f.rom, fd39d097,  4000, doesn't boot
+msx1_mopyrang, NORMAL,        msx_mopyrang,  Mpranger.rom, 213e623b,  4000, doesn't boot
+msx1_pfall2,   NORMAL,        msx_pitfall2,  Pitfall2.rom, d307a7b8,  8000, sprite collision
+msx1_track1,   NORMAL,        msx_track1,      Track1.rom, e96b861d,  4000, buggy sprites
+msx1_track2,   NORMAL,        msx_track2,      Track2.rom, b1ff5899,  4000, buggy sprites
+msx2_outrun,   ASCII_8K,      msx_outrun,      OUTRUN.ROM, 0a9f8d6c, 40000, gfx corruption
+msx2_spman,    KONAMI_8K_SCC, msx_spman,        spman.rom, 27405eed, 40000, hangs at game start
+msx2_andorogy, ASCII_16K,     msx_andorogy,androgynus.rom, eaf2bfcd, 40000, hangs at game start
+msx2_ikari,    ASCII_8K,      msx_ikari,        ikari.rom, a9a66075, 40000, doesn't boot
+msx2_ashguine, ASCII_8K,      msx_ashguine,  ashguine.rom, d982df38, 40000, doesn't boot
+

@@ -1,0 +1,136 @@
+package net.movegaga.jemu2.driver.arcade.circusc;
+
+import net.movegaga.jemu2.driver.BaseDriver;
+import net.movegaga.jemu2.driver.arcade.Konami;
+
+import java.net.URL;
+
+import jef.cpu.M6809;
+import jef.cpuboard.CpuDriver;
+import jef.machine.Emulator;
+import jef.machine.EmulatorProperties;
+import jef.map.InputPort;
+import jef.map.MemoryReadAddress;
+import jef.map.MemoryWriteAddress;
+import jef.map.SwitchedInterrupt;
+import jef.map.WriteHandler;
+import jef.util.RomLoader;
+import jef.video.GfxDecodeInfo;
+
+public class Circusc extends BaseDriver {
+   int[][] characters;
+   M6809 cpu1 = new M6809();
+   Konami emu;
+   InputPort[] in;
+   SwitchedInterrupt interruptIRQ;
+   WriteHandler interrupt_enable_w;
+   char[] mem_cpu1 = new char[131072];
+   char[] mem_gfx1;
+   char[] mem_gfx2;
+   char[] mem_prom;
+   MemoryReadAddress mra;
+   MemoryWriteAddress mwa;
+   int[][] sprites;
+   VCircusc video;
+   WriteHandler writeVRAM;
+
+   public Circusc() {
+      this.mra = new MemoryReadAddress(this.mem_cpu1);
+      this.mwa = new MemoryWriteAddress(this.mem_cpu1);
+      this.video = new VCircusc(this);
+      this.mem_gfx1 = new char[16384];
+      this.mem_gfx2 = new char['쀀'];
+      this.mem_prom = new char[544];
+      this.writeVRAM = this.video;
+      this.emu = new Konami();
+      this.interruptIRQ = new SwitchedInterrupt(0);
+      this.interrupt_enable_w = this.interruptIRQ;
+      this.in = new InputPort[5];
+      int[] var4 = new int[]{8};
+      int[] var5 = new int[]{8};
+      int[] var6 = new int[]{512};
+      int[] var7 = new int[]{4};
+      int[] var2 = new int[]{0, 1, 2, 3};
+      int[] var1 = new int[]{0, 4, 8, 12, 16, 20, 24, 28};
+      int[] var3 = new int[]{0, 32, 64, 96, 128, 160, 192, 224};
+      this.characters = new int[][]{var4, var5, var6, var7, var2, var1, var3, {256}};
+      var2 = new int[]{0, 1, 2, 3};
+      var3 = new int[]{0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60};
+      var1 = new int[]{0, 64, 128, 192, 256, 320, 384, 448, 512, 576, 640, 704, 768, 832, 896, 960};
+      var4 = new int[]{1024};
+      this.sprites = new int[][]{{16}, {16}, {384}, {4}, var2, var3, var1, var4};
+   }
+
+   public Emulator createEmulator(URL var1, String var2) {
+      super.createEmulator(var1, var2);
+      RomLoader var5 = new RomLoader();
+      var5.setZip("circusc");
+      var5.setMemory(this.mem_cpu1);
+      var5.loadROM("s05", 24576, 8192, 1224650703);
+      var5.loadROM("q04", '耀', 8192, -1031554937);
+      var5.loadROM("q03", 'ꀀ', 8192, -385085818);
+      var5.loadROM("q02", '쀀', 8192, 1300528582);
+      var5.loadROM("q01", '\ue000', 8192, 415369951);
+      var5.setMemory(this.mem_gfx1);
+      var5.loadROM("a04_j12.bin", 0, 8192, 1457894408);
+      var5.loadROM("a05_k13.bin", 8192, 8192, 1523188115);
+      var5.setMemory(this.mem_gfx2);
+      var5.loadROM("e11_j06.bin", 0, 8192, -553384506);
+      var5.loadROM("e12_j07.bin", 8192, 8192, 601875366);
+      var5.loadROM("e13_j08.bin", 16384, 8192, 1000952720);
+      var5.loadROM("e14_j09.bin", 24576, 8192, -1443125158);
+      var5.loadROM("e15_j10.bin", '耀', 8192, 87176318);
+      var5.loadROM("e16_j11.bin", 'ꀀ', 8192, -512598748);
+      var5.setMemory(this.mem_prom);
+      var5.loadROM("a02_j18.bin", 0, 32, 282939050);
+      var5.loadROM("c10_j16.bin", 32, 256, -1035668822);
+      var5.loadROM("b07_j17.bin", 288, 256, 328766295);
+      var5.loadZip(var1);
+      this.in[0] = new InputPort();
+      this.in[1] = new InputPort();
+      this.in[2] = new InputPort();
+      this.in[3] = new InputPort();
+      this.in[4] = new InputPort();
+      this.in[0].setBit(1, 1);
+      this.in[0].setBit(2, 2);
+      this.in[0].setBit(4, 16);
+      this.in[0].setBit(8, 4);
+      this.in[0].setBit(16, 5);
+      this.in[0].setBits(224, 224);
+      this.in[1].setBit(1, 8);
+      this.in[1].setBit(2, 9);
+      this.in[1].setBit(16, 12);
+      this.in[1].setBit(236, 236);
+      this.in[2].setBit(1, 136);
+      this.in[2].setBit(2, 137);
+      this.in[2].setBit(16, 140);
+      this.in[2].setBit(236, 236);
+      this.in[3].setBits(255, 255);
+      this.in[4].setBits(255, 91);
+      this.mra.set(4096, 4096, this.in[0]);
+      this.mra.set(4097, 4097, this.in[1]);
+      this.mra.set(4098, 4098, this.in[2]);
+      this.mra.set(5120, 5120, this.in[3]);
+      this.mra.set(6144, 6144, this.in[4]);
+      this.mwa.set(1, 1, this.interrupt_enable_w);
+      this.mwa.set(12288, 14335, this.writeVRAM);
+      this.mwa.setMW(24576, '\uffff', 1);
+      GfxDecodeInfo var4 = new GfxDecodeInfo(this.mem_gfx1, 0, this.characters, 0, 16);
+      GfxDecodeInfo var6 = new GfxDecodeInfo(this.mem_gfx2, 0, this.sprites, 256, 16);
+      EmulatorProperties var3 = new EmulatorProperties();
+      var3.setCpuDriver(new CpuDriver[]{new CpuDriver(this.cpu1, 2048000, this.mra, this.mwa, this.interruptIRQ, 1)});
+      var3.setFPS(60);
+      var3.setVideoDimensions(256, 256);
+      var3.setVisibleArea(0, 255, 16, 239);
+      var3.setGfxDecodeInfo(new GfxDecodeInfo[]{var4, var6});
+      var3.setPaletteLength(32);
+      var3.setColorTableLength(512);
+      var3.setVideoEmulation(this.video);
+      var3.setInputPorts(this.in);
+      var3.setRotation(1);
+      this.video.init(var3);
+      this.emu.init(var3);
+      this.emu.konami1_decode(this.mem_cpu1);
+      return this.emu;
+   }
+}
