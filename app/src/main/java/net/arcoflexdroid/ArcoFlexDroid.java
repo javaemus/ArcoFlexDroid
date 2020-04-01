@@ -259,7 +259,7 @@ public class ArcoFlexDroid extends Activity {
                 } else {
                     try {
                         mm = this;
-                        emulator = new EmulatorFactory().createEmulator("commando");
+                        emulator = new EmulatorFactory().createEmulator("bankp");
                         this.emulator.reset(true);
                         //setContentView(main, new ViewGroup.LayoutParams(displayWidth, displayHeight));
                         //setContentView(R.layout.main);
