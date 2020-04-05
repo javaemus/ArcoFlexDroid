@@ -7,45 +7,73 @@ package arcoflex056.platform.android;
 
 import arcoflex056.platform.platformConfigurator;
 
+import android.media.AudioAttributes;
+import android.media.AudioFormat;
+import android.media.AudioManager;
+import android.media.AudioTrack;
+
+import static mame056.mame.Machine;
+
 /**
  *
  * @author chusogar
  */
 class android_SoundPlayerClass implements platformConfigurator.i_SoundPlayer_class{
 
+    private AudioTrack _audioTrack;
+
+    public android_SoundPlayerClass(){
+        super();
+    }
+
     @Override
     public void createAudioFormat(int stereo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("--> createAudioFormat");
+        _audioTrack = new AudioTrack(
+                AudioManager.STREAM_MUSIC,
+                Machine.sample_rate,
+                (stereo!=0) ? AudioFormat.CHANNEL_OUT_STEREO : AudioFormat.CHANNEL_OUT_MONO,
+                //(bits == 8) ? AudioFormat.ENCODING_PCM_8BIT : AudioFormat.ENCODING_PCM_16BIT,
+                AudioFormat.ENCODING_PCM_8BIT,
+                1024, //bufSizeBytes,
+                AudioTrack.MODE_STREAM);
     }
 
     @Override
     public boolean isLineSupported() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("--> isLineSupported");
+        return true;
     }
 
     @Override
     public Object getAudioFormat() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("--> getAudioFormat");
+        return "audio dummy for android";
     }
 
     @Override
     public void getLine() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("--> getLine");
     }
 
     @Override
     public void Play() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        System.out.println("--> Play");
+        _audioTrack.play();
     }
 
     @Override
     public void Stop() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        System.out.println("--> Stop");
+        _audioTrack.stop();
     }
 
     @Override
     public void write(byte[] waveBuffer, int offset, int length) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println("--> Write");
+        _audioTrack.write(waveBuffer, 0, length);
     }
-    
+
 }

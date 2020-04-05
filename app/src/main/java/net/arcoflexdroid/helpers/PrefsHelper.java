@@ -11,6 +11,8 @@ import net.arcoflexdroid.ArcoFlexDroid;
 import net.arcoflexdroid.input.InputHandler;
 import net.arcoflexdroid.prefs.GameFilterPrefs;
 
+import arcadeflex056.settings;
+
 public class PrefsHelper implements OnSharedPreferenceChangeListener
 {
     final static public String PREF_ROMsDIR = "PREF_ROMsDIR_2";
@@ -464,6 +466,7 @@ public class PrefsHelper implements OnSharedPreferenceChangeListener
     }
 
     public String getInstallationDIR(){
+        settings.installationDir = getSharedPreferences().getString(PREF_INSTALLATION_DIR,null);
         return getSharedPreferences().getString(PREF_INSTALLATION_DIR,null);
     }
 
@@ -471,6 +474,8 @@ public class PrefsHelper implements OnSharedPreferenceChangeListener
         SharedPreferences.Editor editor =  getSharedPreferences().edit();
         editor.putString(PREF_INSTALLATION_DIR, value);
         editor.commit();
+
+        settings.installationDir = value;
     }
 
     public String getOldInstallationDIR(){

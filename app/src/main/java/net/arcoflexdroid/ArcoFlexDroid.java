@@ -37,12 +37,23 @@ import net.arcoflexdroid.views.ArcoFlexEmulatorView;
 import net.arcoflexdroid.views.EmulatorViewGL;
 import net.arcoflexdroid.views.IEmuView;
 import net.arcoflexdroid.views.InputView;
-import net.movegaga.jemu2.EmulatorFactory;
+//import net.movegaga.jemu2.EmulatorFactory;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-import jef.video.BitMap;
+import arcadeflex056.osdepend;
+import arcadeflex056.settings;
+import arcoflex056.platform.platformConfigurator;
+
+import static arcoflex056.platform.platformConfigurator.ConfigurePlatform;
+import static common.util.ConvertArguments;
+import static common.util.argc;
+import static common.util.argv;
+import static arcadeflex056.video.*;
+
+//import jef.video.BitMap;
+
 
 
 final class NotificationHelper
@@ -75,11 +86,13 @@ final class NotificationHelper
 
 public class ArcoFlexDroid extends Activity {
 
-    private volatile boolean running = true;
-    private static int[] pixels;
+    public boolean running = false;
+    public static int[] pixels;
 
-    protected View emuView = null;
+    public View emuView = null;
     public static ImageView mImgEm;
+    public static int _maxWidth;
+    public static int _maxHeight;
 
     protected InputView inputView = null;
 
@@ -131,7 +144,10 @@ public class ArcoFlexDroid extends Activity {
     }
 
     public static ArcoFlexDroid mm = new ArcoFlexDroid();
-    public jef.machine.Emulator emulator;
+
+    // JEmu2
+    //public jef.machine.Emulator emulator;
+    // end JEmu2
 
     class AnimationLoop implements Runnable {
         AnimationLoop() {
@@ -140,60 +156,36 @@ public class ArcoFlexDroid extends Activity {
 
         public void run() {
             while (ArcoFlexDroid.this.running) {
-                /*try {
-                    Thread.sleep(33);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    ArcoFlexDroid.this.getEmuView().postInvalidate();
-                }*/
-                //JEmu2Droid.main.postInvalidate();
-                //ArcoFlexDroid.this.drawFrame();
-                //JEmu2Droid.main.drawFrame();
-                //System.out.println("Pinto!!!!");
 
-                BitMap bmp = ArcoFlexDroid.this.emulator.refresh(true);
+                // JEmu2
+                /*BitMap bmp = ArcoFlexDroid.this.emulator.refresh(true);
                 ArcoFlexDroid.this.pixels = bmp.getPixels();
 
                 Bitmap bma = Bitmap.createBitmap(bmp.getWidth(), bmp.getHeight(), Bitmap.Config.RGB_565);
                 bma.setPixels(ArcoFlexDroid.this.pixels, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
-                //bm.recycle();
+                // end
+                 */
+                int _mWidth = (int) settings.current_platform_configuration.get_video_class().getWidth();
+                int _mHeight = (int) settings.current_platform_configuration.get_video_class().getHeight();
+                System.out.println(_mWidth+"x"+_mHeight);
 
-                //Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, 224, 256, matrix, false);
+                ArcoFlexDroid.this.pixels = screen._pixels;
+
                 int displayWidth = getWindowManager().getDefaultDisplay().getWidth();
                 int maxWidth = displayWidth;
-                int scaleRatio = displayWidth/bmp.getWidth();
-                int maxHeight = bmp.getWidth() * scaleRatio;
-                //Bitmap bm = Bitmap.createScaledBitmap(bma,maxWidth, maxHeight, false);
+                int scaleRatio = (int) (displayWidth/_mWidth);
+                int maxHeight = (int) (_mWidth * scaleRatio);
 
-                //converting bitmap object to show in imageview2
-                FrameLayout mImg;
-                //setContentView(R.layout.main);
-                //mImg = findViewById(R.id.EmulatorFrame);
-                if (bma != null) {
-                    //ArcoFlexDroid.this.getEmuView().draw();
-                    //mImgEm = findViewById(R.id.EmulatorScreen);
-                    //mImg.addView(mImgEm);
-                    //mImgEm.setImageBitmap(Bitmap.createScaledBitmap(bma,maxWidth, maxHeight, false));
+                Bitmap bma = Bitmap.createBitmap(_mWidth, _mHeight, Bitmap.Config.RGB_565);
+                bma.setPixels(ArcoFlexDroid.this.pixels, 0, _mWidth, 0, 0, _mWidth, _mHeight);
+
+                if (ArcoFlexDroid.this.pixels != null) {
+
                     ((ArcoFlexEmulatorView)(emuView)).drawScreenEmulator( Bitmap.createScaledBitmap(bma,maxWidth, maxHeight, false) );
                     ((ArcoFlexEmulatorView)(emuView)).postInvalidate();
                     mImgEm.setImageBitmap(((ArcoFlexEmulatorView)(emuView)).screenBitmap);
-                    //((ArcoFlexEmulatorView)(emuView)).draw();
-                    //Bitmap bm = Bitmap.createScaledBitmap(bma,maxWidth, maxHeight, false);
-            /*int imageSize = bm.getRowBytes() * bm.getHeight();
 
 
-            ByteBuffer uncompressedBuffer = ByteBuffer.allocateDirect(imageSize);
-            bm.copyPixelsToBuffer(uncompressedBuffer);
-            uncompressedBuffer.position(0);
-
-            ByteBuffer compressedBuffer = ByteBuffer.allocateDirect(
-                     ETC1.getEncodedDataSize(bm.getWidth(), bm.getHeight())).order(ByteOrder.nativeOrder());
-            ETC1.encodeImage(uncompressedBuffer, bm.getWidth(), bm.getHeight(), 2, 2 * bm.getWidth(),
-                    compressedBuffer);
-
-            Emulator.screenBuff = compressedBuffer;
-
-             */
                 }
             }
         }
@@ -223,6 +215,9 @@ public class ArcoFlexDroid extends Activity {
 
         overridePendingTransition(0, 0);
         getWindow().setWindowAnimations(0);
+
+        _maxWidth = getWindowManager().getDefaultDisplay().getWidth();
+        _maxHeight = getWindowManager().getDefaultDisplay().getHeight();
 
         prefsHelper = new PrefsHelper(this);
 
@@ -259,75 +254,20 @@ public class ArcoFlexDroid extends Activity {
                 } else {
                     try {
                         mm = this;
-                        emulator = new EmulatorFactory().createEmulator("bankp");
-                        this.emulator.reset(true);
-                        //setContentView(main, new ViewGroup.LayoutParams(displayWidth, displayHeight));
-                        //setContentView(R.layout.main);
 
-                        //new ArcoFlexVideoTask().execute();
+                        // JEmu2
+                        //emulator = new EmulatorFactory().createEmulator("bankp");
+                        //this.emulator.reset(true);
+                        // end JEmu2
 
-                        //new Thread(new AnimationLoop()).start();
+                        ConfigurePlatform((platformConfigurator.i_platform_configurator)new arcoflex056.platform.android.android_Configurator());
+                        ConvertArguments("arcadeflex", new String[]{"bankp"});
+
 
                         (new Thread(new Runnable() {
                             public void run() {
-                                while (ArcoFlexDroid.this.running) {
-                                    /*try {
-                                        Thread.sleep(33);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                        ArcoFlexDroid.this.getEmuView().postInvalidate();
-                                    }*/
-                                    //JEmu2Droid.main.postInvalidate();
-                                    //ArcoFlexDroid.this.drawFrame();
-                                    //JEmu2Droid.main.drawFrame();
-                                    //System.out.println("Pinto!!!!");
+                                System.exit(osdepend.main(argc, argv));
 
-                                    BitMap bmp = ArcoFlexDroid.this.emulator.refresh(true);
-                                    //ArcoFlexDroid.this.pixels = bmp.getPixels();
-
-                                    Bitmap bma = Bitmap.createBitmap(bmp.getWidth(), bmp.getHeight(), Bitmap.Config.RGB_565);
-                                    bma.setPixels(bmp.getPixels(), 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
-                                    //bm.recycle();
-
-                                    //Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, 224, 256, matrix, false);
-                                    int displayWidth = getWindowManager().getDefaultDisplay().getWidth();
-                                    int maxWidth = displayWidth;
-                                    //int scaleRatio = displayWidth/bmp.getWidth();
-                                    int maxHeight = getWindowManager().getDefaultDisplay().getHeight();
-                                    //Bitmap bm = Bitmap.createScaledBitmap(bma,maxWidth, maxHeight, false);
-                                    int bmp_width = bmp.getWidth();
-                                    int bmp_height = bmp.getHeight();
-                                    float ratioBitmap = (float) bmp_width / (float) bmp_height;
-                                    float ratioMax = (float) maxWidth / (float) maxHeight;
-
-                                    int finalWidth = maxWidth;
-                                    int finalHeight = maxHeight;
-                                    if (ratioMax > 1) {
-                                        finalWidth = (int) ((float)maxHeight * ratioBitmap);
-                                    } else {
-                                        finalHeight = (int) ((float)maxWidth / ratioBitmap);
-                                    }
-
-                                    //converting bitmap object to show in imageview2
-
-                                    if (bma != null) {
-                                        //((ArcoFlexEmulatorView)(emuView)).invalidate();
-                                        ((ArcoFlexEmulatorView)(emuView)).drawScreenEmulator( Bitmap.createScaledBitmap(bma, finalWidth, finalHeight, false) );
-
-                                        //((ArcoFlexEmulatorView)(emuView)).draw();
-
-                                        runOnUiThread(
-                                                (new Thread(new Runnable() {
-                                            public void run() {
-
-                                                mImgEm.setImageBitmap(((ArcoFlexEmulatorView) (emuView)).screenBitmap);
-                                            }
-                                        }
-                                        ))
-                                        );
-
-                                    }
-                                }
                             }
                         })).start();
 
@@ -337,9 +277,11 @@ public class ArcoFlexDroid extends Activity {
                         e.printStackTrace(System.out);
                     }
                     runArcoFlexDroid();
+
                 }
             }
         }
+        //new Thread(new AnimationLoop()).start();
     }
 
     public void inflateViews() {

@@ -19,7 +19,6 @@ import android.view.SurfaceView;
 import net.arcoflexdroid.ArcoFlexDroid;
 
 import java.nio.ShortBuffer;
-import java.util.Iterator;
 import java.util.Set;
 
 

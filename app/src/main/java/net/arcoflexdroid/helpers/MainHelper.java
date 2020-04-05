@@ -373,7 +373,6 @@ public class MainHelper {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void updateEmuValues(){
 
         PrefsHelper prefsHelper = mm.getPrefsHelper();
@@ -451,7 +450,6 @@ public class MainHelper {
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void updateArcoFlexDroid(){
 
         System.out.println("updateArcoFlexDroid!!!!");
@@ -674,7 +672,6 @@ public class MainHelper {
         mm.startActivityForResult(i, MainHelper.SUBACTIVITY_HELP);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void activityResult(int requestCode, int resultCode, Intent data) {
 
         if(requestCode == SUBACTIVITY_USER_PREFS)

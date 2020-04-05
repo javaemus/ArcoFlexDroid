@@ -23,7 +23,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import net.arcoflexdroid.helpers.PrefsHelper;
-import net.arcoflexdroid.R;
 
 
 public class NetPlay {

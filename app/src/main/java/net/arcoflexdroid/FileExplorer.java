@@ -16,7 +16,6 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import net.arcoflexdroid.helpers.DialogHelper;
-import net.arcoflexdroid.R;
 
 public class FileExplorer {
 

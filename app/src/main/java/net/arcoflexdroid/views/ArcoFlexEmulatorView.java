@@ -1,25 +1,18 @@
 package net.arcoflexdroid.views;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.ImageView;
 
-import net.arcoflexdroid.Emulator;
-import net.arcoflexdroid.GLRenderer;
 import net.arcoflexdroid.ArcoFlexDroid;
 import net.arcoflexdroid.R;
-import net.arcoflexdroid.helpers.PrefsHelper;
 
 public class ArcoFlexEmulatorView extends SurfaceView implements SurfaceHolder.Callback, IEmuView {
 

@@ -7,6 +7,7 @@ import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
+import net.arcoflexdroid.ArcoFlexDroid;
 import net.arcoflexdroid.Emulator;
 import net.arcoflexdroid.GLRenderer;
 import net.arcoflexdroid.ArcoFlexDroid;

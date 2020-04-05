@@ -3728,6 +3728,8 @@ public class z80 extends cpu_interface {
      */
     @Override
     public int execute(int cycles) {
+        System.out.println("Z80 cycle");
+
         z80_ICount[0] = cycles - Z80.extra_cycles;
         Z80.extra_cycles = 0;
 

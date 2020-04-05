@@ -4,6 +4,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import net.arcoflexdroid.ArcoFlexDroid;
 import net.arcoflexdroid.Emulator;
 import net.arcoflexdroid.ArcoFlexDroid;
 import net.arcoflexdroid.R;
@@ -70,12 +71,16 @@ public class MenuHelper {
                 return true;
             case R.id.vkey_SELECT:
                 mm.getInputHandler().handleVirtualKey(InputHandler.COIN_VALUE);
-                System.out.println("Pulso COIN");
-                ArcoFlexDroid.mm.emulator.keyPress(25);
+                System.out.println("Pulso COIN (IMPLEMENTAR!!!!)");
+                // JEmu2
+                //ArcoFlexDroid.mm.emulator.keyPress(25);
+                // end JEmu2
                 return true;
         }
 
-        ArcoFlexDroid.mm.emulator.keyRelease(25);
+        // JEmu2
+        //ArcoFlexDroid.mm.emulator.keyRelease(25);
+        // end JEmu2
 
         return false;
 

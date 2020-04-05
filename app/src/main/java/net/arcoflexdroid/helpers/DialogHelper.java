@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.view.View;
 
+import net.arcoflexdroid.ArcoFlexDroid;
 import net.arcoflexdroid.Emulator;
 import net.arcoflexdroid.ArcoFlexDroid;
 import net.arcoflexdroid.input.ControlCustomizer;

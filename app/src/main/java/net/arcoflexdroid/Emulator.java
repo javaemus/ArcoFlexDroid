@@ -5,7 +5,6 @@ import java.nio.ByteBuffer;
 import java.util.HashMap;
 
 import android.content.Intent;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
@@ -442,7 +441,6 @@ System.out.println("KK!");
     }
 
     //synchronized
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     static public void changeVideo(final int newWidth, final int newHeight, final int newVisWidth, final int newVisHeight){
 
         //Log.d("Thread Video", "changeVideo");
@@ -474,7 +472,6 @@ System.out.println("KK!");
             mm.getMainHelper().updateEmuValues();
 
             mm.runOnUiThread(new Runnable() {
-                @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
                 public void run() {
                     System.out.println("Run UI!");
                     //Toast.makeText(mm, "changeVideo newWidth:"+newWidth+" newHeight:"+newHeight+" newVisWidth:"+newVisWidth+" newVisHeight:"+newVisHeight,Toast.LENGTH_SHORT).show();
@@ -735,7 +732,10 @@ System.out.println("KK!");
 
     public static boolean setPadData(int i, long data){
         System.out.println("->setPadData "+i+"="+data);
-        if (mm!=null && mm.emulator!= null) {
+        System.out.println("IMPLEMENTAR setPadData!!!!");
+
+        // JEmu2
+        /*if (mm!=null && mm.emulator!= null) {
             if (data==1) { // UP
                 mm.emulator.keyPress(10);
                 return true;
@@ -789,6 +789,8 @@ System.out.println("KK!");
             mm.emulator.keyRelease(76);
 
         }
+
+         */
 
         return false;
     }
