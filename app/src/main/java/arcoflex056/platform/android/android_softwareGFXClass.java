@@ -23,7 +23,7 @@ import static mame056.mame.Machine;
  *
  * @author chusogar
  */
-class android_softwareGFXClass implements Runnable, i_software_gfx_class {
+public class android_softwareGFXClass implements Runnable, i_software_gfx_class {
 
     public Thread _thread;
 
@@ -34,54 +34,62 @@ class android_softwareGFXClass implements Runnable, i_software_gfx_class {
 
     @Override
     public void blit() {
+        //blit2();
+        ArcoFlexDroid.mm.running = true;
+    }
+
+    public static void blit2() {
         // nothing to do
         //System.out.println("--> blit "+screen._pixels[0]);
-        int _mWidth = (int) settings.current_platform_configuration.get_video_class().getWidth();
-        int _mHeight = (int) settings.current_platform_configuration.get_video_class().getHeight();
+        if (ArcoFlexDroid.mm.running) {
+            int _mWidth = (int) settings.current_platform_configuration.get_video_class().getWidth();
+            int _mHeight = (int) settings.current_platform_configuration.get_video_class().getHeight();
 
-        //System.out.println("::"+_mWidth + "x" +_mHeight);
+            //System.out.println("::"+_mWidth + "x" +_mHeight);
 
-        ArcoFlexDroid.mm.pixels = screen._pixels;
+            ArcoFlexDroid.mm.pixels = screen._pixels;
 
-        Bitmap bma = Bitmap.createBitmap(_mWidth, _mHeight, Bitmap.Config.RGB_565);
-        bma.setPixels(ArcoFlexDroid.mm.pixels, 0, _mWidth, 0, 0, _mWidth, _mHeight);
+            Bitmap bma = Bitmap.createBitmap(_mWidth, _mHeight, Bitmap.Config.RGB_565);
+            bma.setPixels(ArcoFlexDroid.mm.pixels, 0, _mWidth, 0, 0, _mWidth, _mHeight);
 
-        int displayWidth = ArcoFlexDroid.mm._maxWidth;//getWindowManager().getDefaultDisplay().getWidth();
-        int maxWidth = displayWidth;
+            int displayWidth = ArcoFlexDroid.mm._maxWidth;//getWindowManager().getDefaultDisplay().getWidth();
+            int maxWidth = displayWidth;
 
-        int maxHeight = ArcoFlexDroid.mm._maxHeight;; //getWindowManager().getDefaultDisplay().getHeight();
+            int maxHeight = ArcoFlexDroid.mm._maxHeight;
+            ; //getWindowManager().getDefaultDisplay().getHeight();
 
-        int bmp_width = _mWidth;
-        int bmp_height = _mHeight;
-        float ratioBitmap = (float) bmp_width / (float) bmp_height;
-        float ratioMax = (float) maxWidth / (float) maxHeight;
+            int bmp_width = _mWidth;
+            int bmp_height = _mHeight;
+            float ratioBitmap = (float) bmp_width / (float) bmp_height;
+            float ratioMax = (float) maxWidth / (float) maxHeight;
 
-        int finalWidth = maxWidth;
-        int finalHeight = maxHeight;
-        if (ratioMax > 1) {
-            finalWidth = (int) ((float)maxHeight * ratioBitmap);
-        } else {
-            finalHeight = (int) ((float)maxWidth / ratioBitmap);
-        }
+            int finalWidth = maxWidth;
+            int finalHeight = maxHeight;
+            if (ratioMax > 1) {
+                finalWidth = (int) ((float) maxHeight * ratioBitmap);
+            } else {
+                finalHeight = (int) ((float) maxWidth / ratioBitmap);
+            }
 
-        //converting bitmap object to show in imageview2
+            //converting bitmap object to show in imageview2
 
-        if (bma != null) {
-            ((ArcoFlexEmulatorView)(ArcoFlexDroid.mm.emuView)).drawScreenEmulator( Bitmap.createScaledBitmap(bma, finalWidth, finalHeight, false) );
+            if (bma != null) {
+                ((ArcoFlexEmulatorView) (ArcoFlexDroid.mm.emuView)).drawScreenEmulator(Bitmap.createScaledBitmap(bma, finalWidth, finalHeight, false));
 
-            ArcoFlexDroid.mm.runOnUiThread(
-                    (new Thread(new Runnable() {
-                        public void run() {
-                            ArcoFlexDroid.mm.mImgEm = ArcoFlexDroid.mm.findViewById(R.id.EmulatorScreen);
+                ArcoFlexDroid.mm.runOnUiThread(
+                        (new Thread(new Runnable() {
+                            public void run() {
+                                ArcoFlexDroid.mm.mImgEm = ArcoFlexDroid.mm.findViewById(R.id.EmulatorScreen);
 
-                            ArcoFlexDroid.mm.mImgEm.setImageBitmap(((ArcoFlexEmulatorView) (ArcoFlexDroid.mm.emuView)).screenBitmap);
-                            ArcoFlexDroid.mm.running = true;
-                            ArcoFlexDroid.mm.emuView.invalidate();
+                                ArcoFlexDroid.mm.mImgEm.setImageBitmap(((ArcoFlexEmulatorView) (ArcoFlexDroid.mm.emuView)).screenBitmap);
+                                ArcoFlexDroid.mm.running = true;
+                                ArcoFlexDroid.mm.emuView.invalidate();
+                            }
                         }
-                    }
-                    ))
-            );
+                        ))
+                );
 
+            }
         }
     }
 

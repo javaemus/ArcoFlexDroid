@@ -496,14 +496,14 @@
 				    
 	</PreferenceCategory>    
 	    
-	<PreferenceCategory android:title="Portrait Display Settings">
+	<PreferenceCategory android:title="ConsoleFlex">
 
-		<ListPreference android:entries="@array/pref_scaleMode_options"
-			android:title='Scaling mode' android:key="PREF_PORTRAIT_SCALING_MODE_4"
-			android:entryValues="@array/pref_scaleMode_values"
+		<ListPreference android:entries="@array/consoleflex_systems"
+			android:title='ConsoleFlex Systems' android:key="PREF_CONSOLEFLEX_SYSTEM"
+			android:entryValues="@array/consoleflex_systems_values"
 			android:defaultValue="1" />
 			
-		<ListPreference 
+		<!--ListPreference
 			android:title='Overlay effect' android:key="PREF_PORTRAIT_OVERLAY"
 			android:defaultValue="none" />	
 
@@ -517,13 +517,18 @@
 		
 		<CheckBoxPreference android:key="PREF_PORTRAIT_FULLSCREEN"
 			android:title="Fullscreen" android:summary="Select to enable fullscreen portrait mode"
-			android:defaultValue="false" />		
+			android:defaultValue="false" / -->
 
 	</PreferenceCategory>
 
-	<PreferenceCategory android:title="Lansdscape Display Settings">
+	<PreferenceCategory android:title="ArcadeFlex">
+
+		<ListPreference android:entries="@array/arcadeflex_systems"
+			android:title='ArcadeFlex Systems' android:key="PREF_ARCADEEFLEX_SYSTEM"
+			android:entryValues="@array/arcadeflex_systems_values"
+			android:defaultValue="1" />
 			
-		<ListPreference android:entries="@array/pref_scaleMode_options"
+		<!-- ListPreference android:entries="@array/pref_scaleMode_options"
 			android:title='Scaling mode' android:key="PREF_LANDSCAPE_SCALING_MODE_4"
 			android:entryValues="@array/pref_scaleMode_values"
 			android:defaultValue="1" />
@@ -538,7 +543,7 @@
 
 		<CheckBoxPreference android:key="PREF_LANDSCAPE_BITMAP_FILTERING"
 			android:title="Smooth scaling" android:summary="Select to turn bitmap filtering on, at the expense of performance"
-			android:defaultValue="true" />
+			android:defaultValue="true" / -->
 	
 	</PreferenceCategory>
 	

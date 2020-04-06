@@ -28,6 +28,8 @@ import android.widget.Toast;
 import static arcadeflex056.video.osd_refresh;
 import static arcadeflex056.video.screen;
 import static mame056.inptportH.IPT_UI_LEFT;
+import static mame056.inputH.KEYCODE_5;
+import static mame056.inputH.SEQ_DEF_1;
 
 import androidx.annotation.RequiresApi;
 
@@ -767,10 +769,15 @@ System.out.println("KK!");
                 System.out.println("Coin...");
                 screen.readkey = KeyEvent.KEYCODE_NUMPAD_5;
                 screen.key[screen.readkey] = true;
+                screen.readkey = KeyEvent.KEYCODE_5;
+                screen.key[screen.readkey] = true;
+                //SEQ_DEF_1(KeyEvent.KEYCODE_NUMPAD_5);
                 osd_refresh();
                 return true;
             } else if (data==256) { // start
                 System.out.println("Start...");
+                screen.readkey = KeyEvent.KEYCODE_NUMPAD_1;
+                screen.key[screen.readkey] = true;
                 screen.readkey = KeyEvent.KEYCODE_1;
                 screen.key[screen.readkey] = true;
                 osd_refresh();
@@ -872,6 +879,8 @@ System.out.println("KK!");
             screen.key[KeyEvent.KEYCODE_DPAD_LEFT] = false;
             screen.key[KeyEvent.KEYCODE_DPAD_RIGHT] = false;
             screen.key[KeyEvent.KEYCODE_NUMPAD_5] = false;
+            screen.key[KeyEvent.KEYCODE_5] = false;
+            screen.key[KeyEvent.KEYCODE_NUMPAD_1] = false;
             screen.key[KeyEvent.KEYCODE_1] = false;
             screen.key[KeyEvent.KEYCODE_SPACE] = false;
             screen.key[KeyEvent.KEYCODE_ALT_LEFT] = false;

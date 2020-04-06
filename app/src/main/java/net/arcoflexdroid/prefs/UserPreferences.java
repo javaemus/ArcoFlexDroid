@@ -85,11 +85,11 @@ public class UserPreferences extends PreferenceActivity implements OnSharedPrefe
         mPrefPortraitMode = (ListPreference)getPreferenceScreen().findPreference(PrefsHelper.PREF_PORTRAIT_SCALING_MODE);
         mPrefLandsMode = (ListPreference)getPreferenceScreen().findPreference(PrefsHelper.PREF_LANDSCAPE_SCALING_MODE);
 
-        mPrefPortraitOverlay = (ListPreference)getPreferenceScreen().findPreference(PrefsHelper.PREF_PORTRAIT_OVERLAY);
-        populateOverlayList(mPrefPortraitOverlay);
+        //mPrefPortraitOverlay = (ListPreference)getPreferenceScreen().findPreference(PrefsHelper.PREF_PORTRAIT_OVERLAY);
+        //populateOverlayList(mPrefPortraitOverlay);
 
-        mPrefLandsOverlay = (ListPreference)getPreferenceScreen().findPreference(PrefsHelper.PREF_LANDSCAPE_OVERLAY);
-        populateOverlayList(mPrefLandsOverlay);
+        //mPrefLandsOverlay = (ListPreference)getPreferenceScreen().findPreference(PrefsHelper.PREF_LANDSCAPE_OVERLAY);
+        //populateOverlayList(mPrefLandsOverlay);
 
         mPrefControllerType = (ListPreference)getPreferenceScreen().findPreference(PrefsHelper.PREF_CONTROLLER_TYPE);
         mPrefExtInput = (ListPreference)getPreferenceScreen().findPreference(PrefsHelper.PREF_INPUT_EXTERNAL);
@@ -221,10 +221,10 @@ public class UserPreferences extends PreferenceActivity implements OnSharedPrefe
 
         mPrefResolution.setSummary("Current value is '" + mPrefResolution.getEntry()+"'");
         mPrefSpeed.setSummary("Current value is '" + mPrefSpeed.getEntry()+"'");
-        mPrefPortraitMode.setSummary("Current value is '" + mPrefPortraitMode.getEntry()+"'");
-        mPrefLandsMode.setSummary("Current value is '" + mPrefLandsMode.getEntry()+"'");
-        mPrefPortraitOverlay.setSummary("Current value is '" + mPrefPortraitOverlay.getEntry()+"'");
-        mPrefLandsOverlay.setSummary("Current value is '" + mPrefLandsOverlay.getEntry()+"'");
+        //mPrefPortraitMode.setSummary("Current value is '" + mPrefPortraitMode.getEntry()+"'");
+        //mPrefLandsMode.setSummary("Current value is '" + mPrefLandsMode.getEntry()+"'");
+        //mPrefPortraitOverlay.setSummary("Current value is '" + mPrefPortraitOverlay.getEntry()+"'");
+        //mPrefLandsOverlay.setSummary("Current value is '" + mPrefLandsOverlay.getEntry()+"'");
         mPrefControllerType.setSummary("Current value is '" + mPrefControllerType.getEntry()+"'");
         mPrefExtInput.setSummary("Current value is '" + mPrefExtInput.getEntry()+"'");
 

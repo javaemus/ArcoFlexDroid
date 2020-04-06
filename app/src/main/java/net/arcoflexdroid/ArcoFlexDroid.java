@@ -25,6 +25,9 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import androidx.appcompat.app.AppCompatActivity;
+//import android.support.v7.widget.Toolbar;
+
 import net.arcoflexdroid.helpers.DialogHelper;
 import net.arcoflexdroid.helpers.MainHelper;
 import net.arcoflexdroid.helpers.MenuHelper;
@@ -145,6 +148,9 @@ public class ArcoFlexDroid extends Activity {
 
     public static ArcoFlexDroid mm = new ArcoFlexDroid();
 
+
+
+
     // JEmu2
     //public jef.machine.Emulator emulator;
     // end JEmu2
@@ -155,7 +161,7 @@ public class ArcoFlexDroid extends Activity {
 
 
         public void run() {
-            while (ArcoFlexDroid.this.running) {
+            while (true) {
 
                 // JEmu2
                 /*BitMap bmp = ArcoFlexDroid.this.emulator.refresh(true);
@@ -165,28 +171,7 @@ public class ArcoFlexDroid extends Activity {
                 bma.setPixels(ArcoFlexDroid.this.pixels, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
                 // end
                  */
-                int _mWidth = (int) settings.current_platform_configuration.get_video_class().getWidth();
-                int _mHeight = (int) settings.current_platform_configuration.get_video_class().getHeight();
-                System.out.println(_mWidth+"x"+_mHeight);
-
-                ArcoFlexDroid.this.pixels = screen._pixels;
-
-                int displayWidth = getWindowManager().getDefaultDisplay().getWidth();
-                int maxWidth = displayWidth;
-                int scaleRatio = (int) (displayWidth/_mWidth);
-                int maxHeight = (int) (_mWidth * scaleRatio);
-
-                Bitmap bma = Bitmap.createBitmap(_mWidth, _mHeight, Bitmap.Config.RGB_565);
-                bma.setPixels(ArcoFlexDroid.this.pixels, 0, _mWidth, 0, 0, _mWidth, _mHeight);
-
-                if (ArcoFlexDroid.this.pixels != null) {
-
-                    ((ArcoFlexEmulatorView)(emuView)).drawScreenEmulator( Bitmap.createScaledBitmap(bma,maxWidth, maxHeight, false) );
-                    ((ArcoFlexEmulatorView)(emuView)).postInvalidate();
-                    mImgEm.setImageBitmap(((ArcoFlexEmulatorView)(emuView)).screenBitmap);
-
-
-                }
+                ((arcoflex056.platform.android.android_softwareGFXClass)(settings.current_platform_configuration.get_software_gfx_class())).blit2();
             }
         }
     }
@@ -261,8 +246,8 @@ public class ArcoFlexDroid extends Activity {
                         // end JEmu2
 
                         ConfigurePlatform((platformConfigurator.i_platform_configurator)new arcoflex056.platform.android.android_Configurator());
-                        ConvertArguments("arcadeflex", new String[]{"gunsmoke"});//new String[]{"coleco","-cart","HERO.col"});
-
+                        //ConvertArguments("arcadeflex", new String[]{"gunsmoke"});//new String[]{"coleco","-cart","HERO.col"});
+                        ConvertArguments("arcadeflex", new String[]{"atetris", "-snapshot","wotef.sna"});
 
                         (new Thread(new Runnable() {
                             public void run() {
@@ -281,7 +266,7 @@ public class ArcoFlexDroid extends Activity {
                 }
             }
         }
-        //new Thread(new AnimationLoop()).start();
+        new Thread(new AnimationLoop()).start();
     }
 
     public void inflateViews() {
@@ -331,7 +316,8 @@ public class ArcoFlexDroid extends Activity {
 
         if (full && prefsHelper.isPortraitTouchController()) {
             FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) emuView.getLayoutParams();
-            lp.gravity = Gravity.TOP | Gravity.CENTER;
+            if (lp!=null)
+                lp.gravity = Gravity.TOP | Gravity.CENTER;
         }
 
         inputView = (InputView) this.findViewById(R.id.InputView);
@@ -377,6 +363,9 @@ public class ArcoFlexDroid extends Activity {
         if (menuHelper != null) {
             if (menuHelper.createOptionsMenu(menu)) return true;
         }
+
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        //return true;
 
         return super.onCreateOptionsMenu(menu);
     }

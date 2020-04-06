@@ -1,0 +1,77 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="jmesys.android.MainActivity">
+    <item
+        android:id="@+id/menu_save"
+        android:icon="@android:drawable/ic_menu_save"
+        android:title="@string/menu_save"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_new"
+        app:showAsAction="ifRoom|withText"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="@string/menu_new"/>
+
+
+    <item android:id="@+id/action_file" android:orderInCategory="100" android:title="@string/action_file"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/action_systems" android:orderInCategory="100" android:title="@string/action_systems"
+        app:showAsAction="never" >
+
+        <menu>
+            <item android:id="@+id/action_gberet" android:orderInCategory="100" android:title="Green Beret"
+                app:showAsAction="never" />
+
+            <item android:id="@+id/action_commando" android:orderInCategory="100" android:title="Commando"
+                app:showAsAction="never" />
+
+            <item android:id="@+id/action_dkong" android:orderInCategory="100" android:title="Donkey Kong"
+                app:showAsAction="never" />
+
+            <item android:id="@+id/action_gng" android:orderInCategory="100" android:title="Ghosts n Goblins"
+                app:showAsAction="never" />
+
+            <item android:id="@+id/action_gunsmoke" android:orderInCategory="100" android:title="Gun Smoke"
+                app:showAsAction="never" />
+
+            <item android:id="@+id/action_sf2" android:orderInCategory="100" android:title="Street Fighter 2"
+                app:showAsAction="never" />
+
+            <item android:id="@+id/action_bankp" android:orderInCategory="100" android:title="Bank Panic"
+                app:showAsAction="never" />
+
+            <item android:id="@+id/action_galaga" android:orderInCategory="100" android:title="Galaga"
+                app:showAsAction="never" />
+
+            <item android:id="@+id/action_galaxian" android:orderInCategory="100" android:title="Galaxian"
+                app:showAsAction="never" />
+
+            <item android:id="@+id/action_bombjack" android:orderInCategory="100" android:title="BomJack"
+                app:showAsAction="never" />
+
+            <item android:id="@+id/action_mario" android:orderInCategory="100" android:title="Mario Bros"
+                app:showAsAction="never" />
+        </menu>
+
+
+    </item>
+
+    <item android:id="@+id/action_settings" android:orderInCategory="100" android:title="@string/action_settings"
+        app:showAsAction="never">
+
+
+
+    </item>
+
+    <item android:id="@+id/action_extras" android:orderInCategory="100" android:title="@string/action_extras"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/action_help" android:orderInCategory="100" android:title="@string/action_help"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/action_about" android:orderInCategory="100" android:title="@string/action_about"
+        app:showAsAction="never" />
+</menu>
