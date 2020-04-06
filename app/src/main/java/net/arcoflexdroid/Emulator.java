@@ -866,6 +866,16 @@ System.out.println("KK!");
 
          */
 
+        screen.key[KeyEvent.KEYCODE_DPAD_UP]=false;
+        screen.key[KeyEvent.KEYCODE_DPAD_DOWN]=false;
+        screen.key[KeyEvent.KEYCODE_DPAD_LEFT]=false;
+        screen.key[KeyEvent.KEYCODE_DPAD_RIGHT]=false;
+        screen.key[KeyEvent.KEYCODE_5]=false;
+        screen.key[KeyEvent.KEYCODE_1]=false;
+        screen.key[KeyEvent.KEYCODE_SPACE]=false;
+        screen.key[KeyEvent.KEYCODE_ALT_LEFT]=false;
+        screen.key[KeyEvent.KEYCODE_CTRL_LEFT]=false;
+
         return false;
     }
 

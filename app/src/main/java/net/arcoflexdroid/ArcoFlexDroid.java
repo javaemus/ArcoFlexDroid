@@ -261,7 +261,7 @@ public class ArcoFlexDroid extends Activity {
                         // end JEmu2
 
                         ConfigurePlatform((platformConfigurator.i_platform_configurator)new arcoflex056.platform.android.android_Configurator());
-                        ConvertArguments("arcadeflex", new String[]{"bankp"});
+                        ConvertArguments("arcadeflex", new String[]{"gunsmoke"});//new String[]{"coleco","-cart","HERO.col"});
 
 
                         (new Thread(new Runnable() {
