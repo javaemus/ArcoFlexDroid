@@ -20,9 +20,14 @@ import android.media.AudioTrack;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.Toast;
+
+import static arcadeflex056.video.osd_refresh;
+import static arcadeflex056.video.screen;
+import static mame056.inptportH.IPT_UI_LEFT;
 
 import androidx.annotation.RequiresApi;
 
@@ -732,7 +737,76 @@ System.out.println("KK!");
 
     public static boolean setPadData(int i, long data){
         System.out.println("->setPadData "+i+"="+data);
-        System.out.println("IMPLEMENTAR setPadData!!!!");
+
+        if (mm != null){
+            if (data==1) { // UP
+                System.out.println("Up...");
+                screen.readkey = KeyEvent.KEYCODE_DPAD_UP;
+                screen.key[screen.readkey] = true;
+                osd_refresh();
+                return true;
+            } else if (data==4) { // left
+                System.out.println("Left...");
+                screen.readkey = KeyEvent.KEYCODE_DPAD_LEFT;
+                screen.key[screen.readkey] = true;
+                osd_refresh();
+                return true;
+            } else if (data==16) { // down
+                System.out.println("Down...");
+                screen.readkey = KeyEvent.KEYCODE_DPAD_DOWN;
+                screen.key[screen.readkey] = true;
+                osd_refresh();
+                return true;
+            } else if (data==64) { // right
+                System.out.println("Right...");
+                screen.readkey = KeyEvent.KEYCODE_DPAD_RIGHT;
+                screen.key[screen.readkey] = true;
+                osd_refresh();
+                return true;
+            } else if (data==512) { // coin
+                System.out.println("Coin...");
+                screen.readkey = KeyEvent.KEYCODE_5;
+                screen.key[screen.readkey] = true;
+                osd_refresh();
+                return true;
+            } else if (data==256) { // start
+                System.out.println("Start...");
+                screen.readkey = KeyEvent.KEYCODE_1;
+                screen.key[screen.readkey] = true;
+                osd_refresh();
+                return true;
+            } else if (data==4096) { // fire C
+                System.out.println("Fire C...");
+                screen.readkey = KeyEvent.KEYCODE_SPACE;
+                screen.key[screen.readkey] = true;
+                osd_refresh();
+                return true;
+            } else if (data==8192) { // fire A
+                System.out.println("Fire A...");
+                screen.readkey = KeyEvent.KEYCODE_CTRL_LEFT;
+                screen.key[screen.readkey] = true;
+                osd_refresh();
+                return true;
+            } else if (data==16384) { // fire B
+                System.out.println("Fire B...");
+                screen.readkey = KeyEvent.KEYCODE_ALT_LEFT;
+                screen.key[screen.readkey] = true;
+                osd_refresh();
+                return true;
+            } else if (data==32768) { // fire D
+                System.out.println("Fire D...");
+                //mm.emulator.keyPress(64);
+                return true;
+            }
+
+            // 1 - UP
+            // 4 - Left
+            // 16 - Down
+            // 64 - Right
+            // 16384 - B
+            // 4096 - C
+            // 32768 -D
+        }
 
         // JEmu2
         /*if (mm!=null && mm.emulator!= null) {

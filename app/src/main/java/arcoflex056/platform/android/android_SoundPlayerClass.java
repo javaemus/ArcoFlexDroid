@@ -72,7 +72,7 @@ class android_SoundPlayerClass implements platformConfigurator.i_SoundPlayer_cla
 
     @Override
     public void write(byte[] waveBuffer, int offset, int length) {
-        System.out.println("--> Write");
+        //System.out.println("--> Write");
         _audioTrack.write(waveBuffer, 0, length);
     }
 

@@ -1,7 +1,7 @@
 /**
  * ported to 0.56
  */
-package arcoflex056;
+package arcoflex056.platform.awt;
 
 import static common.util.*;
 import arcadeflex056.osdepend;

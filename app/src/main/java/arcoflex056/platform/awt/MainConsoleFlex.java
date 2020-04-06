@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package arcoflex056;
+package arcoflex056.platform.awt;
 
 import static common.util.*;
 import arcadeflex056.osdepend;
