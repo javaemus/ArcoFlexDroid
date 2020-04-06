@@ -765,7 +765,7 @@ System.out.println("KK!");
                 return true;
             } else if (data==512) { // coin
                 System.out.println("Coin...");
-                screen.readkey = KeyEvent.KEYCODE_5;
+                screen.readkey = KeyEvent.KEYCODE_NUMPAD_5;
                 screen.key[screen.readkey] = true;
                 osd_refresh();
                 return true;
@@ -866,15 +866,17 @@ System.out.println("KK!");
 
          */
 
-        screen.key[KeyEvent.KEYCODE_DPAD_UP]=false;
-        screen.key[KeyEvent.KEYCODE_DPAD_DOWN]=false;
-        screen.key[KeyEvent.KEYCODE_DPAD_LEFT]=false;
-        screen.key[KeyEvent.KEYCODE_DPAD_RIGHT]=false;
-        screen.key[KeyEvent.KEYCODE_5]=false;
-        screen.key[KeyEvent.KEYCODE_1]=false;
-        screen.key[KeyEvent.KEYCODE_SPACE]=false;
-        screen.key[KeyEvent.KEYCODE_ALT_LEFT]=false;
-        screen.key[KeyEvent.KEYCODE_CTRL_LEFT]=false;
+        if (mm != null) {
+            screen.key[KeyEvent.KEYCODE_DPAD_UP] = false;
+            screen.key[KeyEvent.KEYCODE_DPAD_DOWN] = false;
+            screen.key[KeyEvent.KEYCODE_DPAD_LEFT] = false;
+            screen.key[KeyEvent.KEYCODE_DPAD_RIGHT] = false;
+            screen.key[KeyEvent.KEYCODE_NUMPAD_5] = false;
+            screen.key[KeyEvent.KEYCODE_1] = false;
+            screen.key[KeyEvent.KEYCODE_SPACE] = false;
+            screen.key[KeyEvent.KEYCODE_ALT_LEFT] = false;
+            screen.key[KeyEvent.KEYCODE_CTRL_LEFT] = false;
+        }
 
         return false;
     }
