@@ -12,7 +12,7 @@ import java.io.File;
  *
  * @author chusogar
  */
-class android_filemngrClass implements platformConfigurator.i_filemngr_class {
+public class android_filemngrClass implements platformConfigurator.i_filemngr_class {
 
     @Override
     public void setCurrentDirectory(File file) {

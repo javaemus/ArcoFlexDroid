@@ -7,7 +7,7 @@ package arcoflex056.platform.android;
 
 import android.widget.Toast;
 
-import net.arcoflexdroid.ArcoFlexDroid;
+//import net.arcoflexdroid.ArcoFlexDroid;
 
 import arcoflex056.platform.platformConfigurator;
 
@@ -15,7 +15,7 @@ import arcoflex056.platform.platformConfigurator;
  *
  * @author chusogar
  */
-class android_urlDownloadProgress implements platformConfigurator.i_URLDownloadProgress_class{
+public class android_urlDownloadProgress implements platformConfigurator.i_URLDownloadProgress_class{
 
     public static String _version;
     public static String _romName;
@@ -25,12 +25,12 @@ class android_urlDownloadProgress implements platformConfigurator.i_URLDownloadP
     public void setVersion(String _version) {
         System.out.println("-->"+_version);
         this._version = _version;
-        ArcoFlexDroid.mm.runOnUiThread(new Runnable() {
+        /*ArcoFlexDroid.mm.runOnUiThread(new Runnable() {
             public void run() {
                 Toast.makeText(ArcoFlexDroid.mm,
                         "VERSION "+android_urlDownloadProgress._version, Toast.LENGTH_LONG).show();
             }
-        });
+        });*/
 
     }
 
@@ -43,12 +43,12 @@ class android_urlDownloadProgress implements platformConfigurator.i_URLDownloadP
     public void setRomName(String _romName) {
         System.out.println("-->"+"ROM "+_romName);
         this._romName = _romName;
-        ArcoFlexDroid.mm.runOnUiThread(new Runnable() {
+        /*ArcoFlexDroid.mm.runOnUiThread(new Runnable() {
             public void run() {
                 Toast.makeText(ArcoFlexDroid.mm,
                         "ROM "+android_urlDownloadProgress._romName, Toast.LENGTH_LONG).show();
             }
-        });
+        });*/
 
     }
 

@@ -1,2 +1,0 @@
-# ArcoFlexDroid
-arcoflex for android

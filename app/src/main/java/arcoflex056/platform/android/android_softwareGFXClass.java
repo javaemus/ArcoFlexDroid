@@ -7,9 +7,9 @@ package arcoflex056.platform.android;
 
 import android.graphics.Bitmap;
 
-import net.arcoflexdroid.ArcoFlexDroid;
+/*import net.arcoflexdroid.ArcoFlexDroid;
 import net.arcoflexdroid.R;
-import net.arcoflexdroid.views.ArcoFlexEmulatorView;
+import net.arcoflexdroid.views.ArcoFlexEmulatorView;*/
 
 import arcadeflex056.settings;
 
@@ -35,28 +35,27 @@ public class android_softwareGFXClass implements Runnable, i_software_gfx_class 
     @Override
     public void blit() {
         //blit2();
-        ArcoFlexDroid.mm.running = true;
+        /*TODO*///ArcoFlexDroid.mm.running = true;
     }
 
     public static void blit2() {
         // nothing to do
         //System.out.println("--> blit "+screen._pixels[0]);
-        if (ArcoFlexDroid.mm.running) {
+        /*if (ArcoFlexDroid.mm.running) {
             int _mWidth = (int) settings.current_platform_configuration.get_video_class().getWidth();
             int _mHeight = (int) settings.current_platform_configuration.get_video_class().getHeight();
 
-            //System.out.println("::"+_mWidth + "x" +_mHeight);
 
             ArcoFlexDroid.mm.pixels = screen._pixels;
 
             Bitmap bma = Bitmap.createBitmap(_mWidth, _mHeight, Bitmap.Config.RGB_565);
             bma.setPixels(ArcoFlexDroid.mm.pixels, 0, _mWidth, 0, 0, _mWidth, _mHeight);
 
-            int displayWidth = ArcoFlexDroid.mm._maxWidth;//getWindowManager().getDefaultDisplay().getWidth();
+            int displayWidth = ArcoFlexDroid.mm._maxWidth;
             int maxWidth = displayWidth;
 
             int maxHeight = ArcoFlexDroid.mm._maxHeight;
-            ; //getWindowManager().getDefaultDisplay().getHeight();
+
 
             int bmp_width = _mWidth;
             int bmp_height = _mHeight;
@@ -71,7 +70,6 @@ public class android_softwareGFXClass implements Runnable, i_software_gfx_class 
                 finalHeight = (int) ((float) maxWidth / ratioBitmap);
             }
 
-            //converting bitmap object to show in imageview2
 
             if (bma != null) {
                 ((ArcoFlexEmulatorView) (ArcoFlexDroid.mm.emuView)).drawScreenEmulator(Bitmap.createScaledBitmap(bma, finalWidth, finalHeight, false));
@@ -90,7 +88,7 @@ public class android_softwareGFXClass implements Runnable, i_software_gfx_class 
                 );
 
             }
-        }
+        }*/
     }
 
 

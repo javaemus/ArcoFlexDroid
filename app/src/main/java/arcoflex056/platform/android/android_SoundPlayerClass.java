@@ -18,7 +18,7 @@ import static mame056.mame.Machine;
  *
  * @author chusogar
  */
-class android_SoundPlayerClass implements platformConfigurator.i_SoundPlayer_class{
+public class android_SoundPlayerClass implements platformConfigurator.i_SoundPlayer_class{
 
     private AudioTrack _audioTrack;
 
@@ -29,14 +29,15 @@ class android_SoundPlayerClass implements platformConfigurator.i_SoundPlayer_cla
     @Override
     public void createAudioFormat(int stereo) {
         System.out.println("--> createAudioFormat");
-        _audioTrack = new AudioTrack(
+        /*_audioTrack = new AudioTrack(
                 AudioManager.STREAM_MUSIC,
                 Machine.sample_rate,
                 (stereo!=0) ? AudioFormat.CHANNEL_OUT_STEREO : AudioFormat.CHANNEL_OUT_MONO,
                 //(bits == 8) ? AudioFormat.ENCODING_PCM_8BIT : AudioFormat.ENCODING_PCM_16BIT,
                 AudioFormat.ENCODING_PCM_8BIT,
                 1024, //bufSizeBytes,
-                AudioTrack.MODE_STREAM);
+                AudioTrack.MODE_STREAM);*/
+        _audioTrack = new AudioTrack(3, 44100, 2, 2, 7056, 1);
     }
 
     @Override

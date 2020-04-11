@@ -1,27 +1,43 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="jmesys.android.MainActivity">
-    <item
-        android:id="@+id/menu_save"
-        android:icon="@android:drawable/ic_menu_save"
-        android:title="@string/menu_save"
+    tools:context="net.arcoflexdroid.MainActivity">
+
+    <!--item
+        android:id="@+id/menu_left"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="Left"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/menu_new"
+        android:id="@+id/menu_right"
+        app:showAsAction="ifRoom|withText"
+        android:icon="@android:drawable/ic_menu_call"
+        android:title="Right"/ -->
+
+    <item
+        android:id="@+id/menu_coin"
         app:showAsAction="ifRoom|withText"
         android:icon="@android:drawable/ic_menu_add"
-        android:title="@string/menu_new"/>
+        android:title="Insert Coin"/>
+
+    <item
+        android:id="@+id/menu_start"
+        app:showAsAction="ifRoom|withText"
+        android:icon="@android:drawable/ic_menu_camera"
+        android:title="Start"/>
 
 
-    <item android:id="@+id/action_file" android:orderInCategory="100" android:title="@string/action_file"
+    <item android:id="@+id/action_file" android:orderInCategory="100" android:title="File"
         app:showAsAction="never" />
 
-    <item android:id="@+id/action_systems" android:orderInCategory="100" android:title="@string/action_systems"
+    <item android:id="@+id/action_systems" android:orderInCategory="100" android:title="Systems"
         app:showAsAction="never" >
 
         <menu>
+            <item android:id="@+id/action_elevatob" android:orderInCategory="100" android:title="Elevator Action"
+                app:showAsAction="never" />
+
             <item android:id="@+id/action_gberet" android:orderInCategory="100" android:title="Green Beret"
                 app:showAsAction="never" />
 
@@ -59,19 +75,17 @@
 
     </item>
 
-    <item android:id="@+id/action_settings" android:orderInCategory="100" android:title="@string/action_settings"
+    <item android:id="@+id/action_settings" android:orderInCategory="100" android:title="Settings"
         app:showAsAction="never">
-
-
-
     </item>
 
-    <item android:id="@+id/action_extras" android:orderInCategory="100" android:title="@string/action_extras"
+    <item android:id="@+id/action_extras" android:orderInCategory="100" android:title="Extras"
         app:showAsAction="never" />
 
-    <item android:id="@+id/action_help" android:orderInCategory="100" android:title="@string/action_help"
+    <item android:id="@+id/action_help" android:orderInCategory="100" android:title="Help"
         app:showAsAction="never" />
 
-    <item android:id="@+id/action_about" android:orderInCategory="100" android:title="@string/action_about"
+    <item android:id="@+id/action_about" android:orderInCategory="100" android:title="About"
         app:showAsAction="never" />
+
 </menu>

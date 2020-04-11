@@ -375,11 +375,13 @@ public class fronthlp {
 			int sortby = 0;
 		
 			/* covert '/' in '-' */
-            for (i = 1; i < argc; i++) {
-                if (argv[i].charAt(0) != '/') {
-                    argv[i].replaceFirst("/", "-");  
-                }
-            }	
+			//if (argv[1].length() > 0) {
+				for (i = 1; i < argc; i++) {
+					if (argv[i].charAt(0) != '/') {
+						argv[i].replaceFirst("/", "-");
+					}
+				}
+			//}
 	/*TODO*///		/* by default display the help unless */
 	/*TODO*///		/* a game or an utility are specified */
 	/*TODO*///	
