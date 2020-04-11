@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	<TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/dlg_wayOfLoading"/>
+	<RadioGroup android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="vertical" android:checkedButton="@+id/fastLoadRun" android:id="@+id/loadType">
+       	<RadioButton android:text="@string/dlg_fastLoadRun" android:id="@+id/fastLoadRun" />
+       	<RadioButton android:text="@string/dlg_fastLoad" android:id="@+id/fastLoad" />
+       	<RadioButton android:text="@string/dlg_load" android:id="@+id/load" />
+    </RadioGroup>	
+	<TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="@string/dlg_fileToLoad"/>
+
+	<ListView
+		android:id="@+id/android:list"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		/>
+</LinearLayout>
