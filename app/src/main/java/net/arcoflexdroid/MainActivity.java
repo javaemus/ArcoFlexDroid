@@ -7,6 +7,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.StrictMode;
@@ -14,6 +15,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 import net.arcoflexdroid.engines.ArcoFlexClock;
 import net.arcoflexdroid.engines.ArcoFlexEngine;
@@ -22,7 +24,8 @@ import net.arcoflexdroid.panels.filebrowser.ArcoFlexFileOpenActivity;
 import net.arcoflexdroid.views.ArcoFlexEmulatorView;
 
 import arcadeflex056.osdepend;
-import arcadeflex056.settings;
+import static arcadeflex056.settings.*;
+import static mame056.driver.*;
 import arcoflex056.platform.platformConfigurator;
 
 import static android.Manifest.permission.*;
@@ -33,6 +36,7 @@ import static arcoflex056.platform.platformConfigurator.ConfigurePlatform;
 import static common.util.ConvertArguments;
 import static common.util.argc;
 import static common.util.argv;
+import static mame056.driver.driversArcadeFlex;
 import static mame056.mame.shutdown_machine;
 
 public class MainActivity extends AppCompatActivity {
@@ -59,13 +63,18 @@ public class MainActivity extends AppCompatActivity {
 
         requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE, INTERNET, ACCESS_NETWORK_STATE}, 1);
 
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         mm = this;
         _maxWidth = getWindowManager().getDefaultDisplay().getWidth();
         _maxHeight = getWindowManager().getDefaultDisplay().getHeight();
+
+        inflateViews();
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +100,61 @@ public class MainActivity extends AppCompatActivity {
         this.emulatorEngine.doResume();
     }
 
+    public void inflateViews() {
+        System.out.println("InflateViews!!!!");
+
+        /*boolean full = false;
+        if (prefsHelper.isPortraitFullscreen() && mainHelper.getscrOrientation() == Configuration.ORIENTATION_PORTRAIT) {
+            System.out.println("FULL!!!!");
+            setContentView(R.layout.main_fullscreen);
+            full = true;
+        } else {
+            setContentView(R.layout.main);
+        }
+
+         */
+
+        /*FrameLayout fl = (FrameLayout) this.findViewById(R.id.EmulatorFrame);
+
+
+
+        this.getLayoutInflater().inflate(R.layout.emuview_arcoflex, fl);*/
+        //emuView = this.findViewById(R.id.EmulatorViewArcoFlex);
+        _emuView = (ArcoFlexEmulatorView) findViewById(R.id.ScreenEmulator);
+
+        installDIR = getExternalFilesDir(null).getAbsolutePath()+"/ArcoFlexDroid/";
+
+        arcadeflex056.settings.installationDir = installDIR;
+
+        emulatorEngine = new ArcoFlexEngine(_emuView, new ArcoFlexClock() );
+        emulatorEngine.doPause();
+        emulatorEngine.start();
+
+        // init emul
+        this.emulatorEngine.doResume();
+
+        //mImgEm = findViewById(R.id.EmulatorScreen);
+        //mImgEm.setImageBitmap(((ArcoFlexEmulatorView)(emuView)).screenBitmap);
+
+        /*if (full && prefsHelper.isPortraitTouchController()) {
+            FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) emuView.getLayoutParams();
+            if (lp!=null)
+                lp.gravity = Gravity.TOP | Gravity.CENTER;
+        }*/
+
+        /*inputView = (InputView) this.findViewById(R.id.InputView);
+
+        ((IEmuView) emuView).setArcoFlexDroid(this);
+
+        inputView.setArcoFlexDroid(this);
+
+        View frame = this.findViewById(R.id.EmulatorFrame);
+        frame.setOnTouchListener(inputHandler);
+
+
+        inputHandler.setInputListeners();*/
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -109,6 +173,9 @@ public class MainActivity extends AppCompatActivity {
                 osd_refresh();
             }
 
+            MESS = false;
+            drivers = driversArcadeFlex;
+
 
             /*if (_emuView.canvas != null){
                 _emuView.mSurfaceHolder.unlockCanvasAndPost(_emuView.canvas);
@@ -125,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
                 osd_refresh();
                 screen.key[screen.readkey] = false;*/
 
-                settings.current_platform_configuration = null;
+                current_platform_configuration = null;
                 //shutdown_machine();
 
                 if (emulatorEngine != null)
@@ -153,6 +220,8 @@ public class MainActivity extends AppCompatActivity {
             }
             _emuThread = null;
 
+            inflateViews();
+
             _emuThread = (new Thread(new Runnable() {
                 public void run() {
                     try {
@@ -175,6 +244,89 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace(System.out);
         }
     }
+
+    public void runConsoleFlexGame(String _game) {
+        System.out.println("ConsoleFlex!!!!");
+        try {
+            //setEmulatorRunning(false);
+            if (screen != null) {
+                screen.readkey = KeyEvent.KEYCODE_ESCAPE;
+
+                screen.key[screen.readkey] = true;
+                osd_refresh();
+            }
+
+            MESS = true;
+            drivers = mess056.system.drivers;
+
+            /*if (_emuView.canvas != null){
+                _emuView.mSurfaceHolder.unlockCanvasAndPost(_emuView.canvas);
+            }*/
+
+
+
+
+
+
+                /*screen.readkey = KeyEvent.KEYCODE_ESCAPE;
+
+                screen.key[screen.readkey] = true;
+                osd_refresh();
+                screen.key[screen.readkey] = false;*/
+
+            current_platform_configuration = null;
+            //shutdown_machine();
+
+            if (emulatorEngine != null)
+                emulatorEngine.kill();
+            //emulatorEngine = null;
+            //_emuView.canvas=null;
+
+            //settings.MESS = false;
+            ConfigurePlatform(null);
+            ConfigurePlatform((platformConfigurator.i_platform_configurator)new arcoflex056.platform.android.android_Configurator());
+            //ConvertArguments("arcadeflex", new String[]{"gunsmoke"});//new String[]{"coleco","-cart","HERO.col"});
+            ConvertArguments("consoleflex", new String[]{_game});
+            //_emuThread = null;
+
+
+            //_emuThread.stop();
+            if (_emuThread != null) {
+                _emuThread.interrupt();
+                shutdown_machine();
+                screen_colors = 0;
+                update_video_first_time = 0;
+                mame056.sound.ay8910.num = 0;
+                mame056.sound.ay8910.ay8910_index_ym = 0;
+
+            }
+            _emuThread = null;
+
+            inflateViews();
+
+            _emuThread = (new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        osdepend.main(argc, argv);
+                    } catch (RuntimeException e){
+                        System.out.println("RuntimeException!!!!!!!!!!!!");
+                        e.printStackTrace(System.out);
+                    } catch (Exception e){
+                        e.printStackTrace(System.out);
+                    }
+
+                }
+            }));
+
+            _emuThread.start();
+
+            emulatorEngine._killed = false;
+
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -213,6 +365,26 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.action_about: startActivityForResult(new Intent(this, ArcoFlexAboutOpenActivity.class), A_FILE_SELECTOR); return true;
             case R.id.action_file: startActivityForResult(new Intent(this, ArcoFlexFileOpenActivity.class), A_FILE_SELECTOR); return true;
+
+            case R.id.action_spectrum:
+                //runConsoleFlexGame("cpc6128");
+                runConsoleFlexGame("spectrum");
+                return true;
+
+            case R.id.action_c64:
+                //runConsoleFlexGame("cpc6128");
+                runConsoleFlexGame("c64");
+                return true;
+
+            case R.id.action_cpc:
+                //runConsoleFlexGame("cpc6128");
+                runConsoleFlexGame("cpc6128");
+                return true;
+
+            case R.id.action_msx:
+                //runConsoleFlexGame("cpc6128");
+                runConsoleFlexGame("msx2");
+                return true;
 
             case R.id.action_elevatob:
                 runArcadeFlexGame("elevatob");

@@ -35,6 +35,18 @@
         app:showAsAction="never" >
 
         <menu>
+            <item android:id="@+id/action_spectrum" android:orderInCategory="100" android:title="Spectrum 48K"
+                app:showAsAction="never" />
+
+            <item android:id="@+id/action_c64" android:orderInCategory="100" android:title="Commodore 64"
+                app:showAsAction="never" />
+
+            <item android:id="@+id/action_cpc" android:orderInCategory="100" android:title="Amstrad CPC 6128"
+                app:showAsAction="never" />
+
+            <item android:id="@+id/action_msx" android:orderInCategory="100" android:title="MSX 2"
+                app:showAsAction="never" />
+
             <item android:id="@+id/action_elevatob" android:orderInCategory="100" android:title="Elevator Action"
                 app:showAsAction="never" />
 
