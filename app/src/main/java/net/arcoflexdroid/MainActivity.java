@@ -1,10 +1,9 @@
 package net.arcoflexdroid;
 
 import android.content.Intent;
+import android.inputmethodservice.Keyboard;
+import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -15,10 +14,10 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
 
 import net.arcoflexdroid.engines.ArcoFlexClock;
 import net.arcoflexdroid.engines.ArcoFlexEngine;
+import net.arcoflexdroid.input.ArcoFlexKeyboardMethod;
 import net.arcoflexdroid.panels.about.ArcoFlexAboutOpenActivity;
 import net.arcoflexdroid.panels.filebrowser.ArcoFlexFileOpenActivity;
 import net.arcoflexdroid.views.ArcoFlexEmulatorView;
@@ -38,6 +37,7 @@ import static common.util.argc;
 import static common.util.argv;
 import static mame056.driver.driversArcadeFlex;
 import static mame056.mame.shutdown_machine;
+import static net.arcoflexdroid.R.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
     //private jMESYSControl _emuControl;
     public static int _maxWidth;
     public static int _maxHeight;
+
+    private Keyboard mKeyboard;
+    private KeyboardView mKeyboardView;
 
     // dialog type
     static final int A_FILE_SELECTOR = 0;
@@ -65,9 +68,9 @@ public class MainActivity extends AppCompatActivity {
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
-        setContentView(R.layout.activity_main);
+        setContentView(layout.activity_main);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(id.toolbar);
         setSupportActionBar(toolbar);
 
         mm = this;
@@ -76,17 +79,36 @@ public class MainActivity extends AppCompatActivity {
 
         inflateViews();
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        /*FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
         //runArcadeFlexGame("commando");
-        _emuView = (ArcoFlexEmulatorView) findViewById(R.id.ScreenEmulator);
+        _emuView = (ArcoFlexEmulatorView) findViewById(id.ScreenEmulator);
+
+        // Create the Keyboard
+        //mKeyboard= new Keyboard(this,R.xml.keyboard);
+
+        // Lookup the KeyboardView
+        //mKeyboardView= (KeyboardView)findViewById(R.id.keyboardview);
+        // Attach the keyboard to the view
+        //mKeyboardView.setKeyboard( mKeyboard );
+
+        // Do not show the preview balloons
+        //mKeyboardView.setPreviewEnabled(false);
+
+        // Install the key handler
+        //mKeyboardView.setOnKeyboardActionListener(mOnKeyboardActionListener);
+        KeyboardView kb = findViewById(R.id.keyboard_view);
+        kb.setKeyboard(new Keyboard(this, xml.keyboard_full));
+        kb.setOnKeyboardActionListener(new ArcoFlexKeyboardMethod());
+        kb.setPreviewEnabled(false);
+        kb.setVisibility(View.VISIBLE);
 
         installDIR = getExternalFilesDir(null).getAbsolutePath()+"/ArcoFlexDroid/";
 
@@ -120,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.getLayoutInflater().inflate(R.layout.emuview_arcoflex, fl);*/
         //emuView = this.findViewById(R.id.EmulatorViewArcoFlex);
-        _emuView = (ArcoFlexEmulatorView) findViewById(R.id.ScreenEmulator);
+        _emuView = (ArcoFlexEmulatorView) findViewById(id.ScreenEmulator);
 
         installDIR = getExternalFilesDir(null).getAbsolutePath()+"/ArcoFlexDroid/";
 
@@ -447,4 +469,12 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    /*@Override
+ 	protected int[] getKeyLayouts(int orientation) {
+         		if (orientation == Configuration.ORIENTATION_LANDSCAPE)
+         			return new int [] { R.xml.c64_joystick_landscape, R.xml.c64_qwerty, R.xml.c64_qwerty2 };
+         		return new int [] { R.xml.c64_joystick, R.xml.c64_qwerty, R.xml.c64_qwerty2 };
+    }*/
+
 }
