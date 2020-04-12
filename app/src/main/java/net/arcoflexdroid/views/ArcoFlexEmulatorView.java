@@ -382,6 +382,11 @@ public class ArcoFlexEmulatorView  extends SurfaceView implements SensorEventLis
                 finalHeight = (int) ((float) maxWidth / ratioBitmap);
             }
 
+            // AMSTRAD HACK!!!!
+            if (Machine.gamedrv.source_file.equals("amstrad.java")){
+                finalHeight = finalHeight * 2;
+            }
+
 
             // resize bitmap
             this.screenBitmap = Bitmap.createScaledBitmap(this.screenBitmap, finalWidth, finalHeight, false);
