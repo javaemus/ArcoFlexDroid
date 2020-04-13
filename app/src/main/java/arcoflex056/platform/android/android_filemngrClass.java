@@ -14,19 +14,24 @@ import java.io.File;
  */
 public class android_filemngrClass implements platformConfigurator.i_filemngr_class {
 
+    private File currDir = null;
+    private String _supFilesStr = null;
+    private String[] _arrExtensions = null;
+
     @Override
     public void setCurrentDirectory(File file) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        currDir = file;
     }
 
     @Override
     public void setFileFilter(String _supFilesStr, String[] _arrExtensions) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this._supFilesStr = _supFilesStr;
+        this._arrExtensions = _arrExtensions;
     }
 
     @Override
     public File getCurrentDirectory() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return currDir;
     }
 
     @Override

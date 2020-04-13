@@ -40,7 +40,7 @@
         <Key android:codes="145" android:keyLabel="1"/>
         <Key android:codes="146" android:keyLabel="2"/>
         <Key android:codes="147" android:keyLabel="3"/>
-        <Key android:keyHeight="12%p" android:codes="160" android:keyEdgeFlags="right" android:keyIcon="@drawable/pc_keyboard_return"/>
+        <Key android:keyHeight="12%p" android:codes="66" android:keyEdgeFlags="right" android:keyIcon="@drawable/pc_keyboard_return"/> // 160
     </Row>
     <Row>
         <Key android:codes="21" android:keyEdgeFlags="left" android:keyIcon="@drawable/pc_keyboard_arrow_left"/>

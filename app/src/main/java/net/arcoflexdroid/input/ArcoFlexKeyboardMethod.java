@@ -35,7 +35,11 @@ public class ArcoFlexKeyboardMethod extends InputMethodService implements Keyboa
 
         System.out.println("onPress!!!! "+i);
 
-        if ((i != 555001) && (screen != null) && (screen.key != null)){
+        if (i==67) { // delete key
+            screen.readkey = KeyEvent.KEYCODE_BACK;
+            screen.key[screen.readkey] = true;
+            osd_refresh();
+        } else if ((i != 555001) && (screen != null) && (screen.key != null)){
             screen.readkey = i;
             screen.key[screen.readkey] = true;
             osd_refresh();
@@ -69,7 +73,11 @@ public class ArcoFlexKeyboardMethod extends InputMethodService implements Keyboa
 
         }
 
-        if ((i != 555001) && (screen != null) && (screen.key != null)) {
+        if (i==67) { // delete key
+            screen.readkey = KeyEvent.KEYCODE_BACK;
+            screen.key[screen.readkey] = false;
+            osd_refresh();
+        } else if ((i != 555001) && (screen != null) && (screen.key != null)) {
 
             screen.readkey = i;
             screen.key[screen.readkey] = false;
