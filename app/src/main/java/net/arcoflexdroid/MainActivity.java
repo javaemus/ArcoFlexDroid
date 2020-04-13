@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import net.arcoflexdroid.engines.ArcoFlexClock;
 import net.arcoflexdroid.engines.ArcoFlexEngine;
 import net.arcoflexdroid.input.ArcoFlexKeyboardMethod;
+import net.arcoflexdroid.input.ArcoFlexKeyboardView;
 import net.arcoflexdroid.panels.about.ArcoFlexAboutOpenActivity;
 import net.arcoflexdroid.panels.filebrowser.ArcoFlexFileOpenActivity;
 import net.arcoflexdroid.views.ArcoFlexEmulatorView;
@@ -50,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
     public static int _maxWidth;
     public static int _maxHeight;
 
-    private Keyboard mKeyboard;
-    private KeyboardView mKeyboardView;
+    public Keyboard mKeyboard;
+    public ArcoFlexKeyboardView mKeyboardView;
 
     // dialog type
     static final int A_FILE_SELECTOR = 0;
@@ -104,11 +105,13 @@ public class MainActivity extends AppCompatActivity {
 
         // Install the key handler
         //mKeyboardView.setOnKeyboardActionListener(mOnKeyboardActionListener);
-        KeyboardView kb = findViewById(R.id.keyboard_view);
-        kb.setKeyboard(new Keyboard(this, xml.keyboard_full));
-        kb.setOnKeyboardActionListener(new ArcoFlexKeyboardMethod());
-        kb.setPreviewEnabled(false);
-        kb.setVisibility(View.VISIBLE);
+        mKeyboardView = (ArcoFlexKeyboardView) findViewById(R.id.keyboard_view);
+        //mKeyboard = new Keyboard(this, xml.keyboard_full);
+        mKeyboard = new Keyboard(this, xml.keyboard_pc_full_p1);
+        mKeyboardView.setKeyboard(mKeyboard);
+        mKeyboardView.setOnKeyboardActionListener(new ArcoFlexKeyboardMethod());
+        mKeyboardView.setPreviewEnabled(false);
+        mKeyboardView.setVisibility(View.VISIBLE);
 
         installDIR = getExternalFilesDir(null).getAbsolutePath()+"/ArcoFlexDroid/";
 

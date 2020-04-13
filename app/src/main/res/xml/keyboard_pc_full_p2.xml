@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android" android:keyWidth="14%p" android:keyHeight="6%p" android:horizontalGap="0px" android:verticalGap="0px">
+    <Row>
+        <Key android:codes="120" android:keyEdgeFlags="left" android:keyLabel="Sysrq"/>
+        <Key android:codes="116" android:keyLabel="S.Lock"/>
+        <Key android:codes="121" android:keyLabel="Break"/>
+        <Key android:keyWidth="0%p" android:horizontalGap="33%p" android:codes="-999" android:keyLabel=""/>
+        <Key android:keyWidth="25%p" android:codes="555001" android:keyEdgeFlags="right" android:keyIcon="@drawable/pc_keyboard_switch"/>
+    </Row>
+    <Row>
+        <Key android:codes="124" android:keyEdgeFlags="left" android:keyLabel="Ins"/>
+        <Key android:codes="122" android:keyLabel="Home"/>
+        <Key android:codes="92" android:keyIcon="@drawable/pc_keyboard_pgup"/>
+        <Key android:keyWidth="0%p" android:horizontalGap="2%p" android:codes="-999" android:keyLabel=""/>
+        <Key android:codes="143" android:keyIcon="@drawable/pc_keyboard_numlock"/>
+        <Key android:codes="154" android:keyLabel="/"/>
+        <Key android:codes="155" android:keyLabel="*"/>
+        <Key android:codes="156" android:keyEdgeFlags="right" android:keyLabel="-"/>
+    </Row>
+    <Row>
+        <Key android:codes="112" android:keyEdgeFlags="left" android:keyLabel="Del"/>
+        <Key android:codes="123" android:keyLabel="End"/>
+        <Key android:codes="93" android:keyIcon="@drawable/pc_keyboard_pgdown"/>
+        <Key android:keyWidth="0%p" android:horizontalGap="2%p" android:codes="-999" android:keyLabel=""/>
+        <Key android:codes="151" android:keyLabel="7"/>
+        <Key android:codes="152" android:keyLabel="8"/>
+        <Key android:codes="153" android:keyLabel="9"/>
+        <Key android:keyHeight="12%p" android:codes="157" android:keyEdgeFlags="right" android:keyLabel="+"/>
+    </Row>
+    <Row>
+        <Key android:keyWidth="0%p" android:horizontalGap="44%p" android:codes="-999" android:keyEdgeFlags="left" android:keyLabel=""/>
+        <Key android:codes="148" android:keyLabel="4"/>
+        <Key android:codes="149" android:keyLabel="5"/>
+        <Key android:codes="150" android:keyLabel="6"/>
+    </Row>
+    <Row>
+        <Key android:keyWidth="0%p" android:horizontalGap="14%p" android:codes="-999" android:keyEdgeFlags="left" android:keyLabel=""/>
+        <Key android:codes="19" android:keyIcon="@drawable/pc_keyboard_arrow_up"/>
+        <Key android:keyWidth="0%p" android:horizontalGap="16%p" android:codes="-999" android:keyLabel=""/>
+        <Key android:codes="145" android:keyLabel="1"/>
+        <Key android:codes="146" android:keyLabel="2"/>
+        <Key android:codes="147" android:keyLabel="3"/>
+        <Key android:keyHeight="12%p" android:codes="160" android:keyEdgeFlags="right" android:keyIcon="@drawable/pc_keyboard_return"/>
+    </Row>
+    <Row>
+        <Key android:codes="21" android:keyEdgeFlags="left" android:keyIcon="@drawable/pc_keyboard_arrow_left"/>
+        <Key android:codes="20" android:keyIcon="@drawable/pc_keyboard_arrow_down"/>
+        <Key android:codes="22" android:keyIcon="@drawable/pc_keyboard_arrow_right"/>
+        <Key android:keyWidth="0%p" android:horizontalGap="2%p" android:codes="-999" android:keyLabel=""/>
+        <Key android:keyWidth="28%p" android:codes="144" android:keyLabel="0"/>
+        <Key android:codes="158" android:keyLabel="."/>
+    </Row>
+</Keyboard>

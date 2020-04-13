@@ -56,7 +56,7 @@ class android_inputClass implements platformConfigurator.i_input_class {
             new KeyboardInfo( "9",			KeyEvent.KEYCODE_9,				KEYCODE_9 ),
             new KeyboardInfo( "0 PAD",		KeyEvent.KEYCODE_NUMPAD_0,		KEYCODE_0_PAD ),
             new KeyboardInfo( "1 PAD",		KeyEvent.KEYCODE_NUMPAD_1,		KEYCODE_1_PAD ),
-            new KeyboardInfo( "2 PAD",		KeyEvent.KEYCODE_NUMPAD_2,            KEYCODE_2_PAD ),
+            new KeyboardInfo( "2 PAD",		KeyEvent.KEYCODE_NUMPAD_2,      KEYCODE_2_PAD ),
             new KeyboardInfo( "3 PAD",		KeyEvent.KEYCODE_NUMPAD_3,		KEYCODE_3_PAD ),
             new KeyboardInfo( "4 PAD",		KeyEvent.KEYCODE_NUMPAD_4,		KEYCODE_4_PAD ),
             new KeyboardInfo( "5 PAD",		KeyEvent.KEYCODE_NUMPAD_5,		KEYCODE_5_PAD ),
@@ -73,10 +73,10 @@ class android_inputClass implements platformConfigurator.i_input_class {
             new KeyboardInfo( "F7",			KeyEvent.KEYCODE_F7,			KEYCODE_F7 ),
             new KeyboardInfo( "F8",			KeyEvent.KEYCODE_F8,			KEYCODE_F8 ),
             new KeyboardInfo( "F9",			KeyEvent.KEYCODE_F9,			KEYCODE_F9 ),
-            new KeyboardInfo( "F10",		KeyEvent.KEYCODE_F10,		KEYCODE_F10 ),
-            new KeyboardInfo( "F11",		KeyEvent.KEYCODE_F11,		KEYCODE_F11 ),
-            new KeyboardInfo( "F12",		KeyEvent.KEYCODE_F12,		KEYCODE_F12 ),
-            new KeyboardInfo( "ESC",		KeyEvent.KEYCODE_ESCAPE,		KEYCODE_ESC ),
+            new KeyboardInfo( "F10",		    KeyEvent.KEYCODE_F10,		    KEYCODE_F10 ),
+            new KeyboardInfo( "F11",		    KeyEvent.KEYCODE_F11,		    KEYCODE_F11 ),
+            new KeyboardInfo( "F12",		    KeyEvent.KEYCODE_F12,		    KEYCODE_F12 ),
+            new KeyboardInfo( "ESC",		    KeyEvent.KEYCODE_ESCAPE,		KEYCODE_ESC ),
             /*TODO*///new KeyboardInfo( "~",			KeyEvent.KEYCODE_BACK_QUOTE,		KEYCODE_TILDE ),
             /*TODO the rest codes */
             /*
