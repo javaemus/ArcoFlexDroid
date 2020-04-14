@@ -30,7 +30,7 @@ public class android_filemngrClass implements platformConfigurator.i_filemngr_cl
     private File currDir = null;
     private String _supFilesStr = null;
     private String[] _arrExtensions = null;
-    private File _selectedFile = null;
+    //private File _selectedFile = null;
 
     @Override
     public void setCurrentDirectory(File file) {
@@ -61,11 +61,11 @@ public class android_filemngrClass implements platformConfigurator.i_filemngr_cl
 
 
         FragmentManager fm = MainActivity.mm.getSupportFragmentManager();
-        _myDialog.show(fm, "fragment_edit_name");
 
-        _selectedFile = ArcoFlexJFileChooserDialog._fSelected;
 
-        return 0;
+
+
+        return _myDialog.showResult(fm, "fragment_edit_name");
         /*if (ArcoFlexFileOpenActivity._selectedFile) {
             System.out.println("FICHERO SELECCIONADO!!!!------------------------------------------");
             return 0;
@@ -77,7 +77,7 @@ public class android_filemngrClass implements platformConfigurator.i_filemngr_cl
 
     @Override
     public Object getSelectedFile() {
-        return _selectedFile;
+        return ArcoFlexJFileChooserDialog._fSelected;
         //return (new File("file:///storage/emulated/0/Android/data/net.arcoflexdroid/files/ArcoFlexDroid/software/spectrum/Commando.z80"));
     }
     

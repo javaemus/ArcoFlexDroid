@@ -11,6 +11,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTabHost;
 
 import net.arcoflexdroid.MainActivity;
@@ -19,6 +20,8 @@ import net.arcoflexdroid.panels.filebrowser.remote.spectrum.ArcoFlexAsyncRemoteW
 import net.arcoflexdroid.panels.filebrowser.remote.spectrum.ArcoFlexRemoteTRDExplorer;
 
 import java.io.File;
+
+import static arcadeflex056.video.osd_refresh;
 
 public class ArcoFlexJFileChooserDialog extends DialogFragment {
 
@@ -41,6 +44,7 @@ public class ArcoFlexJFileChooserDialog extends DialogFragment {
         Bundle args = new Bundle();
         args.putString("title", title);
         frag.setArguments(args);
+        //frag.setCancelable(false); // set MODAL
         return frag;
     }
 
@@ -95,6 +99,19 @@ public class ArcoFlexJFileChooserDialog extends DialogFragment {
 
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+    }
+
+    public int showResult(FragmentManager fm, String fragment_edit_name) {
+
+        // pause emuThread
+        //MainActivity._emuThread.suspend();
+
+        this.show(fm, fragment_edit_name);
+        osd_refresh();
+
+        //MainActivity._emuThread.resume();
+
+        return 0;
     }
 }
 

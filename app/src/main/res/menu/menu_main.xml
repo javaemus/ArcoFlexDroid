@@ -38,6 +38,15 @@
             <item android:id="@+id/action_spectrum" android:orderInCategory="100" android:title="Spectrum 48K"
                 app:showAsAction="never" />
 
+            <item android:id="@+id/action_spec128" android:orderInCategory="100" android:title="Spectrum 128K"
+                app:showAsAction="never" />
+
+            <item android:id="@+id/action_specpls3" android:orderInCategory="100" android:title="Spectrum +3"
+                app:showAsAction="never" />
+
+            <item android:id="@+id/action_coleco" android:orderInCategory="100" android:title="ColecoVision"
+                app:showAsAction="never" />
+
             <item android:id="@+id/action_c64" android:orderInCategory="100" android:title="Commodore 64"
                 app:showAsAction="never" />
 

@@ -404,6 +404,21 @@ public class MainActivity extends AppCompatActivity {
                 runConsoleFlexGame("spectrum");
                 return true;
 
+            case R.id.action_spec128:
+                //runConsoleFlexGame("cpc6128");
+                runConsoleFlexGame("spec128");
+                return true;
+
+            case R.id.action_specpls3:
+                //runConsoleFlexGame("cpc6128");
+                runConsoleFlexGame("specpls3");
+                return true;
+
+            case R.id.action_coleco:
+                //runConsoleFlexGame("cpc6128");
+                runConsoleFlexGame("coleco");
+                return true;
+
             case R.id.action_c64:
                 //runConsoleFlexGame("cpc6128");
                 runConsoleFlexGame("c64");

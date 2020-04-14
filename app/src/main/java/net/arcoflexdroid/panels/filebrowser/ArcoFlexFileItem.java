@@ -7,6 +7,7 @@ public class ArcoFlexFileItem  implements Comparable<ArcoFlexFileItem>{
     private String path;
     private String image;
     private String inlay=null;
+    private boolean isRemoteZip = false;
 
     public ArcoFlexFileItem(String n,String d, String dt, String p, String img)
     {
@@ -16,6 +17,8 @@ public class ArcoFlexFileItem  implements Comparable<ArcoFlexFileItem>{
         path = p;
         image = img;
     }
+    public void setRemoteZip(boolean b) {isRemoteZip=b;}
+    public boolean isRemoteZip() {return isRemoteZip;}
     public void setInlay(String _inlay) {
         inlay = _inlay;
     }
