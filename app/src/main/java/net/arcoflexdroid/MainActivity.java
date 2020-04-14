@@ -23,6 +23,14 @@ import net.arcoflexdroid.panels.about.ArcoFlexAboutOpenActivity;
 import net.arcoflexdroid.panels.filebrowser.ArcoFlexFileOpenActivity;
 import net.arcoflexdroid.views.ArcoFlexEmulatorView;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
 import arcadeflex056.osdepend;
 import static arcadeflex056.settings.*;
 import static mame056.driver.*;
@@ -120,6 +128,9 @@ public class MainActivity extends AppCompatActivity {
         installDIR = getExternalFilesDir(null).getAbsolutePath()+"/ArcoFlexDroid/";
 
         arcadeflex056.settings.installationDir = installDIR;
+
+        // creates structure of directories
+        copyFiles();
 
         emulatorEngine = new ArcoFlexEngine(_emuView, new ArcoFlexClock() );
         emulatorEngine.doPause();
@@ -502,5 +513,57 @@ public class MainActivity extends AppCompatActivity {
          			return new int [] { R.xml.c64_joystick_landscape, R.xml.c64_qwerty, R.xml.c64_qwerty2 };
          		return new int [] { R.xml.c64_joystick, R.xml.c64_qwerty, R.xml.c64_qwerty2 };
     }*/
+
+    public void copyFiles(){
+
+        int BUFFER_SIZE = 1024;
+
+        try {
+
+            String roms_dir = installDIR;
+
+            File fm = new File(roms_dir + File.separator + "saves/" + "dont-delete-"+ version+".bin");
+            if(fm.exists())
+                return;
+
+            fm.mkdirs();
+            fm.createNewFile();
+
+            // Create a ZipInputStream to read the zip file
+            BufferedOutputStream dest = null;
+            InputStream fis = mm.getResources().openRawResource(R.raw.files);
+            ZipInputStream zis = new ZipInputStream(
+
+                    new BufferedInputStream(fis));
+            // Loop over all of the entries in the zip file
+            int count;
+            byte data[] = new byte[BUFFER_SIZE];
+            ZipEntry entry;
+            while ((entry = zis.getNextEntry()) != null) {
+                if (!entry.isDirectory()) {
+
+                    String destination = roms_dir;
+                    String destFN = destination + File.separator + entry.getName();
+                    // Write the file to the file system
+                    FileOutputStream fos = new FileOutputStream(destFN);
+                    dest = new BufferedOutputStream(fos, BUFFER_SIZE);
+                    while ((count = zis.read(data, 0, BUFFER_SIZE)) != -1) {
+                        dest.write(data, 0, count);
+                    }
+                    dest.flush();
+                    dest.close();
+                }
+                else
+                {
+                    File f = new File(roms_dir+ File.separator + entry.getName());
+                    f.mkdirs();
+                }
+
+            }
+            zis.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }
