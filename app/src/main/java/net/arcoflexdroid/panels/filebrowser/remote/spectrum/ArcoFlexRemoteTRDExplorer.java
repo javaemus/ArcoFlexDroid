@@ -43,6 +43,10 @@ public class ArcoFlexRemoteTRDExplorer extends ListFragment {
 
     private Pattern _section = Pattern.compile("<a href=\\\"(.+)\\\">&nbsp;&nbsp;(.+)</a></td><td>(.+)</td><td>(.+)</td><td>(.+)</td>");
 
+    public ArcoFlexRemoteTRDExplorer() {
+
+    }
+
     protected String getSite() {
         //System.out.println("Obtengo SITE!!!!");
         //getPattern();

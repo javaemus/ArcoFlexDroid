@@ -719,6 +719,8 @@ public class filemngr
                 int option = current_platform_configuration.get_filemngr_class().showOpenDialog(null);
                 
                 Object selected_file = current_platform_configuration.get_filemngr_class().getSelectedFile();
+
+                System.out.println("**********************************************************************");
                 
                 if (option == 0) { // selected file
                     if (selected_file != null){

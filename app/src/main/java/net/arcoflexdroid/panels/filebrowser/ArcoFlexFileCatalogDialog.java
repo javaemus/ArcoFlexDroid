@@ -10,6 +10,7 @@ import android.widget.RadioGroup;
 
 import net.arcoflexdroid.R;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +54,15 @@ public class ArcoFlexFileCatalogDialog  extends ListActivity {
                 prefix = "file://";
             }
 
-            currentFiles.addAll((List) ArcoFlexZipFile.getContent( prefix+ ArcoFlexVars.path ));
+            if (ArcoFlexVars.path.toUpperCase().endsWith(".ZIP"))
+                currentFiles.addAll((List) ArcoFlexZipFile.getContent( prefix+ ArcoFlexVars.path ));
+            else { // single file
+                ArrayList list = new ArrayList();
+                ArcoFlexFileItem item = new ArcoFlexFileItem(prefix+ ArcoFlexVars.path, "", "", "", "file_icon");
+                //list.add(ze.getName());
+                list.add(item);
+                currentFiles.addAll(list);
+            }
 
             int numFiles = currentFiles.size();
             for (int i=0 ; i< numFiles ; i++){
@@ -99,8 +108,20 @@ public class ArcoFlexFileCatalogDialog  extends ListActivity {
         extras.putExtra("loadType", loadType);
         extras.putExtra("selectedFile", this.currentFiles.get(position).getName());
 
+        //ArcoFlexFileOpenActivity._endSelection = true;
+        //ArcoFlexJFileChooserDialog._selectedFile = true;
+        ArcoFlexJFileChooserDialog._fSelected = new File(this.currentFiles.get(position).getName());
+
+
         setResult(RESULT_OK, extras);
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        //ArcoFlexFileOpenActivity._endSelection = false;
+        //ArcoFlexJFileChooserDialog._selectedFile = false;
+        super.onBackPressed();
     }
 }
 

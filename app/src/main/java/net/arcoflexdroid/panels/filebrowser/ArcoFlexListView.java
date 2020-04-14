@@ -29,7 +29,11 @@ public class ArcoFlexListView  extends ListFragment {
     private View myView;
 
     private ArcoFlexFileArrayAdapter adapter;
-    private File currentDir;
+    public static File currentDir=null;
+
+    public ArcoFlexListView(){
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,9 +60,11 @@ public class ArcoFlexListView  extends ListFragment {
         //root = Environment.getExternalStorageDirectory().getPath();
 
         root="/";
+        if (currentDir == null)
+            currentDir = new File("/");
 
         //getDir(root);
-        fill(new File(root));
+        fill(new File(currentDir.getAbsolutePath()));
 
         //setListAdapter(adapter);
         return myView;
@@ -66,11 +72,13 @@ public class ArcoFlexListView  extends ListFragment {
     }
 
 
-
+/*
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
+ */
 
     private void fill(File f)
     {

@@ -5,8 +5,21 @@
  */
 package arcoflex056.platform.android;
 
+import android.content.Intent;
+
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+
+import net.arcoflexdroid.MainActivity;
+import net.arcoflexdroid.panels.filebrowser.ArcoFlexFileOpenActivity;
+import net.arcoflexdroid.panels.filebrowser.ArcoFlexJFileChooserDialog;
+import net.arcoflexdroid.panels.filebrowser.ArcoFlexListView;
+
 import arcoflex056.platform.platformConfigurator;
 import java.io.File;
+
+import static mess056.filemngr.osd_get_cwd;
+import static net.arcoflexdroid.MainActivity.A_FILE_SELECTOR;
 
 /**
  *
@@ -17,6 +30,7 @@ public class android_filemngrClass implements platformConfigurator.i_filemngr_cl
     private File currDir = null;
     private String _supFilesStr = null;
     private String[] _arrExtensions = null;
+    private File _selectedFile = null;
 
     @Override
     public void setCurrentDirectory(File file) {
@@ -36,12 +50,35 @@ public class android_filemngrClass implements platformConfigurator.i_filemngr_cl
 
     @Override
     public int showOpenDialog(Object obj) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        //ArcoFlexFileOpenActivity._endSelection = false;
+        //ArcoFlexJFileChooserDialog._selectedFile = false;
+
+        ArcoFlexListView.currentDir = new File(osd_get_cwd());
+
+        //MainActivity.mm.startActivityForResult(new Intent(MainActivity.mm, ArcoFlexFileOpenActivity.class), A_FILE_SELECTOR);
+        ArcoFlexJFileChooserDialog _myDialog = ArcoFlexJFileChooserDialog.newInstance("Some Title");
+
+
+        FragmentManager fm = MainActivity.mm.getSupportFragmentManager();
+        _myDialog.show(fm, "fragment_edit_name");
+
+        _selectedFile = ArcoFlexJFileChooserDialog._fSelected;
+
+        return 0;
+        /*if (ArcoFlexFileOpenActivity._selectedFile) {
+            System.out.println("FICHERO SELECCIONADO!!!!------------------------------------------");
+            return 0;
+        } else {
+            System.out.println("NO SELECCIONADO!!!!------------------------------------------");
+            return 1;
+        }*/
     }
 
     @Override
     public Object getSelectedFile() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return _selectedFile;
+        //return (new File("file:///storage/emulated/0/Android/data/net.arcoflexdroid/files/ArcoFlexDroid/software/spectrum/Commando.z80"));
     }
     
 }

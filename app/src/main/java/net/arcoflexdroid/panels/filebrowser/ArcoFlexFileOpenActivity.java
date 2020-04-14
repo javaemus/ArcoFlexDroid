@@ -11,6 +11,8 @@ import net.arcoflexdroid.panels.filebrowser.remote.spectrum.ArcoFlexRemoteTRDExp
 public class ArcoFlexFileOpenActivity extends FragmentActivity {
 
     private FragmentTabHost tabHost;
+    //public static boolean _endSelection = false;
+    //public static boolean _selectedFile = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +25,6 @@ public class ArcoFlexFileOpenActivity extends FragmentActivity {
         tabHost.setup(this, getSupportFragmentManager(), android.R.id.tabcontent);
         //System.out.println("4");
         tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("Local"),
-                //jMESYSFileExplorer.class, null);
-                //jMESYSFileExplorerBody.class, null);
                 ArcoFlexListView.class, null);
 
         //System.out.println("5");

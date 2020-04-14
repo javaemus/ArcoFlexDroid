@@ -49,6 +49,10 @@ public class ArcoFlexAsyncRemoteWOSExplorer extends ListFragment {
     private String currentDir;
     private boolean isLoading=false;
 
+    public ArcoFlexAsyncRemoteWOSExplorer() {
+
+    }
+
     protected String getSite() {
         return site;
     }

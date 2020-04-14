@@ -28,6 +28,9 @@ import static arcadeflex056.settings.*;
 import static mame056.driver.*;
 import arcoflex056.platform.platformConfigurator;
 
+import static mame056.mame.options;
+import static mame056.mameH.*;
+
 import static android.Manifest.permission.*;
 
 import static arcadeflex056.video.osd_refresh;
@@ -38,6 +41,7 @@ import static common.util.argc;
 import static common.util.argv;
 import static mame056.driver.driversArcadeFlex;
 import static mame056.mame.shutdown_machine;
+import static mame056.mameH.*;
 import static net.arcoflexdroid.R.*;
 
 public class MainActivity extends AppCompatActivity {
@@ -55,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
     public ArcoFlexKeyboardView mKeyboardView;
 
     // dialog type
-    static final int A_FILE_SELECTOR = 0;
-    static final int A_PREFERENCES = 1;
+    public static final int A_FILE_SELECTOR = 0;
+    public static final int A_PREFERENCES = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -284,6 +288,10 @@ public class MainActivity extends AppCompatActivity {
             MESS = true;
             drivers = mess056.system.drivers;
 
+            // init devices
+            options.image_files = new ImageFile[MAX_IMAGES];
+            options.image_count=0;
+
             /*if (_emuView.canvas != null){
                 _emuView.mSurfaceHolder.unlockCanvasAndPost(_emuView.canvas);
             }*/
@@ -311,7 +319,7 @@ public class MainActivity extends AppCompatActivity {
             ConfigurePlatform(null);
             ConfigurePlatform((platformConfigurator.i_platform_configurator)new arcoflex056.platform.android.android_Configurator());
             //ConvertArguments("arcadeflex", new String[]{"gunsmoke"});//new String[]{"coleco","-cart","HERO.col"});
-            ConvertArguments("consoleflex", new String[]{_game});
+            ConvertArguments("consoleflex", new String[]{_game}); //, "-cassette","SilkWorm(1988)(Mastertronic).wav"});
             //_emuThread = null;
 
 

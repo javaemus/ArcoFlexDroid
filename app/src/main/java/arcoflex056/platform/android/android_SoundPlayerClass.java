@@ -37,7 +37,7 @@ public class android_SoundPlayerClass implements platformConfigurator.i_SoundPla
                 AudioFormat.ENCODING_PCM_8BIT,
                 1024, //bufSizeBytes,
                 AudioTrack.MODE_STREAM);*/
-        _audioTrack = new AudioTrack(3, 44100, 2, 2, 7056, 1);
+        _audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, Machine.sample_rate, (stereo!=0 ? AudioFormat.CHANNEL_OUT_STEREO:AudioFormat.CHANNEL_OUT_MONO), AudioFormat.ENCODING_PCM_16BIT, 7056, AudioTrack.MODE_STREAM);
     }
 
     @Override
