@@ -31,70 +31,7 @@
     <item android:id="@+id/action_file" android:orderInCategory="100" android:title="File"
         app:showAsAction="never" />
 
-    <item android:id="@+id/action_systems" android:orderInCategory="100" android:title="Systems"
-        app:showAsAction="never" >
 
-        <menu>
-            <item android:id="@+id/action_spectrum" android:orderInCategory="100" android:title="Spectrum 48K"
-                app:showAsAction="never" />
-
-            <item android:id="@+id/action_spec128" android:orderInCategory="100" android:title="Spectrum 128K"
-                app:showAsAction="never" />
-
-            <item android:id="@+id/action_specpls3" android:orderInCategory="100" android:title="Spectrum +3"
-                app:showAsAction="never" />
-
-            <item android:id="@+id/action_coleco" android:orderInCategory="100" android:title="ColecoVision"
-                app:showAsAction="never" />
-
-            <item android:id="@+id/action_c64" android:orderInCategory="100" android:title="Commodore 64"
-                app:showAsAction="never" />
-
-            <item android:id="@+id/action_cpc" android:orderInCategory="100" android:title="Amstrad CPC 6128"
-                app:showAsAction="never" />
-
-            <item android:id="@+id/action_msx" android:orderInCategory="100" android:title="MSX 2"
-                app:showAsAction="never" />
-
-            <item android:id="@+id/action_elevatob" android:orderInCategory="100" android:title="Elevator Action"
-                app:showAsAction="never" />
-
-            <item android:id="@+id/action_gberet" android:orderInCategory="100" android:title="Green Beret"
-                app:showAsAction="never" />
-
-            <item android:id="@+id/action_commando" android:orderInCategory="100" android:title="Commando"
-                app:showAsAction="never" />
-
-            <item android:id="@+id/action_dkong" android:orderInCategory="100" android:title="Donkey Kong"
-                app:showAsAction="never" />
-
-            <item android:id="@+id/action_gng" android:orderInCategory="100" android:title="Ghosts n Goblins"
-                app:showAsAction="never" />
-
-            <item android:id="@+id/action_gunsmoke" android:orderInCategory="100" android:title="Gun Smoke"
-                app:showAsAction="never" />
-
-            <item android:id="@+id/action_sf2" android:orderInCategory="100" android:title="Street Fighter 2"
-                app:showAsAction="never" />
-
-            <item android:id="@+id/action_bankp" android:orderInCategory="100" android:title="Bank Panic"
-                app:showAsAction="never" />
-
-            <item android:id="@+id/action_galaga" android:orderInCategory="100" android:title="Galaga"
-                app:showAsAction="never" />
-
-            <item android:id="@+id/action_galaxian" android:orderInCategory="100" android:title="Galaxian"
-                app:showAsAction="never" />
-
-            <item android:id="@+id/action_bombjack" android:orderInCategory="100" android:title="BomJack"
-                app:showAsAction="never" />
-
-            <item android:id="@+id/action_mario" android:orderInCategory="100" android:title="Mario Bros"
-                app:showAsAction="never" />
-        </menu>
-
-
-    </item>
 
     <item android:id="@+id/action_settings" android:orderInCategory="100" android:title="Settings"
         app:showAsAction="never">

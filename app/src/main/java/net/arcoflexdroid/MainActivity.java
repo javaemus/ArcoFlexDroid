@@ -21,6 +21,8 @@ import net.arcoflexdroid.input.ArcoFlexKeyboardMethod;
 import net.arcoflexdroid.input.ArcoFlexKeyboardView;
 import net.arcoflexdroid.panels.about.ArcoFlexAboutOpenActivity;
 import net.arcoflexdroid.panels.filebrowser.ArcoFlexFileOpenActivity;
+import net.arcoflexdroid.panels.menu.ArcoFlexGameItem;
+import net.arcoflexdroid.panels.menu.ArcoFlexMenuItem;
 import net.arcoflexdroid.views.ArcoFlexEmulatorView;
 
 import java.io.BufferedInputStream;
@@ -28,13 +30,20 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import arcadeflex056.osdepend;
+
+import static arcadeflex056.fronthlp.frontend_help;
 import static arcadeflex056.settings.*;
 import static mame056.driver.*;
 import arcoflex056.platform.platformConfigurator;
+import static mame056.driverH.*;
 
 import static mame056.mame.options;
 import static mame056.mameH.*;
@@ -47,7 +56,6 @@ import static arcoflex056.platform.platformConfigurator.ConfigurePlatform;
 import static common.util.ConvertArguments;
 import static common.util.argc;
 import static common.util.argv;
-import static mame056.driver.driversArcadeFlex;
 import static mame056.mame.shutdown_machine;
 import static mame056.mameH.*;
 import static net.arcoflexdroid.R.*;
@@ -70,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
     public static final int A_FILE_SELECTOR = 0;
     public static final int A_PREFERENCES = 1;
 
+    // menu systems
+    public HashMap _listConsoleflexDrivers = new HashMap();
+    public HashMap _listArcadeflexDrivers = new HashMap();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
         requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE, INTERNET, ACCESS_NETWORK_STATE}, 1);
 
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+        //AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         setContentView(layout.activity_main);
 
@@ -131,13 +143,74 @@ public class MainActivity extends AppCompatActivity {
 
         // creates structure of directories
         copyFiles();
-
+        
         emulatorEngine = new ArcoFlexEngine(_emuView, new ArcoFlexClock() );
         emulatorEngine.doPause();
         emulatorEngine.start();
 
         // init emul
         this.emulatorEngine.doResume();
+    }
+
+    private void listDrivers(String _platform) {
+        frontend_help(2, new String[] {_platform, "-list"});
+    }
+
+    private void createMenuArcadeFlex(Menu menu) {
+        GameDriver[] _driversArcadeFlex = mame056.driver.driversArcadeFlex;
+        Menu _menu = menu.addSubMenu("ArcadeFlex");
+        createDynamicMenu("arcadeflex", _driversArcadeFlex, _menu);
+    }
+
+    private void createMenuConsoleFlex(Menu menu) {
+        GameDriver[] _driversConsoleFlex = mess056.system.drivers;
+        Menu _menu = menu.addSubMenu("ConsoleFlex");
+        createDynamicMenu("consoleflex", _driversConsoleFlex, _menu);
+    }
+
+    private void createDynamicMenu(String platformFlex, GameDriver[] driverList, Menu _menuFlex) {
+        List<ArcoFlexGameItem> listGames = new ArrayList<ArcoFlexGameItem>();
+
+        int longo = driverList.length;
+
+        for (int _i=0 ; _i<longo; _i++){
+            if (driverList[_i] != null) {
+                ArcoFlexGameItem currDriver = new ArcoFlexGameItem(driverList[_i].name, driverList[_i].description);
+                listGames.add(currDriver);
+            }
+        }
+
+        longo = listGames.size();
+        System.out.println(platformFlex + " supports "+longo+" drivers");
+
+        Collections.sort(listGames);
+
+        //printDriverList(platformFlex, listGames);
+        for (int _i=0 ; _i<longo ; _i++){
+            if (listGames.get(_i) != null) {
+
+                ArcoFlexGameItem _item = listGames.get(_i);
+
+                _menuFlex.add(_item.getDescription());
+
+                if (platformFlex.equals("consoleflex"))
+                    _listConsoleflexDrivers.put(_item.getDescription(), _item);
+                else
+                    _listArcadeflexDrivers.put(_item.getDescription(), _item);
+
+            }
+        }
+    }
+
+    private void printDriverList(String platformFlex, List<ArcoFlexGameItem> listGames) {
+        int longo = listGames.size();
+        System.out.println("**************************************************");
+        System.out.println(longo+" Supported Drivers for "+platformFlex);
+
+        for (int _i=0 ; _i<longo ; _i++)
+            System.out.println(listGames.get(_i).getDescription());
+
+        System.out.println("**************************************************");
     }
 
     public void inflateViews() {
@@ -199,6 +272,12 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        Menu menuSystems = menu.addSubMenu("Systems");
+        // creates menu entries
+        //listDrivers("consoleflex");
+        createMenuConsoleFlex(menuSystems);
+        //listDrivers("arcadeflex");
+        createMenuArcadeFlex(menuSystems);
         return true;
     }
 
@@ -410,98 +489,31 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_about: startActivityForResult(new Intent(this, ArcoFlexAboutOpenActivity.class), A_FILE_SELECTOR); return true;
             case R.id.action_file: startActivityForResult(new Intent(this, ArcoFlexFileOpenActivity.class), A_FILE_SELECTOR); return true;
 
-            case R.id.action_spectrum:
-                //runConsoleFlexGame("cpc6128");
-                runConsoleFlexGame("spectrum");
-                return true;
+        }
 
-            case R.id.action_spec128:
-                //runConsoleFlexGame("cpc6128");
-                runConsoleFlexGame("spec128");
-                return true;
+        // else is a system menu
+        String _currSystem = item.getTitle().toString();
+        boolean isSystemMenu = false;
+        Object _sysItem = null;
+        // check ConsoleFlex
+        _sysItem = _listConsoleflexDrivers.get(_currSystem);
+        System.out.println("ConsoleFlex con "+_currSystem+" = "+_sysItem);
+        if (_sysItem != null){
+            ArcoFlexGameItem _myItem = (ArcoFlexGameItem) _sysItem;
+            runConsoleFlexGame(_myItem.getShortname());
 
-            case R.id.action_specpls3:
-                //runConsoleFlexGame("cpc6128");
-                runConsoleFlexGame("specpls3");
-                return true;
-
-            case R.id.action_coleco:
-                //runConsoleFlexGame("cpc6128");
-                runConsoleFlexGame("coleco");
-                return true;
-
-            case R.id.action_c64:
-                //runConsoleFlexGame("cpc6128");
-                runConsoleFlexGame("c64");
-                return true;
-
-            case R.id.action_cpc:
-                //runConsoleFlexGame("cpc6128");
-                runConsoleFlexGame("cpc6128");
-                return true;
-
-            case R.id.action_msx:
-                //runConsoleFlexGame("cpc6128");
-                runConsoleFlexGame("msx2");
-                return true;
-
-            case R.id.action_elevatob:
-                runArcadeFlexGame("elevatob");
-                return true;
-            case R.id.action_gberet:
-                runArcadeFlexGame("exprraid");
-                return true;
-
-            case R.id.action_commando:
-                runArcadeFlexGame("tapper");
-                return true;
+            return true;
+        }
 
 
-            case R.id.action_dkong:
-                //runConsoleFlexGame("spec128","-snapshot aquaplan.sna");
-                runArcadeFlexGame("dkong");
-                return true;
+        _sysItem = _listArcadeflexDrivers.get(_currSystem);
+        System.out.println("ArcadeFlex con "+_currSystem+" = "+_sysItem);
 
+        if (_sysItem != null){
+            ArcoFlexGameItem _myItem = (ArcoFlexGameItem) _sysItem;
+            runArcadeFlexGame(_myItem.getShortname());
 
-            case R.id.action_gng:
-                //runConsoleFlexGame("cpc6128");
-                runArcadeFlexGame("gng");
-                return true;
-
-
-            case R.id.action_sf2:
-                //runConsoleFlexGame("c64");
-                runArcadeFlexGame("flicky");
-                return true;
-
-
-            case R.id.action_bankp:
-                runArcadeFlexGame("bankp");
-                return true;
-
-
-            case R.id.action_galaga:
-                runArcadeFlexGame("galaga");
-                return true;
-
-
-            case R.id.action_galaxian:
-                runArcadeFlexGame("galaxian");
-                return true;
-
-            case R.id.action_bombjack:
-                runArcadeFlexGame("bombjack");
-                return true;
-
-
-            case R.id.action_mario:
-                runArcadeFlexGame("mario");
-                return true;
-
-
-            case R.id.action_gunsmoke:
-                runArcadeFlexGame("gunsmoke");
-                return true;
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
