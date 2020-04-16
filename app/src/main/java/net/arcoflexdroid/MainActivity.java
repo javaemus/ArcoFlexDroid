@@ -22,7 +22,6 @@ import net.arcoflexdroid.input.ArcoFlexKeyboardView;
 import net.arcoflexdroid.panels.about.ArcoFlexAboutOpenActivity;
 import net.arcoflexdroid.panels.filebrowser.ArcoFlexFileOpenActivity;
 import net.arcoflexdroid.panels.menu.ArcoFlexGameItem;
-import net.arcoflexdroid.panels.menu.ArcoFlexMenuItem;
 import net.arcoflexdroid.views.ArcoFlexEmulatorView;
 
 import java.io.BufferedInputStream;
@@ -185,13 +184,22 @@ public class MainActivity extends AppCompatActivity {
 
         Collections.sort(listGames);
 
-        //printDriverList(platformFlex, listGames);
+        byte _lastAlphabeticMenuCreated=0x00;
+        Menu _currAlphaMenu = null;
+
         for (int _i=0 ; _i<longo ; _i++){
             if (listGames.get(_i) != null) {
 
                 ArcoFlexGameItem _item = listGames.get(_i);
 
-                _menuFlex.add(_item.getDescription());
+                // creates a menu folder with the first char of the description
+                if (_item.getDescription().getBytes()[0] != _lastAlphabeticMenuCreated) {
+                    _lastAlphabeticMenuCreated = _item.getDescription().getBytes()[0];
+                    char _charLetter = (char) _lastAlphabeticMenuCreated;
+                    _currAlphaMenu = _menuFlex.addSubMenu(Character.toString(_charLetter));
+                }
+
+                _currAlphaMenu.add(_item.getDescription());
 
                 if (platformFlex.equals("consoleflex"))
                     _listConsoleflexDrivers.put(_item.getDescription(), _item);
