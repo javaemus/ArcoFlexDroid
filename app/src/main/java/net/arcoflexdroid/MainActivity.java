@@ -15,8 +15,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import net.arcoflexdroid.engines.ArcoFlexClock;
-import net.arcoflexdroid.engines.ArcoFlexEngine;
+//import net.arcoflexdroid.engines.ArcoFlexClock;
+//import net.arcoflexdroid.engines.ArcoFlexEngine;
 import net.arcoflexdroid.input.ArcoFlexKeyboardMethod;
 import net.arcoflexdroid.input.ArcoFlexKeyboardView;
 import net.arcoflexdroid.panels.about.ArcoFlexAboutOpenActivity;
@@ -64,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
     public static MainActivity mm;
     public static Thread _emuThread;
     public static String installDIR;
-    private ArcoFlexEngine emulatorEngine;
-    private ArcoFlexEmulatorView _emuView;
+    //private ArcoFlexEngine emulatorEngine;
+    public ArcoFlexEmulatorView _emuView;
     //private jMESYSControl _emuControl;
     public static int _maxWidth;
     public static int _maxHeight;
@@ -143,12 +143,12 @@ public class MainActivity extends AppCompatActivity {
         // creates structure of directories
         copyFiles();
         
-        emulatorEngine = new ArcoFlexEngine(_emuView, new ArcoFlexClock() );
+        /*emulatorEngine = new ArcoFlexEngine(_emuView, new ArcoFlexClock() );
         emulatorEngine.doPause();
         emulatorEngine.start();
 
         // init emul
-        this.emulatorEngine.doResume();
+        this.emulatorEngine.doResume();*/
     }
 
     private void listDrivers(String _platform) {
@@ -247,12 +247,12 @@ public class MainActivity extends AppCompatActivity {
 
         arcadeflex056.settings.installationDir = installDIR;
 
-        emulatorEngine = new ArcoFlexEngine(_emuView, new ArcoFlexClock() );
+        /*emulatorEngine = new ArcoFlexEngine(_emuView, new ArcoFlexClock() );
         emulatorEngine.doPause();
         emulatorEngine.start();
 
         // init emul
-        this.emulatorEngine.doResume();
+        this.emulatorEngine.doResume();*/
 
         //mImgEm = findViewById(R.id.EmulatorScreen);
         //mImgEm.setImageBitmap(((ArcoFlexEmulatorView)(emuView)).screenBitmap);
@@ -322,9 +322,9 @@ public class MainActivity extends AppCompatActivity {
                 current_platform_configuration = null;
                 //shutdown_machine();
 
-                if (emulatorEngine != null)
+                /*if (emulatorEngine != null)
                     emulatorEngine.kill();
-                //emulatorEngine = null;
+                //emulatorEngine = null;*/
                 //_emuView.canvas=null;
 
                 //settings.MESS = false;
@@ -365,7 +365,7 @@ public class MainActivity extends AppCompatActivity {
 
             _emuThread.start();
 
-            emulatorEngine._killed = false;
+            //emulatorEngine._killed = false;
 
         } catch (Exception e) {
             e.printStackTrace(System.out);
@@ -408,8 +408,8 @@ public class MainActivity extends AppCompatActivity {
             current_platform_configuration = null;
             //shutdown_machine();
 
-            if (emulatorEngine != null)
-                emulatorEngine.kill();
+            /*if (emulatorEngine != null)
+                emulatorEngine.kill();*/
             //emulatorEngine = null;
             //_emuView.canvas=null;
 
@@ -451,7 +451,7 @@ public class MainActivity extends AppCompatActivity {
 
             _emuThread.start();
 
-            emulatorEngine._killed = false;
+            //emulatorEngine._killed = false;
 
         } catch (Exception e) {
             e.printStackTrace(System.out);

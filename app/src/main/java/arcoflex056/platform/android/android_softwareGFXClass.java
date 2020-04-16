@@ -11,6 +11,8 @@ import android.graphics.Bitmap;
 import net.arcoflexdroid.R;
 import net.arcoflexdroid.views.ArcoFlexEmulatorView;*/
 
+import net.arcoflexdroid.MainActivity;
+
 import arcadeflex056.settings;
 
 import static arcoflex056.platform.platformConfigurator.*;
@@ -23,9 +25,9 @@ import static mame056.mame.Machine;
  *
  * @author chusogar
  */
-public class android_softwareGFXClass implements Runnable, i_software_gfx_class {
+public class android_softwareGFXClass implements i_software_gfx_class {
 
-    public Thread _thread;
+    //public Thread _thread;
 
     @Override
     public void setTitle(String title) {
@@ -36,6 +38,24 @@ public class android_softwareGFXClass implements Runnable, i_software_gfx_class 
     public void blit() {
         //blit2();
         /*TODO*///ArcoFlexDroid.mm.running = true;
+        if (MainActivity.mm._emuView.showTestData) {
+            Bitmap bm = Bitmap.createBitmap(MainActivity.mm._emuView.getScreenWidth(), MainActivity.mm._emuView.getScreenHeight(), Bitmap.Config.ARGB_8888);
+            bm.setPixels(MainActivity.mm._emuView.getColorPixels(),0, MainActivity.mm._emuView.getScreenWidth(), 0, 0, MainActivity.mm._emuView.getScreenWidth(), MainActivity.mm._emuView.getScreenHeight());
+            MainActivity.mm._emuView.setScreenBitmap(bm);
+        } else {
+            //_emuView.setScreenBitmap(BitmapFactory.decodeResource(_emuView.getResources(), _system.getImageID(), options));
+        }
+
+        (new Thread
+                (new Runnable()
+                {
+                    public void run() {
+                        MainActivity.mm._emuView.draw();
+                        //MainActivity.mm._emuView.invalidate();
+                    }
+                }
+        )).start();
+
     }
 
     public static void blit2() {
@@ -101,8 +121,7 @@ public class android_softwareGFXClass implements Runnable, i_software_gfx_class 
         //_width = Machine.scrbitmap.width;
         //_height = Machine.scrbitmap.height;
         //this.setBackground(Color.BLACK);
-        this.start();
-        this.run();
+
         //this.setLocation((int) ((current_platform_configuration.get_video_class().getWidth() - screen.getWidth()) / 2.0D), (int) ((current_platform_configuration.get_video_class().getHeight() - screen.getHeight()) / 2.0D));
         //this.setVisible(true);
         //this.setResizable((scanlines == 1));
@@ -113,22 +132,6 @@ public class android_softwareGFXClass implements Runnable, i_software_gfx_class 
         System.out.println("--> setSize");
         System.out.println(width + "x" + height);
 
-    }
-
-    public void start() {
-        /* Check if thread exists. */
-        if (_thread != null) {
-            return;
-        }
-
-        /* Create and start thread. */
-        _thread = new Thread(this);
-        _thread.start();
-    }
-
-    public void stop() {
-        /* Destroy thread. */
-        _thread = null;
     }
 
     @Override

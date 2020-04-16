@@ -339,14 +339,14 @@ public class ArcoFlexEmulatorView  extends SurfaceView implements SensorEventLis
                 this.mSurfaceHolder.unlockCanvasAndPost(canvas);
                 cLocked = false;
             }
-            MainActivity.mm.runOnUiThread(
+            /*MainActivity.mm.runOnUiThread(
                     (new Thread(new Runnable() {
                         public void run() {
                             invalidate();
                         }
                     }
                     ))
-            );
+            );*/
             //canvas=null;
             //super.draw(canvas);
         } catch (Exception e) {
