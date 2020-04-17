@@ -38,24 +38,70 @@ public class android_softwareGFXClass implements i_software_gfx_class {
     public void blit() {
         //blit2();
         /*TODO*///ArcoFlexDroid.mm.running = true;
-        if (MainActivity.mm._emuView.showTestData) {
-            Bitmap bm = Bitmap.createBitmap(MainActivity.mm._emuView.getScreenWidth(), MainActivity.mm._emuView.getScreenHeight(), Bitmap.Config.ARGB_8888);
-            bm.setPixels(MainActivity.mm._emuView.getColorPixels(),0, MainActivity.mm._emuView.getScreenWidth(), 0, 0, MainActivity.mm._emuView.getScreenWidth(), MainActivity.mm._emuView.getScreenHeight());
-            MainActivity.mm._emuView.setScreenBitmap(bm);
-        } else {
-            //_emuView.setScreenBitmap(BitmapFactory.decodeResource(_emuView.getResources(), _system.getImageID(), options));
-        }
+
 
         (new Thread
                 (new Runnable()
                 {
                     public void run() {
+                        if (MainActivity.mm._emuView.showTestData) {
+                            Bitmap bm = Bitmap.createBitmap(MainActivity.mm._emuView.getScreenWidth(), MainActivity.mm._emuView.getScreenHeight(), Bitmap.Config.ARGB_8888);
+                            bm.setPixels(MainActivity.mm._emuView.getColorPixels(),0, MainActivity.mm._emuView.getScreenWidth(), 0, 0, MainActivity.mm._emuView.getScreenWidth(), MainActivity.mm._emuView.getScreenHeight());
+                            bm=resizeEmulatorScreen(bm);
+                            MainActivity.mm._emuView.setScreenBitmap(bm);
+                        } else {
+                            //_emuView.setScreenBitmap(BitmapFactory.decodeResource(_emuView.getResources(), _system.getImageID(), options));
+                        }
+
+
+
                         MainActivity.mm._emuView.draw();
                         //MainActivity.mm._emuView.invalidate();
                     }
                 }
-        )).start();
+                )).start();
 
+    }
+
+    public Bitmap resizeEmulatorScreen(Bitmap scrBitmap) {
+        Bitmap _outBitmap = null;
+
+        if ((settings.current_platform_configuration != null) && (screen != null) && (screen._pixels != null) && (Machine != null) && (Machine.scrbitmap != null)) {
+
+            int _mWidth = (int) settings.current_platform_configuration.get_video_class().getWidth();
+            int _mHeight = (int) settings.current_platform_configuration.get_video_class().getHeight();
+
+            int displayWidth = MainActivity.mm._maxWidth;//getWindowManager().getDefaultDisplay().getWidth();
+            int maxWidth = displayWidth;
+
+            int maxHeight = MainActivity.mm._maxHeight;
+            ; //getWindowManager().getDefaultDisplay().getHeight();
+
+
+            int bmp_width = _mWidth;
+            int bmp_height = _mHeight;
+            float ratioBitmap = (float) bmp_width / (float) bmp_height;
+            float ratioMax = (float) maxWidth / (float) maxHeight;
+
+            int finalWidth = maxWidth;
+            int finalHeight = maxHeight;
+            if (ratioMax > 1) {
+                finalWidth = (int) ((float) maxHeight * ratioBitmap);
+            } else {
+                finalHeight = (int) ((float) maxWidth / ratioBitmap);
+            }
+
+            // AMSTRAD HACK!!!!
+            if (Machine.gamedrv.source_file.equals("amstrad.java")){
+                finalHeight = finalHeight * 2;
+            }
+
+
+            // resize bitmap
+            _outBitmap = Bitmap.createScaledBitmap(scrBitmap, finalWidth, finalHeight, false);
+        }
+
+        return _outBitmap;
     }
 
     public static void blit2() {
@@ -143,5 +189,6 @@ public class android_softwareGFXClass implements i_software_gfx_class {
     public void reint() {
         System.out.println("--> reInt");
     }
-    
+
 }
+

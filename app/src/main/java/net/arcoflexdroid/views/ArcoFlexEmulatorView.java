@@ -329,7 +329,14 @@ public class ArcoFlexEmulatorView  extends SurfaceView implements SensorEventLis
                 //matrixScreen.postTranslate(20, 0);
                 //canvas.drawBitmap(this.screenBitmap, matrixScreen, paint2);
 
-                resizeEmulatorScreen();
+                /*(new Thread
+                        (new Runnable()
+                        {
+                            public void run() {
+                                resizeEmulatorScreen();
+                            }
+                        }
+                        )).start();*/
 
                 canvas.drawBitmap(this.screenBitmap, 0, 0, paint2);
 
@@ -359,43 +366,7 @@ public class ArcoFlexEmulatorView  extends SurfaceView implements SensorEventLis
         //}
     }
 
-    private void resizeEmulatorScreen() {
-        if ((settings.current_platform_configuration != null) && (screen != null) && (screen._pixels != null) && (Machine != null) && (Machine.scrbitmap != null)) {
 
-            int _mWidth = (int) settings.current_platform_configuration.get_video_class().getWidth();
-            int _mHeight = (int) settings.current_platform_configuration.get_video_class().getHeight();
-
-            int displayWidth = MainActivity.mm._maxWidth;//getWindowManager().getDefaultDisplay().getWidth();
-            int maxWidth = displayWidth;
-
-            int maxHeight = MainActivity.mm._maxHeight;
-            ; //getWindowManager().getDefaultDisplay().getHeight();
-
-
-            int bmp_width = _mWidth;
-            int bmp_height = _mHeight;
-            float ratioBitmap = (float) bmp_width / (float) bmp_height;
-            float ratioMax = (float) maxWidth / (float) maxHeight;
-
-            int finalWidth = maxWidth;
-            int finalHeight = maxHeight;
-            if (ratioMax > 1) {
-                finalWidth = (int) ((float) maxHeight * ratioBitmap);
-            } else {
-                finalHeight = (int) ((float) maxWidth / ratioBitmap);
-            }
-
-            // AMSTRAD HACK!!!!
-            if (Machine.gamedrv.source_file.equals("amstrad.java")){
-                finalHeight = finalHeight * 2;
-            }
-
-
-            // resize bitmap
-            this.screenBitmap = Bitmap.createScaledBitmap(this.screenBitmap, finalWidth, finalHeight, false);
-        }
-
-    }
 
     public int[] getColorPixels() {
         //System.out.println("getColorPixels!!!!");
