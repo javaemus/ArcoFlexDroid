@@ -37,7 +37,42 @@ public class android_SoundPlayerClass implements platformConfigurator.i_SoundPla
                 AudioFormat.ENCODING_PCM_8BIT,
                 1024, //bufSizeBytes,
                 AudioTrack.MODE_STREAM);*/
-        _audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, Machine.sample_rate, (stereo!=0 ? AudioFormat.CHANNEL_OUT_STEREO:AudioFormat.CHANNEL_OUT_MONO), AudioFormat.ENCODING_PCM_16BIT, 7056, AudioTrack.MODE_STREAM);
+        //_audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, Machine.sample_rate, (stereo!=0 ? AudioFormat.CHANNEL_OUT_STEREO:AudioFormat.CHANNEL_OUT_MONO), AudioFormat.ENCODING_PCM_16BIT, 7056, AudioTrack.MODE_STREAM);
+
+        int SAMPLING_RATE = Machine.sample_rate;
+
+        final int size = AudioTrack.getMinBufferSize(
+                SAMPLING_RATE,
+                (stereo!=0 ? AudioFormat.CHANNEL_OUT_STEREO:AudioFormat.CHANNEL_OUT_MONO),
+                AudioFormat.ENCODING_PCM_16BIT);
+
+        _audioTrack = new AudioTrack.Builder()
+                .setAudioAttributes(new AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_GAME)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .build())
+                .setAudioFormat(new AudioFormat.Builder()
+                        .setChannelMask((stereo!=0 ? AudioFormat.CHANNEL_OUT_STEREO:AudioFormat.CHANNEL_OUT_MONO))
+                        .setEncoding(AudioFormat.ENCODING_PCM_16BIT)
+                        .setSampleRate(SAMPLING_RATE)
+                        .build())
+                .setBufferSizeInBytes(size)
+                .build();
+
+        _audioTrack.setPlaybackRate(SAMPLING_RATE);
+
+        /*PlaybackParams params = audioTrack.getPlaybackParams();
+        //params.setSpeed(1.0f);  // available
+        //params.setSpeed(0.5f);  // available
+        params.setSpeed(1.5f);  // not available
+        audioTrack.setPlaybackParams(params);
+
+        audioTrack.play();
+
+        audioTrack.write(bytes, 44, bytes.length - 44);
+
+        audioTrack.stop();*/
+
     }
 
     @Override

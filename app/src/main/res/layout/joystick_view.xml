@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<net.arcoflexdroid.input.ArcoFlexJoystickView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/joystick_view"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_alignParentBottom="true"
+    android:layout_gravity="bottom">
+
+    <!--TextView android:text="!" style="@style/KeyboardKeyOverlay"  android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="10"/-->
+
+</net.arcoflexdroid.input.ArcoFlexJoystickView>

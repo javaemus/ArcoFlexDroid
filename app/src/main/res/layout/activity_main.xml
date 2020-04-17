@@ -32,5 +32,11 @@
 
     <include layout="@layout/keyboard_view" />
 
+    <include layout="@layout/joystick_view" />
+
+    <!--net.arcoflexdroid.input.ArcoFlexJoystickView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end" /-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

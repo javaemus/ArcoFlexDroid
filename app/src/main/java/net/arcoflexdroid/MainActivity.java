@@ -1,5 +1,7 @@
 package net.arcoflexdroid;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
@@ -14,11 +16,15 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 
 //import net.arcoflexdroid.engines.ArcoFlexClock;
 //import net.arcoflexdroid.engines.ArcoFlexEngine;
+import net.arcoflexdroid.input.ArcoFlexJoystickView;
 import net.arcoflexdroid.input.ArcoFlexKeyboardMethod;
 import net.arcoflexdroid.input.ArcoFlexKeyboardView;
+import net.arcoflexdroid.input.GameKeyListener;
+import net.arcoflexdroid.input.VirtualKeypad;
 import net.arcoflexdroid.panels.about.ArcoFlexAboutOpenActivity;
 import net.arcoflexdroid.panels.filebrowser.ArcoFlexFileOpenActivity;
 import net.arcoflexdroid.panels.menu.ArcoFlexGameItem;
@@ -59,7 +65,7 @@ import static mame056.mame.shutdown_machine;
 import static mame056.mameH.*;
 import static net.arcoflexdroid.R.*;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GameKeyListener {
 
     public static MainActivity mm;
     public static Thread _emuThread;
@@ -72,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
 
     public Keyboard mKeyboard;
     public ArcoFlexKeyboardView mKeyboardView;
+    public boolean kbVisibility = false;
+
+    public ArcoFlexJoystickView mJoystick;
+    public VirtualKeypad vKeyPad = null;
 
     // dialog type
     public static final int A_FILE_SELECTOR = 0;
@@ -126,15 +136,11 @@ public class MainActivity extends AppCompatActivity {
         // Do not show the preview balloons
         //mKeyboardView.setPreviewEnabled(false);
 
-        // Install the key handler
-        //mKeyboardView.setOnKeyboardActionListener(mOnKeyboardActionListener);
-        mKeyboardView = (ArcoFlexKeyboardView) findViewById(R.id.keyboard_view);
-        //mKeyboard = new Keyboard(this, xml.keyboard_full);
-        mKeyboard = new Keyboard(this, xml.keyboard_pc_full_p1);
-        mKeyboardView.setKeyboard(mKeyboard);
-        mKeyboardView.setOnKeyboardActionListener(new ArcoFlexKeyboardMethod());
-        mKeyboardView.setPreviewEnabled(false);
-        mKeyboardView.setVisibility(View.VISIBLE);
+        // creates the keyboard
+        createKeyboard();
+
+        // creates the Joystick
+        createJoystick();
 
         installDIR = getExternalFilesDir(null).getAbsolutePath()+"/ArcoFlexDroid/";
 
@@ -149,6 +155,37 @@ public class MainActivity extends AppCompatActivity {
 
         // init emul
         this.emulatorEngine.doResume();*/
+    }
+
+    /*public void hideKeyboardFrom(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }*/
+
+    private void createJoystick(){
+        mJoystick = (ArcoFlexJoystickView) findViewById(id.joystick_view);
+        //mJoystick.setOnKeyboardActionListener(new ArcoFlexKeyboardMethod());
+        //mJoystick.setPreviewEnabled(false);
+        //mJoystick.setVisibility(View.VISIBLE);
+        vKeyPad = new VirtualKeypad(mJoystick, this, R.drawable.dpad5, R.drawable.button);
+
+        //mJoystick.setBackgroundColor(0xFFFFFF);
+        //vKeyPad.resize(mJoystick.getWidth(), mJoystick.getHeight());
+        mJoystick.setVisibility(View.INVISIBLE);
+        //vKeyPad.resize(mJoystick.getWidth(), mJoystick.getHeight());
+
+    }
+
+    private void createKeyboard() {
+        // Install the key handler
+        //mKeyboardView.setOnKeyboardActionListener(mOnKeyboardActionListener);
+        mKeyboardView = (ArcoFlexKeyboardView) findViewById(R.id.keyboard_view);
+        //mKeyboard = new Keyboard(this, xml.keyboard_full);
+        mKeyboard = new Keyboard(this, xml.keyboard_pc_full_p1);
+        mKeyboardView.setKeyboard(mKeyboard);
+        mKeyboardView.setOnKeyboardActionListener(new ArcoFlexKeyboardMethod());
+        mKeyboardView.setPreviewEnabled(false);
+        mKeyboardView.setVisibility(View.VISIBLE);
     }
 
     private void listDrivers(String _platform) {
@@ -472,26 +509,44 @@ public class MainActivity extends AppCompatActivity {
         }
         switch (id) {
             case R.id.menu_coin:
-                System.out.println("Pulso SAVE");
+                System.out.println("Pulso RESET");
                 //MainActivity.mm.emulator.keyPress(25);
                 //MainActivity.mm.emulator.keyRelease(25);
-                screen.readkey = KeyEvent.KEYCODE_DPAD_LEFT;
-                screen.key[screen.readkey] = true;
-                osd_refresh();
-                screen.readkey = KeyEvent.KEYCODE_DPAD_RIGHT;
-                screen.key[screen.readkey] = false;
-                osd_refresh();
+                /*if ((screen != null) && (screen.key != null)) {
+                    screen.readkey = KeyEvent.KEYCODE_DPAD_LEFT;
+                    screen.key[screen.readkey] = true;
+                    osd_refresh();
+                    screen.readkey = KeyEvent.KEYCODE_DPAD_RIGHT;
+                    screen.key[screen.readkey] = false;
+                    osd_refresh();
+                }*/
+
+                mame056.cpuexec.machine_reset();
+
                 return true;
 
             case R.id.menu_start:
-                System.out.println("Pulso NEW");
+                System.out.println("Pulso SWITCH");
+
+                if (kbVisibility) {
+                    mKeyboardView.setVisibility(View.INVISIBLE);
+                    mJoystick.setVisibility(View.VISIBLE);
+                    vKeyPad.resize(mJoystick.getWidth(), mJoystick.getHeight());
+                } else {
+                    mKeyboardView.setVisibility(View.VISIBLE);
+                    mJoystick.setVisibility(View.INVISIBLE);
+                }
+
+                kbVisibility = !kbVisibility;
                 //MainActivity.mm.emulator.keyRelease(21);
-                screen.readkey = KeyEvent.KEYCODE_DPAD_RIGHT;
-                screen.key[screen.readkey] = true;
-                osd_refresh();
-                screen.readkey = KeyEvent.KEYCODE_DPAD_LEFT;
-                screen.key[screen.readkey] = false;
-                osd_refresh();
+                /*if ((screen != null) && (screen.key != null)) {
+                    screen.readkey = KeyEvent.KEYCODE_DPAD_RIGHT;
+                    screen.key[screen.readkey] = true;
+                    osd_refresh();
+                    screen.readkey = KeyEvent.KEYCODE_DPAD_LEFT;
+                    screen.key[screen.readkey] = false;
+                    osd_refresh();
+                }*/
                 return true;
 
             case R.id.action_about: startActivityForResult(new Intent(this, ArcoFlexAboutOpenActivity.class), A_FILE_SELECTOR); return true;
@@ -583,6 +638,90 @@ public class MainActivity extends AppCompatActivity {
             zis.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private int currentKeyStates = 0;
+
+    public static int default_keycodes [] = {  KeyEvent.KEYCODE_P, KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_R, KeyEvent.KEYCODE_C, KeyEvent.KEYCODE_D, KeyEvent.KEYCODE_F, KeyEvent.KEYCODE_E, KeyEvent.KEYCODE_T, KeyEvent.KEYCODE_X, KeyEvent.KEYCODE_V,
+            KeyEvent.KEYCODE_0, KeyEvent.KEYCODE_1, KeyEvent.KEYCODE_2, KeyEvent.KEYCODE_3, KeyEvent.KEYCODE_4, KeyEvent.KEYCODE_5, KeyEvent.KEYCODE_6, KeyEvent.KEYCODE_7, KeyEvent.KEYCODE_8,
+            KeyEvent.KEYCODE_Y, KeyEvent.KEYCODE_B, KeyEvent.KEYCODE_I, KeyEvent.KEYCODE_O,
+            KeyEvent.KEYCODE_U, KeyEvent.KEYCODE_N, KeyEvent.KEYCODE_H, KeyEvent.KEYCODE_J};
+    public static String default_keycodes_string [] = { "Fire", "Alt.Fire" , "Up", "Down", "Left", "Right", "UpLeft", "UpRight", "DownLeft", "DownRight", "Run/Stop", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "CTRL", "Restore", "C=", "ESC", "Cursor UP", "Cursor DOWN", "Cursor LEFT", "Cursor RIGHT"};
+
+    public static int current_keycodes [] = new int[10];
+
+    @Override
+    public void onGameKeyChanged(int keyStates) {
+        if (_emuView != null) {
+            manageKey(keyStates, VirtualKeypad.BUTTON, current_keycodes[0]);
+            manageKey(keyStates, VirtualKeypad.UP, current_keycodes[2]);
+            manageKey(keyStates, VirtualKeypad.DOWN, current_keycodes[3]);
+            manageKey(keyStates, VirtualKeypad.LEFT, current_keycodes[4]);
+            manageKey(keyStates, VirtualKeypad.RIGHT, current_keycodes[5]);
+            manageKey(keyStates, VirtualKeypad.UP | VirtualKeypad.LEFT, current_keycodes[6]);
+            manageKey(keyStates, VirtualKeypad.UP | VirtualKeypad.RIGHT, current_keycodes[7]);
+            manageKey(keyStates, VirtualKeypad.DOWN | VirtualKeypad.LEFT, current_keycodes[8]);
+            manageKey(keyStates, VirtualKeypad.DOWN | VirtualKeypad.RIGHT, current_keycodes[9]);
+        }
+
+        currentKeyStates = keyStates;
+
+    }
+
+    private void manageKey(int keyStates, int key, int press) {
+        if ((keyStates & key) == key && (currentKeyStates & key) == 0) {
+            // Log.i("FC64", "down: " + press );
+            //mainView.actionKey(true, press);
+            System.out.println("ManageKey PRESS DOWN "+key);
+            if (screen !=null && screen.key != null) {
+                switch (key) {
+                    case 1: // left
+                        screen.readkey = KeyEvent.KEYCODE_DPAD_LEFT;
+                        break;
+                    case 2: // right
+                        screen.readkey = KeyEvent.KEYCODE_DPAD_RIGHT;
+                        break;
+                    case 4: // up
+                        screen.readkey = KeyEvent.KEYCODE_DPAD_UP;
+                        break;
+                    case 8: // down
+                        screen.readkey = KeyEvent.KEYCODE_DPAD_DOWN;
+                        break;
+                    case 16: // fire
+                        screen.readkey = KeyEvent.KEYCODE_CTRL_LEFT;
+                        break;
+                }
+
+                screen.key[screen.readkey] = true;
+                osd_refresh();
+            }
+        } else if ((keyStates & key) == 0 && (currentKeyStates & key) == key) {
+            // Log.i("FC64", "up: " + press );
+            //mainView.actionKey(false, press);
+            System.out.println("ManageKey PRESS UP "+key);
+            if (screen !=null && screen.key != null) {
+                switch (key) {
+                    case 1: // left
+                        screen.readkey = KeyEvent.KEYCODE_DPAD_LEFT;
+                        break;
+                    case 2: // right
+                        screen.readkey = KeyEvent.KEYCODE_DPAD_RIGHT;
+                        break;
+                    case 4: // up
+                        screen.readkey = KeyEvent.KEYCODE_DPAD_UP;
+                        break;
+                    case 8: // down
+                        screen.readkey = KeyEvent.KEYCODE_DPAD_DOWN;
+                        break;
+                    case 16: // fire
+                        screen.readkey = KeyEvent.KEYCODE_CTRL_LEFT;
+                        break;
+                }
+
+                screen.key[screen.readkey] = false;
+                osd_refresh();
+            }
         }
     }
 

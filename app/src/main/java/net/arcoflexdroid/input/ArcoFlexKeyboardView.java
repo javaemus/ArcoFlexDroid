@@ -21,6 +21,8 @@ public class ArcoFlexKeyboardView extends KeyboardView {
         super(context, attrs);
     }
 
+
+
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);

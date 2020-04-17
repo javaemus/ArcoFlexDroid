@@ -113,6 +113,8 @@ public class ArcoFlexEmulatorView  extends SurfaceView implements SensorEventLis
         initArcoFlexUI();
     }
 
+
+
     private void initArcoFlexUI() {
 
     }
@@ -146,6 +148,7 @@ public class ArcoFlexEmulatorView  extends SurfaceView implements SensorEventLis
         m_nPix = MainActivity.mm.pixels;
         draw();*/
         //invalidate();
+        MainActivity.mm.mJoystick.invalidate();
     }
 
     private int NextPot(int v) {
