@@ -11,6 +11,12 @@ import android.graphics.drawable.BitmapDrawable;
 import android.preference.PreferenceManager;
 import android.view.MotionEvent;
 import android.view.View;
+
+import androidx.appcompat.widget.Toolbar;
+
+import net.arcoflexdroid.MainActivity;
+import net.arcoflexdroid.R;
+
 import java.util.ArrayList;
 
 public class VirtualKeypad {
@@ -20,6 +26,8 @@ public class VirtualKeypad {
     public static int UP = 4;
     public static int DOWN = 8;
     public static int BUTTON = 16;
+    public static int BUTTON_COIN = 32;
+    public static int BUTTON_START = 64;
 
     private static final float DPAD_DEADZONE_VALUES[] = {
             0.1f, 0.14f, 0.1667f, 0.2f, 0.25f,
@@ -38,15 +46,22 @@ public class VirtualKeypad {
     private ArrayList<Control> controls = new ArrayList<Control>();
     private Control dpad;
     private Control buttons;
+    private Control buttonCoin;
+    private Control buttonStart;
 
+    private int _topMargin = 100;
 
-    public VirtualKeypad(View v, GameKeyListener l, int dpadRes, int buttonsRes) {
+    public VirtualKeypad(View v, GameKeyListener l, int dpadRes, int buttonsRes, int buttonCoinRes, int buttonStartRes) {
         view = v;
         context = view.getContext();
         gameKeyListener = l;
 
         dpad = createControl(dpadRes);
         buttons = createControl(buttonsRes);
+        buttonCoin = createControl(buttonCoinRes);
+        buttonStart = createControl(buttonStartRes);
+
+
     }
 
     public final int getKeyStates() {
@@ -60,6 +75,14 @@ public class VirtualKeypad {
     public final void destroy() {
     }
 
+    private void calculateTopMargin(){
+        // calculates top margin
+        Toolbar toolbar = MainActivity.mm.findViewById(R.id.toolbar);
+        _topMargin = toolbar.getHeight() + 1;
+
+        System.out.println("Top Margin="+_topMargin);
+    }
+
     public final void resize(int w, int h) {
         SharedPreferences prefs = PreferenceManager.
                 getDefaultSharedPreferences(context);
@@ -69,6 +92,8 @@ public class VirtualKeypad {
         dpadDeadZone = DPAD_DEADZONE_VALUES[2];
 
         dpad.hide(prefs.getBoolean("hideDpad", false));
+        buttonStart.hide(prefs.getBoolean("hideDpad", false));
+        buttonCoin.hide(prefs.getBoolean("hideDpad", false));
         buttons.hide(!Wrapper.supportsMultitouch(context) || prefs.getBoolean("hideButtons", false));
 
         scaleX = (float) w / view.getWidth();
@@ -110,6 +135,9 @@ public class VirtualKeypad {
     }
 
     private void makeBottomBottom(int w, int h) {
+
+        calculateTopMargin();
+
         if (dpad.getWidth() + buttons.getWidth() > w) {
             makeBottomTop(w, h);
             return;
@@ -118,9 +146,14 @@ public class VirtualKeypad {
         dpad.move(0, h - dpad.getHeight());
         buttons.move(w - buttons.getWidth(), h - buttons.getHeight());
 
+        buttonStart.move(w - buttonStart.getWidth(), 0 + _topMargin);
+        buttonCoin.move(0, 0 + _topMargin);
     }
 
     private void makeTopTop(int w, int h) {
+
+        calculateTopMargin();
+
         if (dpad.getWidth() + buttons.getWidth() > w) {
             makeBottomTop(w, h);
             return;
@@ -129,21 +162,30 @@ public class VirtualKeypad {
         dpad.move(0, 0);
         buttons.move(w - buttons.getWidth(), 0);
 
-
+        buttonStart.move(w - buttonStart.getWidth(), h - buttonStart.getHeight());
+        buttonCoin.move(0, h - buttonCoin.getHeight());
     }
 
     private void makeTopBottom(int w, int h) {
+
+        calculateTopMargin();
+
         dpad.move(0, 0);
         buttons.move(w - buttons.getWidth(), h - buttons.getHeight());
 
-
+        buttonStart.move(w - buttonStart.getWidth(), 0);
+        buttonCoin.move(0, 0);
     }
 
     private void makeBottomTop(int w, int h) {
+
+        calculateTopMargin();
+
         dpad.move(0, h - dpad.getHeight());
         buttons.move(w - buttons.getWidth(), 0);
 
-
+        buttonStart.move(w - buttonStart.getWidth(), h - buttonStart.getHeight());
+        buttonCoin.move(0, h - buttonStart.getHeight());
     }
 
     private void reposition(int w, int h, SharedPreferences prefs) {
@@ -190,6 +232,16 @@ public class VirtualKeypad {
         return states;
     }
 
+    private int getButtonCoinStates(float x, float y, float size) {
+        int states = BUTTON_COIN;
+        return states;
+    }
+
+    private int getButtonStartStates(float x, float y, float size) {
+        int states = BUTTON_START;
+        return states;
+    }
+
     private float getEventX(MotionEvent event, int index, boolean flip) {
         float x = Wrapper.MotionEvent_getX(event, index);
         if (flip)
@@ -220,6 +272,10 @@ public class VirtualKeypad {
             return getDpadStates(x, y);
         if (c == buttons)
             return getButtonsStates(x, y, size);
+        if (c == buttonStart)
+            return getButtonStartStates(x, y, size);
+        if (c == buttonCoin)
+            return getButtonCoinStates(x, y, size);
 
         return 0;
     }

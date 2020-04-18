@@ -20,6 +20,8 @@ import java.io.File;
 
 import static mess056.filemngr.osd_get_cwd;
 import static net.arcoflexdroid.MainActivity.A_FILE_SELECTOR;
+import static net.arcoflexdroid.panels.filebrowser.ArcoFlexJFileChooserDialog._endSelection;
+import static net.arcoflexdroid.panels.filebrowser.ArcoFlexJFileChooserDialog._fSelected;
 
 /**
  *
@@ -54,6 +56,9 @@ public class android_filemngrClass implements platformConfigurator.i_filemngr_cl
         //ArcoFlexFileOpenActivity._endSelection = false;
         //ArcoFlexJFileChooserDialog._selectedFile = false;
 
+        _endSelection = false;
+        _fSelected = null;
+
         ArcoFlexListView.currentDir = new File(osd_get_cwd());
 
         //MainActivity.mm.startActivityForResult(new Intent(MainActivity.mm, ArcoFlexFileOpenActivity.class), A_FILE_SELECTOR);
@@ -61,11 +66,18 @@ public class android_filemngrClass implements platformConfigurator.i_filemngr_cl
 
 
         FragmentManager fm = MainActivity.mm.getSupportFragmentManager();
+        _myDialog.showResult(fm, "fragment_edit_name");
 
 
+        while (!_endSelection){
+            // do nothing...wait!
+            System.out.println("WAITING!!!!");
+        }
 
 
-        return _myDialog.showResult(fm, "fragment_edit_name");
+        System.out.println("SALGO!!!!");
+        //return _myDialog.getResult();
+        return 0;
         /*if (ArcoFlexFileOpenActivity._selectedFile) {
             System.out.println("FICHERO SELECCIONADO!!!!------------------------------------------");
             return 0;

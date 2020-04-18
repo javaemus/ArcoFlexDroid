@@ -48,7 +48,8 @@ public class android_softwareGFXClass implements i_software_gfx_class {
                             Bitmap bm = Bitmap.createBitmap(MainActivity.mm._emuView.getScreenWidth(), MainActivity.mm._emuView.getScreenHeight(), Bitmap.Config.ARGB_8888);
                             bm.setPixels(MainActivity.mm._emuView.getColorPixels(),0, MainActivity.mm._emuView.getScreenWidth(), 0, 0, MainActivity.mm._emuView.getScreenWidth(), MainActivity.mm._emuView.getScreenHeight());
                             bm=resizeEmulatorScreen(bm);
-                            MainActivity.mm._emuView.setScreenBitmap(bm);
+                            if (bm != null)
+                                MainActivity.mm._emuView.setScreenBitmap(bm);
                         } else {
                             //_emuView.setScreenBitmap(BitmapFactory.decodeResource(_emuView.getResources(), _system.getImageID(), options));
                         }

@@ -3,6 +3,8 @@ package net.arcoflexdroid;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.graphics.Color;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
@@ -122,24 +124,12 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
             }
         });*/
 
-        //runArcadeFlexGame("commando");
         _emuView = (ArcoFlexEmulatorView) findViewById(id.ScreenEmulator);
 
         // Create the Keyboard
-        //mKeyboard= new Keyboard(this,R.xml.keyboard);
-
-        // Lookup the KeyboardView
-        //mKeyboardView= (KeyboardView)findViewById(R.id.keyboardview);
-        // Attach the keyboard to the view
-        //mKeyboardView.setKeyboard( mKeyboard );
-
-        // Do not show the preview balloons
-        //mKeyboardView.setPreviewEnabled(false);
-
-        // creates the keyboard
         createKeyboard();
 
-        // creates the Joystick
+        // Create the Joystick
         createJoystick();
 
         installDIR = getExternalFilesDir(null).getAbsolutePath()+"/ArcoFlexDroid/";
@@ -148,30 +138,21 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
 
         // creates structure of directories
         copyFiles();
-        
-        /*emulatorEngine = new ArcoFlexEngine(_emuView, new ArcoFlexClock() );
-        emulatorEngine.doPause();
-        emulatorEngine.start();
 
-        // init emul
-        this.emulatorEngine.doResume();*/
     }
-
-    /*public void hideKeyboardFrom(Context context, View view) {
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }*/
 
     private void createJoystick(){
         mJoystick = (ArcoFlexJoystickView) findViewById(id.joystick_view);
         //mJoystick.setOnKeyboardActionListener(new ArcoFlexKeyboardMethod());
         //mJoystick.setPreviewEnabled(false);
         //mJoystick.setVisibility(View.VISIBLE);
-        vKeyPad = new VirtualKeypad(mJoystick, this, R.drawable.dpad5, R.drawable.button);
+        vKeyPad = new VirtualKeypad(mJoystick, this, R.drawable.dpad5, R.drawable.button, drawable.button_coin_press, drawable.button_start_press);
 
-        //mJoystick.setBackgroundColor(0xFFFFFF);
+        mJoystick.setBackgroundColor(Color.TRANSPARENT);
         //vKeyPad.resize(mJoystick.getWidth(), mJoystick.getHeight());
-        mJoystick.setVisibility(View.INVISIBLE);
+        mJoystick.setVisibility(View.VISIBLE);
+        //vKeyPad.resize(mJoystick.getWidth(), mJoystick.getHeight());
+
         //vKeyPad.resize(mJoystick.getWidth(), mJoystick.getHeight());
 
     }
@@ -185,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
         mKeyboardView.setKeyboard(mKeyboard);
         mKeyboardView.setOnKeyboardActionListener(new ArcoFlexKeyboardMethod());
         mKeyboardView.setPreviewEnabled(false);
-        mKeyboardView.setVisibility(View.VISIBLE);
+        mKeyboardView.setVisibility(View.INVISIBLE);
     }
 
     private void listDrivers(String _platform) {
@@ -327,7 +308,7 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
     }
 
     public void runArcadeFlexGame(String _game) {
-        System.out.println("LAnzamps!!!!");
+        System.out.println("Lanzamps!!!!");
         try {
             //setEmulatorRunning(false);
             if (screen != null) {
@@ -582,6 +563,16 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (newConfig.orientation==Configuration.ORIENTATION_LANDSCAPE)
+            System.out.println("LANDSCAPE!!!!");
+        else if (newConfig.orientation==Configuration.ORIENTATION_PORTRAIT)
+            System.out.println("PORTRAIT!!!!");
+    }
+
     /*@Override
  	protected int[] getKeyLayouts(int orientation) {
          		if (orientation == Configuration.ORIENTATION_LANDSCAPE)
@@ -643,13 +634,9 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
 
     private int currentKeyStates = 0;
 
-    public static int default_keycodes [] = {  KeyEvent.KEYCODE_P, KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_R, KeyEvent.KEYCODE_C, KeyEvent.KEYCODE_D, KeyEvent.KEYCODE_F, KeyEvent.KEYCODE_E, KeyEvent.KEYCODE_T, KeyEvent.KEYCODE_X, KeyEvent.KEYCODE_V,
-            KeyEvent.KEYCODE_0, KeyEvent.KEYCODE_1, KeyEvent.KEYCODE_2, KeyEvent.KEYCODE_3, KeyEvent.KEYCODE_4, KeyEvent.KEYCODE_5, KeyEvent.KEYCODE_6, KeyEvent.KEYCODE_7, KeyEvent.KEYCODE_8,
-            KeyEvent.KEYCODE_Y, KeyEvent.KEYCODE_B, KeyEvent.KEYCODE_I, KeyEvent.KEYCODE_O,
-            KeyEvent.KEYCODE_U, KeyEvent.KEYCODE_N, KeyEvent.KEYCODE_H, KeyEvent.KEYCODE_J};
     public static String default_keycodes_string [] = { "Fire", "Alt.Fire" , "Up", "Down", "Left", "Right", "UpLeft", "UpRight", "DownLeft", "DownRight", "Run/Stop", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "CTRL", "Restore", "C=", "ESC", "Cursor UP", "Cursor DOWN", "Cursor LEFT", "Cursor RIGHT"};
 
-    public static int current_keycodes [] = new int[10];
+    public static int current_keycodes [] = new int[12];
 
     @Override
     public void onGameKeyChanged(int keyStates) {
@@ -663,6 +650,9 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
             manageKey(keyStates, VirtualKeypad.UP | VirtualKeypad.RIGHT, current_keycodes[7]);
             manageKey(keyStates, VirtualKeypad.DOWN | VirtualKeypad.LEFT, current_keycodes[8]);
             manageKey(keyStates, VirtualKeypad.DOWN | VirtualKeypad.RIGHT, current_keycodes[9]);
+
+            manageKey(keyStates, VirtualKeypad.BUTTON_COIN, current_keycodes[10]);
+            manageKey(keyStates, VirtualKeypad.BUTTON_START, current_keycodes[11]);
         }
 
         currentKeyStates = keyStates;
@@ -670,6 +660,15 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
     }
 
     private void manageKey(int keyStates, int key, int press) {
+        /*final int keyStates = _keyStates;
+        final int key = _key;
+        final int press = _press;
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {*/
+
+
         if ((keyStates & key) == key && (currentKeyStates & key) == 0) {
             // Log.i("FC64", "down: " + press );
             //mainView.actionKey(true, press);
@@ -690,6 +689,12 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
                         break;
                     case 16: // fire
                         screen.readkey = KeyEvent.KEYCODE_CTRL_LEFT;
+                        break;
+                    case 32: // coin
+                        screen.readkey = KeyEvent.KEYCODE_5;
+                        break;
+                    case 64: // start
+                        screen.readkey = KeyEvent.KEYCODE_1;
                         break;
                 }
 
@@ -717,12 +722,20 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
                     case 16: // fire
                         screen.readkey = KeyEvent.KEYCODE_CTRL_LEFT;
                         break;
+                    case 32: // coin
+                        screen.readkey = KeyEvent.KEYCODE_5;
+                        break;
+                    case 64: // start
+                        screen.readkey = KeyEvent.KEYCODE_1;
+                        break;
                 }
 
                 screen.key[screen.readkey] = false;
                 osd_refresh();
             }
         }
+            /*}
+        }).start();*/
     }
 
 }

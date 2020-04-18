@@ -46,9 +46,11 @@ public class android_SoundPlayerClass implements platformConfigurator.i_SoundPla
                 (stereo!=0 ? AudioFormat.CHANNEL_OUT_STEREO:AudioFormat.CHANNEL_OUT_MONO),
                 AudioFormat.ENCODING_PCM_16BIT);
 
+        //final int size = 1470;
+
         _audioTrack = new AudioTrack.Builder()
                 .setAudioAttributes(new AudioAttributes.Builder()
-                        .setUsage(AudioAttributes.USAGE_GAME)
+                        .setUsage(AudioAttributes.USAGE_MEDIA)
                         .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                         .build())
                 .setAudioFormat(new AudioFormat.Builder()
@@ -109,6 +111,14 @@ public class android_SoundPlayerClass implements platformConfigurator.i_SoundPla
     @Override
     public void write(byte[] waveBuffer, int offset, int length) {
         //System.out.println("--> Write");
+        double samples_per_frame = (double) Machine.sample_rate / (double) Machine.drv.frames_per_second;
+        for( int i = 0; i + length/2 < length; i += length/2 ) {
+            // Really rude endian conversion.
+            byte bytTemp = waveBuffer[i];
+            waveBuffer[i] = waveBuffer[i + 1];
+            waveBuffer[i + 1] = bytTemp;
+        }
+
         _audioTrack.write(waveBuffer, 0, length);
     }
 

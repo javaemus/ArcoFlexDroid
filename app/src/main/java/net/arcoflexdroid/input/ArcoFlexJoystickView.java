@@ -109,11 +109,12 @@ public class ArcoFlexJoystickView extends View implements SensorEventListener, S
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         // setting the measured values to resize the view to a certain width and height
-        int d = Math.min(measure(widthMeasureSpec), measure(heightMeasureSpec));
-        setMeasuredDimension(d, d);
+        //int d = Math.min(measure(widthMeasureSpec), measure(heightMeasureSpec));
+        setMeasuredDimension(MainActivity.mm.getWindowManager().getDefaultDisplay().getWidth(), MainActivity.mm.getWindowManager().getDefaultDisplay().getHeight());
     }
 
     private int measure(int measureSpec) {
+
         if (MeasureSpec.getMode(measureSpec) == MeasureSpec.UNSPECIFIED) {
             // if no bounds are specified return a default size (200)
             return DEFAULT_SIZE;
@@ -122,6 +123,7 @@ public class ArcoFlexJoystickView extends View implements SensorEventListener, S
             // always return the full available bounds.
             return MeasureSpec.getSize(measureSpec);
         }
+
     }
 
 

@@ -26,7 +26,7 @@ import static arcadeflex056.video.osd_refresh;
 public class ArcoFlexJFileChooserDialog extends DialogFragment {
 
     private FragmentTabHost tabHost;
-    //public static boolean _endSelection = false;
+    public static boolean _endSelection = false;
     //public static boolean _selectedFile = false;
     public static File _fSelected = null;
 
@@ -52,11 +52,13 @@ public class ArcoFlexJFileChooserDialog extends DialogFragment {
     public void onCancel(DialogInterface dialog)
     {
         super.onCancel(dialog);
+        _endSelection = true;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //_endSelection = false;
         return inflater.inflate(R.layout.activity_arcoflex_file_open, container, false);
     }
 

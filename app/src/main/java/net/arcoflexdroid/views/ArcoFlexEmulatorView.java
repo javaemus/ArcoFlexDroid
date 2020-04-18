@@ -45,8 +45,8 @@ public class ArcoFlexEmulatorView  extends SurfaceView implements SensorEventLis
 
     public int	m_nPix[] = null;
 
-    private int width = 224;
-    private int height = 224;
+    private int width = 1024;
+    private int height = 768;
 
     private int[]	m_colorPix = new int[width*height];
 
