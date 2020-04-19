@@ -37,7 +37,7 @@ public class ArcoFlexZipFile  {
                     } else {
 
                         System.out.println("Zip Entry: " + ze.getName());
-                        ArcoFlexFileItem item = new ArcoFlexFileItem(ze.getName(), "", "", "", "file_icon");
+                        ArcoFlexFileItem item = new ArcoFlexFileItem(ze.getName(), "", "", osd_get_cwd(), "file_icon");
 
                         //extracting file
                         String local_path = "";

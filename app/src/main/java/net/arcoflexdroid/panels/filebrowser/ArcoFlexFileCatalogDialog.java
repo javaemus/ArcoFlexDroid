@@ -58,7 +58,7 @@ public class ArcoFlexFileCatalogDialog  extends ListActivity {
                 currentFiles.addAll((List) ArcoFlexZipFile.getContent( prefix+ ArcoFlexVars.path ));
             else { // single file
                 ArrayList list = new ArrayList();
-                ArcoFlexFileItem item = new ArcoFlexFileItem(prefix+ ArcoFlexVars.path, "", "", "", "file_icon");
+                ArcoFlexFileItem item = new ArcoFlexFileItem(ArcoFlexVars.file, "", "", prefix+ ArcoFlexVars.path, "file_icon");
                 //list.add(ze.getName());
                 list.add(item);
                 currentFiles.addAll(list);
@@ -111,7 +111,8 @@ public class ArcoFlexFileCatalogDialog  extends ListActivity {
         //ArcoFlexFileOpenActivity._endSelection = true;
         //ArcoFlexJFileChooserDialog._selectedFile = true;
         ArcoFlexJFileChooserDialog._fSelected = new File(this.currentFiles.get(position).getName());
-
+System.out.println("*************SELECTED!:"+this.currentFiles.get(position).getPath());
+        System.out.println("*************SELECTED2!:"+this.currentFiles.get(position).getName());
 
         setResult(RESULT_OK, extras);
         finish();

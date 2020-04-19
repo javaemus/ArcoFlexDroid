@@ -20,6 +20,9 @@ import androidx.fragment.app.ListFragment;
 
 import net.arcoflexdroid.R;
 
+import static arcoflex056.platform.android.android_filemngrClass.currDir;
+
+
 public class ArcoFlexListView  extends ListFragment {
     private List<String> item = null;
     private List<String> path = null;
@@ -29,7 +32,7 @@ public class ArcoFlexListView  extends ListFragment {
     private View myView;
 
     private ArcoFlexFileArrayAdapter adapter;
-    public static File currentDir=null;
+    //public static File currentDir=null;
 
     public ArcoFlexListView(){
 
@@ -60,11 +63,11 @@ public class ArcoFlexListView  extends ListFragment {
         //root = Environment.getExternalStorageDirectory().getPath();
 
         root="/";
-        if (currentDir == null)
-            currentDir = new File("/");
+        if (currDir == null)
+            currDir = new File("/");
 
         //getDir(root);
-        fill(new File(currentDir.getAbsolutePath()));
+        fill(new File(currDir.getAbsolutePath()));
 
         //setListAdapter(adapter);
         return myView;
@@ -84,7 +87,7 @@ public class ArcoFlexListView  extends ListFragment {
     {
         File[]dirs = f.listFiles();
         //this.setTitle("Current Dir: "+f.getName());
-        myPath.setText("Location: " + f.getAbsolutePath());
+        myPath.setText("Location: " + f.getPath());
         List<ArcoFlexFileItem>dir = new ArrayList<ArcoFlexFileItem>();
         List<ArcoFlexFileItem>fls = new ArrayList<ArcoFlexFileItem>();
         try{
@@ -107,11 +110,11 @@ public class ArcoFlexListView  extends ListFragment {
                     else num_item = num_item + " items";
 
                     //String formated = lastModDate.toString();
-                    dir.add(new ArcoFlexFileItem(ff.getName(),num_item,date_modify,ff.getAbsolutePath(),"directory_icon"));
+                    dir.add(new ArcoFlexFileItem(ff.getName(),num_item,date_modify,ff.getPath(),"directory_icon"));
                 }
                 else
                 {
-                    fls.add(new ArcoFlexFileItem(ff.getName(),ff.length() + " Byte", date_modify, ff.getAbsolutePath(),"file_icon"));
+                    fls.add(new ArcoFlexFileItem(ff.getName(),ff.length() + " Byte", date_modify, currDir.getAbsolutePath(),"file_icon"));
                 }
             }
         }catch(Exception e)
@@ -132,6 +135,7 @@ public class ArcoFlexListView  extends ListFragment {
     private void getDir(String dirPath)
     {
         myPath.setText("Location: " + dirPath);
+        currDir = new File(dirPath);
         item = new ArrayList<String>();
         path = new ArrayList<String>();
         File f = new File(dirPath);
@@ -151,7 +155,7 @@ public class ArcoFlexListView  extends ListFragment {
             File file = files[i];
 
             //if(!file.isHidden() && file.canRead()){
-            path.add(file.getAbsolutePath());
+            path.add(file.getPath());
             if(file.isDirectory()){
                 item.add(file.getName() + "/");
             }else{
@@ -161,7 +165,7 @@ public class ArcoFlexListView  extends ListFragment {
 
             System.out.println("------------------------------------------");
             System.out.println(file.getName());
-            System.out.println(file.getAbsolutePath());
+            System.out.println(file.getPath());
             System.out.println(file.getAbsoluteFile().getAbsolutePath());
             System.out.println("------------------------------------------");
         }
@@ -178,25 +182,31 @@ public class ArcoFlexListView  extends ListFragment {
         super.onListItemClick(l, v, position, id);
         ArcoFlexFileItem o = adapter.getItem(position);
         if(o.getImage().equalsIgnoreCase("directory_icon")||o.getImage().equalsIgnoreCase("directory_up")){
-            currentDir = new File(o.getPath());
-            fill(currentDir);
+            currDir = new File(o.getPath());
+            fill(currDir);
         }
         else
         {
-            currentDir = new File(o.getPath());
+
+            //currDir = new File(o.getPath());
             onFileClick(o);
         }
     }
+
     private void onFileClick(ArcoFlexFileItem o)
     {
         //Toast.makeText(this, "Folder Clicked: "+ currentDir, Toast.LENGTH_SHORT).show();
         Intent intent = new Intent();
-        intent.putExtra("GetPath",currentDir.toString());
+        intent.putExtra("GetPath",o.getPath());
         intent.putExtra("GetFileName",o.getName());
         //setResult(RESULT_OK, intent);
         //finish();
         ArcoFlexVars.file = o.getName();
-        ArcoFlexVars.path = currentDir.toString();
+        ArcoFlexVars.path = o.getPath();
+        currDir = new File(ArcoFlexVars.path);
+
+        System.out.println("-------------------------Seleccionado!!!!: "+ArcoFlexVars.path);
+        System.out.println("-------------------------Seleccionadoxxx!!!!: "+ArcoFlexVars.file);
 
         /*try {
             ArrayList list = jMESYSZipFile.getContent( "file://"+currentDir.toString()+"/"+o.getName() );

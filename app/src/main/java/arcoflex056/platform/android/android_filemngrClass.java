@@ -29,7 +29,7 @@ import static net.arcoflexdroid.panels.filebrowser.ArcoFlexJFileChooserDialog._f
  */
 public class android_filemngrClass implements platformConfigurator.i_filemngr_class {
 
-    private File currDir = null;
+    public static File currDir = null;
     private String _supFilesStr = null;
     private String[] _arrExtensions = null;
     //private File _selectedFile = null;
@@ -47,6 +47,7 @@ public class android_filemngrClass implements platformConfigurator.i_filemngr_cl
 
     @Override
     public File getCurrentDirectory() {
+        System.out.println("CURRENT DIR: "+ArcoFlexJFileChooserDialog._fSelected);
         return currDir;
     }
 
@@ -59,7 +60,7 @@ public class android_filemngrClass implements platformConfigurator.i_filemngr_cl
         _endSelection = false;
         _fSelected = null;
 
-        ArcoFlexListView.currentDir = new File(osd_get_cwd());
+        currDir = new File(osd_get_cwd());
 
         //MainActivity.mm.startActivityForResult(new Intent(MainActivity.mm, ArcoFlexFileOpenActivity.class), A_FILE_SELECTOR);
         ArcoFlexJFileChooserDialog _myDialog = ArcoFlexJFileChooserDialog.newInstance("Some Title");
@@ -71,7 +72,7 @@ public class android_filemngrClass implements platformConfigurator.i_filemngr_cl
 
         while (!_endSelection){
             // do nothing...wait!
-            System.out.println("WAITING!!!!");
+            //System.out.println("WAITING!!!!");
         }
 
 
@@ -89,6 +90,7 @@ public class android_filemngrClass implements platformConfigurator.i_filemngr_cl
 
     @Override
     public Object getSelectedFile() {
+        System.out.println("SELECTED FILE: "+ArcoFlexJFileChooserDialog._fSelected);
         return ArcoFlexJFileChooserDialog._fSelected;
         //return (new File("file:///storage/emulated/0/Android/data/net.arcoflexdroid/files/ArcoFlexDroid/software/spectrum/Commando.z80"));
     }
