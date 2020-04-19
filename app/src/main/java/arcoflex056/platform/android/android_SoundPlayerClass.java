@@ -11,6 +11,7 @@ import android.media.AudioAttributes;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
+import android.media.PlaybackParams;
 
 import static mame056.mame.Machine;
 
@@ -41,35 +42,55 @@ public class android_SoundPlayerClass implements platformConfigurator.i_SoundPla
 
         int SAMPLING_RATE = Machine.sample_rate;
 
-        final int size = AudioTrack.getMinBufferSize(
+        int size = AudioTrack.getMinBufferSize(
                 SAMPLING_RATE,
                 (stereo!=0 ? AudioFormat.CHANNEL_OUT_STEREO:AudioFormat.CHANNEL_OUT_MONO),
+                //AudioFormat.CHANNEL_OUT_STEREO,
                 AudioFormat.ENCODING_PCM_16BIT);
 
         //final int size = 1470;
-
+/*
         _audioTrack = new AudioTrack.Builder()
                 .setAudioAttributes(new AudioAttributes.Builder()
                         .setUsage(AudioAttributes.USAGE_MEDIA)
                         .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                         .build())
                 .setAudioFormat(new AudioFormat.Builder()
-                        .setChannelMask((stereo!=0 ? AudioFormat.CHANNEL_OUT_STEREO:AudioFormat.CHANNEL_OUT_MONO))
+                        .setChannelMask(AudioFormat.CHANNEL_OUT_MONO)
                         .setEncoding(AudioFormat.ENCODING_PCM_16BIT)
                         .setSampleRate(SAMPLING_RATE)
                         .build())
-                .setBufferSizeInBytes(size)
+                .setBufferSizeInBytes(size*2)
                 .build();
 
-        _audioTrack.setPlaybackRate(SAMPLING_RATE);
 
-        /*PlaybackParams params = audioTrack.getPlaybackParams();
+ */
+
+
+        _audioTrack = new AudioTrack(
+                AudioManager.STREAM_MUSIC,
+                SAMPLING_RATE,
+                (stereo!=0 ? AudioFormat.CHANNEL_OUT_STEREO:AudioFormat.CHANNEL_OUT_MONO),
+                AudioFormat.ENCODING_PCM_16BIT,
+                size,
+                AudioTrack.MODE_STREAM
+                );
+
+
+        if (stereo!=0)
+            _audioTrack.setStereoVolume(1.0f, 1.0f);
+        else
+            _audioTrack.setVolume(1.0f);
+
+
+
+        PlaybackParams params = _audioTrack.getPlaybackParams();
         //params.setSpeed(1.0f);  // available
         //params.setSpeed(0.5f);  // available
-        params.setSpeed(1.5f);  // not available
-        audioTrack.setPlaybackParams(params);
+        params.setSpeed(1.0f);  // not available
+        _audioTrack.setPlaybackParams(params);
 
-        audioTrack.play();
+        /*audioTrack.play();
 
         audioTrack.write(bytes, 44, bytes.length - 44);
 
@@ -106,20 +127,22 @@ public class android_SoundPlayerClass implements platformConfigurator.i_SoundPla
 
         System.out.println("--> Stop");
         _audioTrack.stop();
+        _audioTrack.release();
     }
 
     @Override
     public void write(byte[] waveBuffer, int offset, int length) {
         //System.out.println("--> Write");
-        double samples_per_frame = (double) Machine.sample_rate / (double) Machine.drv.frames_per_second;
-        for( int i = 0; i + length/2 < length; i += length/2 ) {
+        //double samples_per_frame = (double) Machine.sample_rate / (double) Machine.drv.frames_per_second;
+        /*for( int i = 0; i + length/2 < length; i += length/2 ) {
             // Really rude endian conversion.
             byte bytTemp = waveBuffer[i];
             waveBuffer[i] = waveBuffer[i + 1];
             waveBuffer[i + 1] = bytTemp;
-        }
+        }*/
 
         _audioTrack.write(waveBuffer, 0, length);
+        //_audioTrack.play();
     }
 
 }

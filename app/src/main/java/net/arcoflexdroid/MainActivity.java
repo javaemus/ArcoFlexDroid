@@ -636,12 +636,12 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
 
     public static String default_keycodes_string [] = { "Fire", "Alt.Fire" , "Up", "Down", "Left", "Right", "UpLeft", "UpRight", "DownLeft", "DownRight", "Run/Stop", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "CTRL", "Restore", "C=", "ESC", "Cursor UP", "Cursor DOWN", "Cursor LEFT", "Cursor RIGHT"};
 
-    public static int current_keycodes [] = new int[12];
+    public static int current_keycodes [] = new int[15];
 
     @Override
     public void onGameKeyChanged(int keyStates) {
         if (_emuView != null) {
-            manageKey(keyStates, VirtualKeypad.BUTTON, current_keycodes[0]);
+            manageKey(keyStates, VirtualKeypad.BUTTON_FIRE_1, current_keycodes[0]);
             manageKey(keyStates, VirtualKeypad.UP, current_keycodes[2]);
             manageKey(keyStates, VirtualKeypad.DOWN, current_keycodes[3]);
             manageKey(keyStates, VirtualKeypad.LEFT, current_keycodes[4]);
@@ -653,6 +653,10 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
 
             manageKey(keyStates, VirtualKeypad.BUTTON_COIN, current_keycodes[10]);
             manageKey(keyStates, VirtualKeypad.BUTTON_START, current_keycodes[11]);
+
+            manageKey(keyStates, VirtualKeypad.BUTTON_FIRE_2, current_keycodes[12]);
+            manageKey(keyStates, VirtualKeypad.BUTTON_FIRE_3, current_keycodes[13]);
+            manageKey(keyStates, VirtualKeypad.BUTTON_FIRE_4, current_keycodes[14]);
         }
 
         currentKeyStates = keyStates;
@@ -696,6 +700,15 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
                     case 64: // start
                         screen.readkey = KeyEvent.KEYCODE_1;
                         break;
+                    case 128: // fire 2
+                        screen.readkey = KeyEvent.KEYCODE_ALT_LEFT;
+                        break;
+                    case 256: // fire 3
+                        screen.readkey = KeyEvent.KEYCODE_SPACE;
+                        break;
+                    case 512: // fire 4
+                        screen.readkey = KeyEvent.KEYCODE_Z;
+                        break;
                 }
 
                 screen.key[screen.readkey] = true;
@@ -727,6 +740,15 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
                         break;
                     case 64: // start
                         screen.readkey = KeyEvent.KEYCODE_1;
+                        break;
+                    case 128: // fire 2
+                        screen.readkey = KeyEvent.KEYCODE_ALT_LEFT;
+                        break;
+                    case 256: // fire 3
+                        screen.readkey = KeyEvent.KEYCODE_SPACE;
+                        break;
+                    case 512: // fire 4
+                        screen.readkey = KeyEvent.KEYCODE_Z;
                         break;
                 }
 

@@ -25,9 +25,12 @@ public class VirtualKeypad {
     public static int RIGHT = 2;
     public static int UP = 4;
     public static int DOWN = 8;
-    public static int BUTTON = 16;
+    public static int BUTTON_FIRE_1 = 16;
     public static int BUTTON_COIN = 32;
     public static int BUTTON_START = 64;
+    public static int BUTTON_FIRE_2 = 128;
+    public static int BUTTON_FIRE_3 = 256;
+    public static int BUTTON_FIRE_4 = 512;
 
     private static final float DPAD_DEADZONE_VALUES[] = {
             0.1f, 0.14f, 0.1667f, 0.2f, 0.25f,
@@ -80,7 +83,7 @@ public class VirtualKeypad {
         Toolbar toolbar = MainActivity.mm.findViewById(R.id.toolbar);
         _topMargin = toolbar.getHeight() + 1;
 
-        System.out.println("Top Margin="+_topMargin);
+        //System.out.println("Top Margin="+_topMargin);
     }
 
     public final void resize(int w, int h) {
@@ -228,7 +231,7 @@ public class VirtualKeypad {
     }
 
     private int getButtonsStates(float x, float y, float size) {
-        int states = BUTTON;
+        int states = BUTTON_FIRE_1;
         return states;
     }
 
