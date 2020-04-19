@@ -48,19 +48,25 @@ public class VirtualKeypad {
 
     private ArrayList<Control> controls = new ArrayList<Control>();
     private Control dpad;
-    private Control buttons;
+    private Control buttons1;
+    private Control buttons2;
+    private Control buttons3;
+    private Control buttons4;
     private Control buttonCoin;
     private Control buttonStart;
 
     private int _topMargin = 100;
 
-    public VirtualKeypad(View v, GameKeyListener l, int dpadRes, int buttonsRes, int buttonCoinRes, int buttonStartRes) {
+    public VirtualKeypad(View v, GameKeyListener l, int dpadRes, int buttonsRes1, int buttonsRes2, int buttonsRes3, int buttonsRes4, int buttonCoinRes, int buttonStartRes) {
         view = v;
         context = view.getContext();
         gameKeyListener = l;
 
         dpad = createControl(dpadRes);
-        buttons = createControl(buttonsRes);
+        buttons1 = createControl(buttonsRes1);
+        buttons2 = createControl(buttonsRes2);
+        buttons3 = createControl(buttonsRes3);
+        buttons4 = createControl(buttonsRes4);
         buttonCoin = createControl(buttonCoinRes);
         buttonStart = createControl(buttonStartRes);
 
@@ -97,7 +103,10 @@ public class VirtualKeypad {
         dpad.hide(prefs.getBoolean("hideDpad", false));
         buttonStart.hide(prefs.getBoolean("hideDpad", false));
         buttonCoin.hide(prefs.getBoolean("hideDpad", false));
-        buttons.hide(!Wrapper.supportsMultitouch(context) || prefs.getBoolean("hideButtons", false));
+        buttons1.hide(!Wrapper.supportsMultitouch(context) || prefs.getBoolean("hideButtons", false));
+        buttons2.hide(!Wrapper.supportsMultitouch(context) || prefs.getBoolean("hideButtons", false));
+        buttons3.hide(!Wrapper.supportsMultitouch(context) || prefs.getBoolean("hideButtons", false));
+        buttons4.hide(!Wrapper.supportsMultitouch(context) || prefs.getBoolean("hideButtons", false));
 
         scaleX = (float) w / view.getWidth();
         scaleY = (float) h / view.getHeight();
@@ -141,13 +150,16 @@ public class VirtualKeypad {
 
         calculateTopMargin();
 
-        if (dpad.getWidth() + buttons.getWidth() > w) {
+        if (dpad.getWidth() + buttons1.getWidth() + buttons4.getWidth() > w) {
             makeBottomTop(w, h);
             return;
         }
 
         dpad.move(0, h - dpad.getHeight());
-        buttons.move(w - buttons.getWidth(), h - buttons.getHeight());
+        buttons1.move(w - buttons1.getWidth(), h - buttons1.getHeight());
+        buttons2.move(w - buttons1.getWidth() - buttons2.getWidth(), h - buttons2.getHeight());
+        buttons3.move(w - buttons1.getWidth() - buttons3.getWidth(), h - buttons3.getHeight() - buttons4.getHeight());
+        buttons4.move(w - buttons4.getWidth(), h - buttons4.getHeight() - buttons3.getHeight());
 
         buttonStart.move(w - buttonStart.getWidth(), 0 + _topMargin);
         buttonCoin.move(0, 0 + _topMargin);
@@ -157,13 +169,16 @@ public class VirtualKeypad {
 
         calculateTopMargin();
 
-        if (dpad.getWidth() + buttons.getWidth() > w) {
+        if (dpad.getWidth() + buttons1.getWidth() + buttons2.getWidth() > w) {
             makeBottomTop(w, h);
             return;
         }
 
         dpad.move(0, 0);
-        buttons.move(w - buttons.getWidth(), 0);
+        buttons1.move(w - buttons1.getWidth(), buttons4.getHeight());
+        buttons2.move(w - buttons1.getWidth() - buttons2.getWidth(), buttons3.getHeight());
+        buttons3.move(w - buttons1.getWidth() - buttons3.getWidth(), 0);
+        buttons4.move(w - buttons4.getWidth(), 0);
 
         buttonStart.move(w - buttonStart.getWidth(), h - buttonStart.getHeight());
         buttonCoin.move(0, h - buttonCoin.getHeight());
@@ -174,7 +189,10 @@ public class VirtualKeypad {
         calculateTopMargin();
 
         dpad.move(0, 0);
-        buttons.move(w - buttons.getWidth(), h - buttons.getHeight());
+        buttons4.move(w - buttons4.getWidth(), h - buttons4.getHeight());
+        buttons3.move(w - buttons4.getWidth() - buttons3.getWidth(), h - buttons1.getHeight());
+        buttons2.move(w - buttons2.getWidth() - buttons1.getWidth(), h - buttons4.getHeight());
+        buttons1.move(w - buttons1.getWidth(), h - buttons3.getHeight());
 
         buttonStart.move(w - buttonStart.getWidth(), 0);
         buttonCoin.move(0, 0);
@@ -185,7 +203,10 @@ public class VirtualKeypad {
         calculateTopMargin();
 
         dpad.move(0, h - dpad.getHeight());
-        buttons.move(w - buttons.getWidth(), 0);
+        buttons4.move(w - buttons4.getWidth(), 0);
+        buttons3.move(w - buttons4.getWidth() - buttons3.getWidth(), 0);
+        buttons2.move(w - buttons2.getWidth() - buttons3.getWidth(), 0 + buttons4.getHeight());
+        buttons1.move(w - buttons4.getWidth(), 0 + buttons3.getHeight());
 
         buttonStart.move(w - buttonStart.getWidth(), h - buttonStart.getHeight());
         buttonCoin.move(0, h - buttonStart.getHeight());
@@ -230,8 +251,23 @@ public class VirtualKeypad {
         return states;
     }
 
-    private int getButtonsStates(float x, float y, float size) {
+    private int getButtons1States(float x, float y, float size) {
         int states = BUTTON_FIRE_1;
+        return states;
+    }
+
+    private int getButtons2States(float x, float y, float size) {
+        int states = BUTTON_FIRE_2;
+        return states;
+    }
+
+    private int getButtons3States(float x, float y, float size) {
+        int states = BUTTON_FIRE_3;
+        return states;
+    }
+
+    private int getButtons4States(float x, float y, float size) {
+        int states = BUTTON_FIRE_4;
         return states;
     }
 
@@ -273,8 +309,14 @@ public class VirtualKeypad {
 
         if (c == dpad)
             return getDpadStates(x, y);
-        if (c == buttons)
-            return getButtonsStates(x, y, size);
+        if (c == buttons1)
+            return getButtons1States(x, y, size);
+        if (c == buttons2)
+            return getButtons2States(x, y, size);
+        if (c == buttons3)
+            return getButtons3States(x, y, size);
+        if (c == buttons4)
+            return getButtons4States(x, y, size);
         if (c == buttonStart)
             return getButtonStartStates(x, y, size);
         if (c == buttonCoin)

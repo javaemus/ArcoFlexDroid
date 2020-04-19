@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
         //mJoystick.setOnKeyboardActionListener(new ArcoFlexKeyboardMethod());
         //mJoystick.setPreviewEnabled(false);
         //mJoystick.setVisibility(View.VISIBLE);
-        vKeyPad = new VirtualKeypad(mJoystick, this, R.drawable.dpad5, R.drawable.button, drawable.button_coin_press, drawable.button_start_press);
+        vKeyPad = new VirtualKeypad(mJoystick, this, R.drawable.dpad5, R.drawable.button, R.drawable.button, R.drawable.button, R.drawable.button, drawable.button_coin_press, drawable.button_start_press );
 
         mJoystick.setBackgroundColor(Color.TRANSPARENT);
         //vKeyPad.resize(mJoystick.getWidth(), mJoystick.getHeight());
