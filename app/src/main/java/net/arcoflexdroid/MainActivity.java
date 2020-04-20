@@ -12,6 +12,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
 
 import android.os.StrictMode;
 import android.view.KeyEvent;
@@ -28,7 +29,10 @@ import net.arcoflexdroid.input.ArcoFlexKeyboardView;
 import net.arcoflexdroid.input.GameKeyListener;
 import net.arcoflexdroid.input.VirtualKeypad;
 import net.arcoflexdroid.panels.about.ArcoFlexAboutOpenActivity;
+import net.arcoflexdroid.panels.devices.ArcoFlexConfigConsoleFlexDriver;
+import net.arcoflexdroid.panels.devices.ArcoFlexConsoleFlexDevices;
 import net.arcoflexdroid.panels.filebrowser.ArcoFlexFileOpenActivity;
+import net.arcoflexdroid.panels.filebrowser.ArcoFlexJFileChooserDialog;
 import net.arcoflexdroid.panels.menu.ArcoFlexGameItem;
 import net.arcoflexdroid.views.ArcoFlexEmulatorView;
 
@@ -50,8 +54,12 @@ import static arcadeflex056.fronthlp.frontend_help;
 import static arcadeflex056.settings.*;
 import static mame056.driver.*;
 import arcoflex056.platform.platformConfigurator;
+import mess056.messH;
+import mess056.system;
+
 import static mame056.driverH.*;
 
+import static mame056.mame.Machine;
 import static mame056.mame.options;
 import static mame056.mameH.*;
 
@@ -65,6 +73,7 @@ import static common.util.argc;
 import static common.util.argv;
 import static mame056.mame.shutdown_machine;
 import static mame056.mameH.*;
+import static mess056.device.devices;
 import static net.arcoflexdroid.R.*;
 
 public class MainActivity extends AppCompatActivity implements GameKeyListener {
@@ -346,6 +355,7 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
                 //_emuView.canvas=null;
 
                 //settings.MESS = false;
+                switchKeyboard(false);
                 ConfigurePlatform(null);
                 ConfigurePlatform((platformConfigurator.i_platform_configurator)new arcoflex056.platform.android.android_Configurator());
                 //ConvertArguments("arcadeflex", new String[]{"gunsmoke"});//new String[]{"coleco","-cart","HERO.col"});
@@ -404,6 +414,10 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
             MESS = true;
             drivers = mess056.system.drivers;
 
+            // deletes devices???? --> Machine.gamedrv.dev
+            if (Machine != null && Machine.gamedrv != null)
+                Machine.gamedrv.dev = null;
+
             // init devices
             options.image_files = new ImageFile[MAX_IMAGES];
             options.image_count=0;
@@ -432,6 +446,7 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
             //_emuView.canvas=null;
 
             //settings.MESS = false;
+            switchKeyboard(true);
             ConfigurePlatform(null);
             ConfigurePlatform((platformConfigurator.i_platform_configurator)new arcoflex056.platform.android.android_Configurator());
             //ConvertArguments("arcadeflex", new String[]{"gunsmoke"});//new String[]{"coleco","-cart","HERO.col"});
@@ -509,16 +524,8 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
             case R.id.menu_start:
                 System.out.println("Pulso SWITCH");
 
-                if (kbVisibility) {
-                    mKeyboardView.setVisibility(View.INVISIBLE);
-                    mJoystick.setVisibility(View.VISIBLE);
-                    vKeyPad.resize(mJoystick.getWidth(), mJoystick.getHeight());
-                } else {
-                    mKeyboardView.setVisibility(View.VISIBLE);
-                    mJoystick.setVisibility(View.INVISIBLE);
-                }
-
                 kbVisibility = !kbVisibility;
+                switchKeyboard(kbVisibility);
                 //MainActivity.mm.emulator.keyRelease(21);
                 /*if ((screen != null) && (screen.key != null)) {
                     screen.readkey = KeyEvent.KEYCODE_DPAD_RIGHT;
@@ -530,8 +537,20 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
                 }*/
                 return true;
 
-            case R.id.action_about: startActivityForResult(new Intent(this, ArcoFlexAboutOpenActivity.class), A_FILE_SELECTOR); return true;
-            case R.id.action_file: startActivityForResult(new Intent(this, ArcoFlexFileOpenActivity.class), A_FILE_SELECTOR); return true;
+            case R.id.action_about:
+                //startActivityForResult(new Intent(this, ArcoFlexAboutOpenActivity.class), A_FILE_SELECTOR);
+                ArcoFlexAboutOpenActivity _dialogAbout = new ArcoFlexAboutOpenActivity();
+                FragmentManager fm = MainActivity.mm.getSupportFragmentManager();
+                _dialogAbout.show(fm, "About ArcoFlexDroid");
+                return true;
+            case R.id.action_file:
+                //startActivityForResult(new Intent(this, ArcoFlexFileOpenActivity.class), A_FILE_SELECTOR);
+                ArcoFlexJFileChooserDialog _myDialogFileExplorer = ArcoFlexJFileChooserDialog.newInstance("Some Title");
+
+
+                FragmentManager fm2 = MainActivity.mm.getSupportFragmentManager();
+                _myDialogFileExplorer.show(fm2, "FileExplorer");
+                return true;
 
         }
 
@@ -544,6 +563,7 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
         System.out.println("ConsoleFlex con "+_currSystem+" = "+_sysItem);
         if (_sysItem != null){
             ArcoFlexGameItem _myItem = (ArcoFlexGameItem) _sysItem;
+            showConsoleFlexDevices(_myItem);
             runConsoleFlexGame(_myItem.getShortname());
 
             return true;
@@ -561,6 +581,48 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showConsoleFlexDevices(ArcoFlexGameItem _myItem) {
+        String consoleflexDriverName = _myItem.getShortname();
+        try {
+            GameDriver _driver = null;
+            GameDriver[] list = system.drivers;
+
+            int _numDrivers = list.length;
+            for (int _i=0 ; _i<_numDrivers ; _i++) {
+                if (list[_i] != null && list[_i].name.equals(consoleflexDriverName)) {
+                    _driver = list[_i];
+                }
+            }
+
+            ArcoFlexConsoleFlexDevices.dev = _driver.dev;
+            ArcoFlexConfigConsoleFlexDriver._SystemName = consoleflexDriverName;
+
+            //startActivityForResult(new Intent(this, ArcoFlexConfigConsoleFlexDriver.class), A_FILE_SELECTOR);
+            ArcoFlexConfigConsoleFlexDriver _myDialogDevices = new ArcoFlexConfigConsoleFlexDriver();
+
+
+            FragmentManager fm2 = MainActivity.mm.getSupportFragmentManager();
+            _myDialogDevices.show(fm2, "Driver Configuration");
+
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+    }
+
+    public void switchKeyboard(boolean _switch) {
+        kbVisibility = _switch;
+
+        if (!kbVisibility) {
+            mKeyboardView.setVisibility(View.INVISIBLE);
+            mJoystick.setVisibility(View.VISIBLE);
+            vKeyPad.resize(mJoystick.getWidth(), mJoystick.getHeight());
+        } else {
+            mKeyboardView.setVisibility(View.VISIBLE);
+            mJoystick.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     @Override
@@ -633,8 +695,6 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
     }
 
     private int currentKeyStates = 0;
-
-    public static String default_keycodes_string [] = { "Fire", "Alt.Fire" , "Up", "Down", "Left", "Right", "UpLeft", "UpRight", "DownLeft", "DownRight", "Run/Stop", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "CTRL", "Restore", "C=", "ESC", "Cursor UP", "Cursor DOWN", "Cursor LEFT", "Cursor RIGHT"};
 
     public static int current_keycodes [] = new int[15];
 

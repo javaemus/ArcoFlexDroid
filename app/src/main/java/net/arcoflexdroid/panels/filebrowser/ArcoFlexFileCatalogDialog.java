@@ -14,7 +14,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArcoFlexFileCatalogDialog  extends ListActivity {
+public class ArcoFlexFileCatalogDialog extends ListActivity {
 
     /**
      * Prefix to the result string for fast-loading and running the selected file
@@ -111,7 +111,7 @@ public class ArcoFlexFileCatalogDialog  extends ListActivity {
         //ArcoFlexFileOpenActivity._endSelection = true;
         //ArcoFlexJFileChooserDialog._selectedFile = true;
         ArcoFlexJFileChooserDialog._fSelected = new File(this.currentFiles.get(position).getName());
-System.out.println("*************SELECTED!:"+this.currentFiles.get(position).getPath());
+        System.out.println("*************SELECTED!:"+this.currentFiles.get(position).getPath());
         System.out.println("*************SELECTED2!:"+this.currentFiles.get(position).getName());
 
         setResult(RESULT_OK, extras);
@@ -123,6 +123,9 @@ System.out.println("*************SELECTED!:"+this.currentFiles.get(position).get
         //ArcoFlexFileOpenActivity._endSelection = false;
         //ArcoFlexJFileChooserDialog._selectedFile = false;
         super.onBackPressed();
+
+        setResult(RESULT_CANCELED, null);
+        finish();
     }
 }
 

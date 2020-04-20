@@ -60,6 +60,7 @@ public class android_filemngrClass implements platformConfigurator.i_filemngr_cl
         _endSelection = false;
         _fSelected = null;
 
+
         currDir = new File(osd_get_cwd());
 
         //MainActivity.mm.startActivityForResult(new Intent(MainActivity.mm, ArcoFlexFileOpenActivity.class), A_FILE_SELECTOR);
@@ -72,13 +73,15 @@ public class android_filemngrClass implements platformConfigurator.i_filemngr_cl
 
         while (!_endSelection){
             // do nothing...wait!
-            //System.out.println("WAITING!!!!");
+            System.out.println("WAITING!!!!");
         }
 
 
-        System.out.println("SALGO!!!!");
-        //return _myDialog.getResult();
-        return 0;
+        System.out.println("CONTINUE!!!!");
+        int ret =  _fSelected != null ? 0 : 1;
+        _myDialog = null;
+
+        return ret;
         /*if (ArcoFlexFileOpenActivity._selectedFile) {
             System.out.println("FICHERO SELECCIONADO!!!!------------------------------------------");
             return 0;

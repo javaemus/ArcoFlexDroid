@@ -126,8 +126,10 @@ public class android_SoundPlayerClass implements platformConfigurator.i_SoundPla
     public void Stop() {
 
         System.out.println("--> Stop");
-        _audioTrack.stop();
-        _audioTrack.release();
+        if (_audioTrack != null) {
+            _audioTrack.stop();
+            _audioTrack.release();
+        }
     }
 
     @Override
@@ -141,7 +143,8 @@ public class android_SoundPlayerClass implements platformConfigurator.i_SoundPla
             waveBuffer[i + 1] = bytTemp;
         }*/
 
-        _audioTrack.write(waveBuffer, 0, length);
+        if (_audioTrack != null)
+            _audioTrack.write(waveBuffer, 0, length);
         //_audioTrack.play();
     }
 

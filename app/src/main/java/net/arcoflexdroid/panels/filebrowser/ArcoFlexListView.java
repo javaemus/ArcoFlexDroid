@@ -21,6 +21,7 @@ import androidx.fragment.app.ListFragment;
 import net.arcoflexdroid.R;
 
 import static arcoflex056.platform.android.android_filemngrClass.currDir;
+import static net.arcoflexdroid.panels.filebrowser.ArcoFlexJFileChooserDialog.setResult;
 
 
 public class ArcoFlexListView  extends ListFragment {
@@ -207,6 +208,7 @@ public class ArcoFlexListView  extends ListFragment {
 
         System.out.println("-------------------------Seleccionado!!!!: "+ArcoFlexVars.path);
         System.out.println("-------------------------Seleccionadoxxx!!!!: "+ArcoFlexVars.file);
+        ArcoFlexJFileChooserDialog.setResult(0);
 
         /*try {
             ArrayList list = jMESYSZipFile.getContent( "file://"+currentDir.toString()+"/"+o.getName() );

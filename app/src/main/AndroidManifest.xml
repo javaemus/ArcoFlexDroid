@@ -30,7 +30,13 @@
         <activity
             android:name="net.arcoflexdroid.panels.about.ArcoFlexAboutOpenActivity"
             android:label="About ArcoFlexDroid"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.arcoflexdroid.MainActivity"/>
+
+        </activity>
 
         <activity
             android:name="net.arcoflexdroid.panels.filebrowser.ArcoFlexFileOpenActivity"
@@ -41,6 +47,29 @@
             android:name="net.arcoflexdroid.panels.filebrowser.ArcoFlexFileCatalogDialog"
             android:label="FileOpenActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name="net.arcoflexdroid.panels.devices.ArcoFlexConsoleFlexDevices"
+            android:label="FileOpenActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.arcoflexdroid.MainActivity"/>
+
+        </activity>
+
+        <activity
+            android:name="net.arcoflexdroid.panels.devices.ArcoFlexConfigConsoleFlexDriver"
+            android:label="FileOpenActivity"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="net.arcoflexdroid.MainActivity"/>
+
+        </activity>
+
 
         <!-- activity android:name="jmesys.systems.computers.spectrum.ZXSpectrumPreferences"/ -->
 

@@ -29,6 +29,7 @@ public class ArcoFlexJFileChooserDialog extends DialogFragment {
     public static boolean _endSelection = false;
     //public static boolean _selectedFile = false;
     public static File _fSelected = null;
+    public static int _result = 0;
 
     public ArcoFlexJFileChooserDialog() {
         // Empty constructor is required for DialogFragment
@@ -37,6 +38,31 @@ public class ArcoFlexJFileChooserDialog extends DialogFragment {
 
         // Use `newInstance` instead as shown below
 
+    }
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        Dialog dialog = getDialog();
+        if (dialog != null)
+        {
+            int width = ViewGroup.LayoutParams.MATCH_PARENT;
+            int height = ViewGroup.LayoutParams.MATCH_PARENT;
+            dialog.getWindow().setLayout(width, height);
+        }
+    }
+
+    public File getSelectedFile() {
+        return _fSelected;
+    }
+
+    public static void setResult(int _res) {
+        _result = _res;
+    }
+
+    public int getResult(){
+        return _result;
     }
 
     public static ArcoFlexJFileChooserDialog newInstance(String title) {

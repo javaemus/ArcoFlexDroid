@@ -39,4 +39,12 @@ public class ArcoFlexFileOpenActivity extends FragmentActivity {
         tabHost.addTab(tabHost.newTabSpec("tab5").setIndicator("Other"),
                 ArcoFlexRemoteSearchExplorer.class, null);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        finish();
+    }
+
 }
