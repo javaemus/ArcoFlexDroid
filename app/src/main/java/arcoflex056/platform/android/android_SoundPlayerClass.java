@@ -14,6 +14,7 @@ import android.media.AudioTrack;
 import android.media.PlaybackParams;
 
 import static mame056.mame.Machine;
+import static net.arcoflexdroid.MainActivity.suspended;
 
 /**
  *
@@ -143,7 +144,7 @@ public class android_SoundPlayerClass implements platformConfigurator.i_SoundPla
             waveBuffer[i + 1] = bytTemp;
         }*/
 
-        if (_audioTrack != null)
+        if (_audioTrack != null && !suspended)
             _audioTrack.write(waveBuffer, 0, length);
         //_audioTrack.play();
     }

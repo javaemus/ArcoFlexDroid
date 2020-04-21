@@ -378,17 +378,22 @@ public class ArcoFlexEmulatorView  extends SurfaceView implements SensorEventLis
 
         m_colorPix = new int[longo];
 
-        for (int i = 0; i < longo; i++) {
-            int col = m_nPix[i];
+        try {
+
+            for (int i = 0; i < longo; i++) {
+                int col = m_nPix[i];
                 /*int r = ((int) m_rgbRedPalette[col] & 0xFF);
                 int g = ((int) m_rgbGreenPalette[col] & 0xFF);
                 int b = ((int) m_rgbBluePalette[col] & 0xFF);
 
                 m_colorPix[i] = (255 << 24) | (r << 16) | (g << 8) | b;*/
-            m_colorPix[i] = (255 << 24) | col;
-            //System.out.println(m_colorPix[i]);
+                m_colorPix[i] = (255 << 24) | col;
+                //System.out.println(m_colorPix[i]);
+            }
+            //}
+        } catch (Exception e) {
+
         }
-        //}
 
         //System.out.println("Color Pixels ENDs");
 

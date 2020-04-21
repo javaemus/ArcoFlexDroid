@@ -40,27 +40,31 @@ public class android_softwareGFXClass implements i_software_gfx_class {
         /*TODO*///ArcoFlexDroid.mm.running = true;
 
 
-        (new Thread
+        Thread _mThread = (new Thread
                 (new Runnable()
                 {
                     public void run() {
-                        if (MainActivity.mm._emuView.showTestData) {
-                            Bitmap bm = Bitmap.createBitmap(MainActivity.mm._emuView.getScreenWidth(), MainActivity.mm._emuView.getScreenHeight(), Bitmap.Config.ARGB_8888);
-                            bm.setPixels(MainActivity.mm._emuView.getColorPixels(),0, MainActivity.mm._emuView.getScreenWidth(), 0, 0, MainActivity.mm._emuView.getScreenWidth(), MainActivity.mm._emuView.getScreenHeight());
-                            bm=resizeEmulatorScreen(bm);
-                            if (bm != null)
-                                MainActivity.mm._emuView.setScreenBitmap(bm);
-                        } else {
-                            //_emuView.setScreenBitmap(BitmapFactory.decodeResource(_emuView.getResources(), _system.getImageID(), options));
+                        if (!MainActivity.mm.suspended) {
+                            if (MainActivity.mm._emuView.showTestData) {
+                                Bitmap bm = Bitmap.createBitmap(MainActivity.mm._emuView.getScreenWidth(), MainActivity.mm._emuView.getScreenHeight(), Bitmap.Config.ARGB_8888);
+                                bm.setPixels(MainActivity.mm._emuView.getColorPixels(), 0, MainActivity.mm._emuView.getScreenWidth(), 0, 0, MainActivity.mm._emuView.getScreenWidth(), MainActivity.mm._emuView.getScreenHeight());
+                                bm = resizeEmulatorScreen(bm);
+                                if (bm != null)
+                                    MainActivity.mm._emuView.setScreenBitmap(bm);
+                            } else {
+                                //_emuView.setScreenBitmap(BitmapFactory.decodeResource(_emuView.getResources(), _system.getImageID(), options));
+                            }
+
+
+                            MainActivity.mm._emuView.draw();
+                            //MainActivity.mm._emuView.invalidate();
                         }
-
-
-
-                        MainActivity.mm._emuView.draw();
-                        //MainActivity.mm._emuView.invalidate();
                     }
                 }
-                )).start();
+                ));
+
+        if (_mThread != null)
+            _mThread.start();
 
     }
 

@@ -79,6 +79,8 @@ import static net.arcoflexdroid.R.*;
 public class MainActivity extends AppCompatActivity implements GameKeyListener {
 
     public static MainActivity mm;
+    public static boolean suspended = false;
+    public static boolean first_start = false;
     public static Thread _emuThread;
     public static String installDIR;
     //private ArcoFlexEngine emulatorEngine;
@@ -103,8 +105,42 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
     public HashMap _listArcadeflexDrivers = new HashMap();
 
     @Override
+    protected void onUserLeaveHint()
+    {
+        // When user presses home page
+        System.out.println("Home Button Pressed");
+        suspended = true;
+
+        super.onUserLeaveHint();
+    }
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+        System.out.println("ONRESUME!!!!");
+
+        // pause emulator
+        /*if (screen != null && screen.key != null) {
+            screen.key[KeyEvent.KEYCODE_P] = true;
+            osd_refresh();
+        }
+
+         */
+        /*if (!first_start)
+            suspended = true;
+        else {
+            suspended = false;
+            first_start = true;
+        }*/
+        suspended = false;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        System.out.println("ONCREATE!!!!");
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -147,6 +183,8 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
 
         // creates structure of directories
         copyFiles();
+
+        suspended = false;
 
     }
 
@@ -318,6 +356,7 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
 
     public void runArcadeFlexGame(String _game) {
         System.out.println("Lanzamps!!!!");
+        suspended = false;
         try {
             //setEmulatorRunning(false);
             if (screen != null) {
@@ -402,6 +441,7 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
 
     public void runConsoleFlexGame(String _game) {
         System.out.println("ConsoleFlex!!!!");
+        suspended = false;
         try {
             //setEmulatorRunning(false);
             if (screen != null) {
