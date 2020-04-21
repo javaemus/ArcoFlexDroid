@@ -5,12 +5,14 @@ public class ArcoFlexDeviceItem  implements Comparable<ArcoFlexDeviceItem>{
     private String name;
     private int posi;
     private int type;
+    private String extensions;
 
-    public ArcoFlexDeviceItem(String n,int p, int t)
+    public ArcoFlexDeviceItem(String name,int position, int type, String extensions)
     {
-        name = n;
-        posi = p;
-        type = t;
+        this.name = name;
+        this.posi = position;
+        this.type = type;
+        this.extensions = extensions;
     }
 
     public String getName() {

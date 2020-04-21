@@ -44,9 +44,6 @@ public class ArcoFlexListView  extends ListFragment {
 
         //myView = inflater.inflate(R.layout.fragment_file_explorer_body, container, false);
         myView = inflater.inflate(R.layout.rowlist, container, false);
-        System.out.println("-------------------------------------------------------------------");
-
-        System.out.println(myView);
 
         myPath = (TextView)myView.findViewById(R.id.path);
 

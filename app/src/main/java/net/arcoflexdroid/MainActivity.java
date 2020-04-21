@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
     protected void onUserLeaveHint()
     {
         // When user presses home page
-        System.out.println("Home Button Pressed");
+        //System.out.println("Home Button Pressed");
         suspended = true;
 
         super.onUserLeaveHint();
@@ -118,21 +118,7 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
     protected void onResume() {
 
         super.onResume();
-        System.out.println("ONRESUME!!!!");
 
-        // pause emulator
-        /*if (screen != null && screen.key != null) {
-            screen.key[KeyEvent.KEYCODE_P] = true;
-            osd_refresh();
-        }
-
-         */
-        /*if (!first_start)
-            suspended = true;
-        else {
-            suspended = false;
-            first_start = true;
-        }*/
         suspended = false;
     }
 

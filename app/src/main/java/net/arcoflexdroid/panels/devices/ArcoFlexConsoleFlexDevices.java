@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -22,111 +23,228 @@ import net.arcoflexdroid.panels.filebrowser.ArcoFlexVars;
 import net.arcoflexdroid.panels.filebrowser.ArcoFlexZipFile;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import mess056.messH;
 
+import static arcoflex056.platform.android.android_filemngrClass.currDir;
 import static mess056.device.devices;
 import static mess056.messH.*;
 
 public class ArcoFlexConsoleFlexDevices extends ListFragment {
+    private List<String> item = null;
+    private List<String> path = null;
+    private String root;
+    private TextView myPath;
+    private ImageView favoriteImg;
+    private View myView;
 
+    private ArcoFlexDeviceArrayAdapter adapter;
     public static IODevice[] dev;
 
-    /**
-     * Currently displayed files
-     */
-    private final List<IODevice>currentDevices = new ArrayList<IODevice>();
-    private final List<String> currentDevicesSTR = new ArrayList<String>();
+    public ArcoFlexConsoleFlexDevices(){
 
-    @SuppressWarnings("unchecked")
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View _myView = inflater.inflate(R.layout.listdevices_dialog, container, false);
 
-        TextView mySystem = (TextView) _myView.findViewById(R.id.deviceSYS);
-        mySystem.setText(ArcoFlexConfigConsoleFlexDriver._SystemName);
+        //myView = inflater.inflate(R.layout.fragment_file_explorer_body, container, false);
+        myView = inflater.inflate(R.layout.rowlist, container, false);
 
-        // get all devices of ConsoleFlexDriver selected
-        //this.currentFiles.addAll((List) getIntent().getExtras().get("filesToShow"));
-        try {
+        myPath = (TextView)myView.findViewById(R.id.path);
+
+        favoriteImg = (ImageView) myView.findViewById(R.id.file_add_favorites);
+
+        // fills content
+        fill(ArcoFlexConfigConsoleFlexDriver._SystemName);
+
+        //setListAdapter(adapter);
+        return myView;
+
+    }
 
 
-            ArrayList list = new ArrayList();
+/*
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+ */
+
+    private void fill(String _sysName)
+    {
+
+        //this.setTitle("Current Dir: "+f.getName());
+        myPath.setText("System: " + _sysName);
+
+        List<ArcoFlexDeviceItem>fls = new ArrayList<ArcoFlexDeviceItem>();
+
+        try{
+            //ArrayList list = new ArrayList();
 
             int _numDevices = dev.length;
             for (int _i=0 ; _i<_numDevices ; _i++) {
                 if (dev[_i] != null) {
 
-                    IODevice item = dev[_i];
+                    ArcoFlexDeviceItem item = new ArcoFlexDeviceItem(
+                            devices[dev[_i].type].name,
+                            _i,
+                            dev[_i].type,
+                            dev[_i].file_extensions);
 
                     System.out.println(">>>>>>>>>>>>>>>>>>>>>>Dispositivo #" + _i);
-                    System.out.println(devices[item.type].name);
-                    System.out.println(devices[item.type].shortname);
-                    System.out.println(item.file_extensions);
+                    System.out.println(devices[dev[_i].type].name);
+                    System.out.println(devices[dev[_i].type].shortname);
+                    System.out.println(dev[_i].file_extensions);
                     System.out.println(">>>>>>>>>>>>>>>>>>>>>>FIN Dispositivo #" + _i);
 
                     // add item
-                    if (item.type != 0) {
-                        list.add(item);
-                        currentDevicesSTR.add(devices[item.type].name);
+                    if (item.getType() != 0) {
+                        fls.add(item);
+                        //currentDevicesSTR.add(devices[item.type].name);
                     }
                 }
             }
 
-            currentDevices.addAll(list);
+            /*currentDevices.addAll(list);
+            for(File ff: dirs)
+            {
+                Date lastModDate = new Date(ff.lastModified());
+                DateFormat formater = DateFormat.getDateTimeInstance();
+                String date_modify = formater.format(lastModDate);
+                if(ff.isDirectory()){
 
 
-            /*int numFiles = currentFiles.size();
-            for (int i=0 ; i< numFiles ; i++){
-                ArcoFlexFileItem currItem = currentFiles.get(i);
-                currentFilesSTR.add( currItem.getName());
+                    File[] fbuf = ff.listFiles();
+                    int buf = 0;
+                    if(fbuf != null){
+                        buf = fbuf.length;
+                    }
+                    else buf = 0;
+                    String num_item = String.valueOf(buf);
+                    if(buf == 0) num_item = num_item + " item";
+                    else num_item = num_item + " items";
+
+                    //String formated = lastModDate.toString();
+                    dir.add(new ArcoFlexFileItem(ff.getName(),num_item,date_modify,ff.getPath(),"directory_icon"));
+                }
+                else
+                {
+                    fls.add(new ArcoFlexDeviceItem(ff.getName(),ff.length() + " Byte", date_modify, currDir.getAbsolutePath(),"file_icon"));
+                }
             }
 
              */
+        }catch(Exception e)
+        {
 
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
         }
 
-        // display the files for selection
-        ArrayAdapter<String> filenamesAdapter = new ArrayAdapter<String>(MainActivity.mm.getApplicationContext(), R.layout.listactivities_textview1, this.currentDevicesSTR);
-        //setListAdapter(new ArrayAdapter<String>(this, R.layout.listblack, R.id.list_content, this.currentFilesSTR));
+        //Collections.sort(fls);
 
-        //jMESYSFileArrayAdapter filenamesAdapter = new jMESYSFileArrayAdapter(getApplicationContext(), R.layout.listactivities_textview1, this.currentFiles);
-        // Change color
-        //TextView textView=(TextView) findViewById(android.R.id.text1);
-        //textView.setTextColor(Color.BLACK);
+        //if(f.getName().length() != 0)
+        //    fls.add(0,new ArcoFlexFileItem("..","Parent Directory","",f.getParent(),"directory_up"));
+        adapter = new ArcoFlexDeviceArrayAdapter(getContext(),R.layout.fragment_device_list_body,fls);
 
-        setListAdapter(filenamesAdapter);
+        setListAdapter(adapter);
+    }
 
-        return _myView;
+
+    private void getDir(String dirPath)
+    {
+        myPath.setText("Location: " + dirPath);
+        currDir = new File(dirPath);
+        item = new ArrayList<String>();
+        path = new ArrayList<String>();
+        File f = new File(dirPath);
+        //File f=Environment.getExternalStorageDirectory();
+        File[] files = f.listFiles();
+
+        if(!dirPath.equals(root))
+        {
+            item.add(root);
+            path.add(root);
+            item.add("../");
+            path.add(f.getParent());
+        }
+
+        for(int i=0; i < files.length; i++)
+        {
+            File file = files[i];
+
+            //if(!file.isHidden() && file.canRead()){
+            path.add(file.getPath());
+            if(file.isDirectory()){
+                item.add(file.getName() + "/");
+            }else{
+                item.add(file.getName());
+            }
+            //}
+
+            System.out.println("------------------------------------------");
+            System.out.println(file.getName());
+            System.out.println(file.getPath());
+            System.out.println(file.getAbsoluteFile().getAbsolutePath());
+            System.out.println("------------------------------------------");
+        }
+
+        ArrayAdapter<String> fileList = new ArrayAdapter<String>(getContext(), R.layout.row, item);
+        //jMESYSFileArrayAdapter fileList = new jMESYSFileArrayAdapter<String>(getContext(), R.layout.row, item);
+
+        setListAdapter(fileList);
+
     }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        ArcoFlexDeviceItem o = adapter.getItem(position);
+        /*if(o.getImage().equalsIgnoreCase("directory_icon")||o.getImage().equalsIgnoreCase("directory_up")){
+            currDir = new File(o.getPath());
+            fill(currDir);
+        }
+        else
+        {
 
-        final Intent extras = new Intent();
+            //currDir = new File(o.getPath());
+            onFileClick(o);
+        }
 
-        int _position = position;
-
-
-        //ArcoFlexFileOpenActivity._endSelection = true;
-        //ArcoFlexJFileChooserDialog._selectedFile = true;
-        IODevice selDev = this.currentDevices.get(position);
-        System.out.println("*************SELECTED!:"+devices[selDev.type].name);
-
-        extras.putExtra("Device_Position", _position);
-        //extras.putExtra("selectedFile", this.currentFiles.get(position).getName());
-
-        //setResult(RESULT_OK, extras);
-        //this.close();
-
-        //ArcoFlexConfigConsoleFlexDriver.setResult(0);
-        //startActivityForResult(new Intent(getContext(), MainActivity.class), 0);
+         */
     }
 
+    private void onFileClick(ArcoFlexFileItem o)
+    {
+        //Toast.makeText(this, "Folder Clicked: "+ currentDir, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent();
+        intent.putExtra("GetPath",o.getPath());
+        intent.putExtra("GetFileName",o.getName());
+
+        ArcoFlexVars.file = o.getName();
+        ArcoFlexVars.path = o.getPath();
+        currDir = new File(ArcoFlexVars.path);
+
+        System.out.println("-------------------------Seleccionado!!!!: "+ArcoFlexVars.path);
+        System.out.println("-------------------------Seleccionadoxxx!!!!: "+ArcoFlexVars.file);
+        ArcoFlexJFileChooserDialog.setResult(0);
+
+        /*try {
+            ArrayList list = jMESYSZipFile.getContent( "file://"+currentDir.toString()+"/"+o.getName() );
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+
+        new AlertDialog.Builder(getContext())
+                //.setIcon(R.drawable.ic_launcher)
+                .setTitle("[" + o.getName() + "]")
+                .setPositiveButton("OK", null).show();*/
+
+        //startActivityForResult(new Intent(getContext(), ArcoFlexFileCatalogDialog.class), 0);
+    }
 }
-
-
