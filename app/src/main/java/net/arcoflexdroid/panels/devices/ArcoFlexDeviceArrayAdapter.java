@@ -1,10 +1,14 @@
 package net.arcoflexdroid.panels.devices;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,11 +21,19 @@ import java.util.List;
 
 import static mess056.messH.*;
 
-public class ArcoFlexDeviceArrayAdapter  extends ArrayAdapter<ArcoFlexDeviceItem> {
+public class ArcoFlexDeviceArrayAdapter extends ArrayAdapter<ArcoFlexDeviceItem> implements TextWatcher {
 
     private Context c;
     private int id;
     private List<ArcoFlexDeviceItem> items;
+    int listPosititon;
+
+    static class ViewHolder {
+        protected TextView text;
+        protected ImageView image;
+        protected EditText editText;
+        //protected CheckBox checkbox;
+    }
 
     public ArcoFlexDeviceArrayAdapter(Context context, int textViewResourceId, List<ArcoFlexDeviceItem> objects) {
         super(context, textViewResourceId, objects);
@@ -38,30 +50,49 @@ public class ArcoFlexDeviceArrayAdapter  extends ArrayAdapter<ArcoFlexDeviceItem
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        listPosititon = position;
+        ViewHolder viewHolder = null;
+
         View v = convertView;
         if (v == null) {
             LayoutInflater vi = (LayoutInflater)c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = vi.inflate(id, null);
+
+
+        // INI
+        viewHolder = new ViewHolder();
+        viewHolder.text = (TextView) v.findViewById(R.id.TextView01);
+        viewHolder.editText = (EditText) v.findViewById(R.id.EditText01);
+        viewHolder.image = (ImageView) v.findViewById(R.id.fd_Icon1);
+
+        viewHolder.editText.addTextChangedListener(this);
+
+        v.setTag(viewHolder);
+        v.setTag(R.id.EditText01, viewHolder.text);
+        v.setTag(R.id.fd_Icon1, viewHolder.image);
+        v.setTag(R.id.TextView01, viewHolder.text);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        /* create a new view of my layout and inflate it in the row */
-        //convertView = ( RelativeLayout ) inflater.inflate( resource, null );
+        viewHolder.editText.setTag(position);
+        viewHolder.editText.setText(items.get(position).getValue());
+        viewHolder.text.setText(items.get(position).getName());
+
+        // END
+
 
         final ArcoFlexDeviceItem o = items.get(position);
         if (o != null) {
             TextView t1 = (TextView) v.findViewById(R.id.TextView01);
-            //TextView t2 = (TextView) v.findViewById(R.id.TextView02);
-            //TextView t3 = (TextView) v.findViewById(R.id.TextViewDate);
-            /* Take the ImageView from layout and set the city's image */
-            ImageView imageCity = (ImageView) v.findViewById(R.id.fd_Icon1);
-            //LinearLayout ll = (LinearLayout) inflater.inflate(R.layout.iconLayout, null);
-            ImageView favoriteStar = (ImageView) v.findViewById(R.id.file_add_favorites);
-            favoriteStar.setTag(position);
-            favoriteStar.setOnClickListener(new View.OnClickListener() {
+            ImageView _devIMG = (ImageView) v.findViewById(R.id.fd_Icon1);
+
+            _devIMG.setTag(position);
+            _devIMG.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int position=(Integer)v.getTag();
-                    //System.out.println("Position: "+v.getTag());
+                    System.out.println("Position: "+v.getTag());
                     try {
                         //o.setInlay( ArcoFlexRemoteSearchExplorer.getWOSInlay( o.getName() ) );
                         /*TODO*///                        ZXSpectrumFavorites.addFavorite(o);
@@ -86,7 +117,7 @@ public class ArcoFlexDeviceArrayAdapter  extends ArrayAdapter<ArcoFlexDeviceItem
 
             try {
                 //if (o.getImage().equals("directory_icon")) {
-                    imageCity.setImageDrawable(ContextCompat.getDrawable(c, R.drawable.disk_image));
+                _devIMG.setImageDrawable(ContextCompat.getDrawable(c, R.drawable.disk_image));
                 /*} else if (o.getImage().equals("file_icon")) {
                     imageCity.setImageDrawable(ContextCompat.getDrawable(c, R.drawable.disk_image));
                     favoriteStar.setVisibility(View.VISIBLE);
@@ -107,14 +138,29 @@ public class ArcoFlexDeviceArrayAdapter  extends ArrayAdapter<ArcoFlexDeviceItem
                 /*if(t3!=null)
                     t3.setText(o.getDate());*/
 
-            if (favoriteStar != null) {
-                favoriteStar.setTag(new Integer(position));
+            if (_devIMG != null) {
+                _devIMG.setTag(new Integer(position));
             }
         }
         return v;
     }
 
 
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        //System.out.println("beforeTextChanged");
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        //System.out.println("onTextChanged");
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        //System.out.println("afterTextChanged: "+items.get(listPosititon).getName()+"="+editable.toString());
+        items.get(listPosititon).setValue(editable.toString());
+    }
 }
 
 

@@ -8,4 +8,27 @@
         android:layout_height="wrap_content"
         />
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <Button android:text="OK"
+            android:id="@+id/btn_device_OK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:clickable="true">
+        </Button>
+
+        <Button android:text="CANCEL"
+            android:id="@+id/btn_device_Cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textStyle="bold"
+            android:layout_toRightOf="@+id/btn_device_OK">
+        </Button>
+
+    </LinearLayout>
+
 </LinearLayout>

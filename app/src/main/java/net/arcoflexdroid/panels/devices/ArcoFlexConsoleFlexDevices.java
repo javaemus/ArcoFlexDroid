@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
@@ -46,6 +48,9 @@ public class ArcoFlexConsoleFlexDevices extends ListFragment {
     private ArcoFlexDeviceArrayAdapter adapter;
     public static IODevice[] dev;
 
+
+
+
     public ArcoFlexConsoleFlexDevices(){
 
     }
@@ -54,11 +59,38 @@ public class ArcoFlexConsoleFlexDevices extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //myView = inflater.inflate(R.layout.fragment_file_explorer_body, container, false);
-        myView = inflater.inflate(R.layout.rowlist, container, false);
+        myView = inflater.inflate(R.layout.listdevices_dialog, container, false);
 
-        myPath = (TextView)myView.findViewById(R.id.path);
+        myPath = (TextView) myView.findViewById(R.id.deviceSYS);
 
         favoriteImg = (ImageView) myView.findViewById(R.id.file_add_favorites);
+
+        Button _btnOK = (Button) myView.findViewById(R.id.btn_device_OK);
+
+        _btnOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("Click OK");
+
+                int _numDevs = adapter.getCount();
+                String[] _parameters;
+
+                for (int _i=0 ; _i<_numDevs ; _i++){
+                    ArcoFlexDeviceItem _item = adapter.getItem(_i);
+                    System.out.println(_item.getName());
+                }
+
+            }
+        });
+
+        Button _btnCancel = (Button) myView.findViewById(R.id.btn_device_Cancel);
+
+        _btnOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("Click CANCEL");
+            }
+        });
 
         // fills content
         fill(ArcoFlexConfigConsoleFlexDriver._SystemName);

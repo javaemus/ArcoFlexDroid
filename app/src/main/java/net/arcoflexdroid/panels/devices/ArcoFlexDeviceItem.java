@@ -6,6 +6,7 @@ public class ArcoFlexDeviceItem  implements Comparable<ArcoFlexDeviceItem>{
     private int posi;
     private int type;
     private String extensions;
+    private String value;
 
     public ArcoFlexDeviceItem(String name,int position, int type, String extensions)
     {
@@ -13,6 +14,14 @@ public class ArcoFlexDeviceItem  implements Comparable<ArcoFlexDeviceItem>{
         this.posi = position;
         this.type = type;
         this.extensions = extensions;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 
     public String getName() {
