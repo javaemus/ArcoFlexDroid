@@ -425,7 +425,7 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
         }
     }
 
-    public void runConsoleFlexGame(String _game) {
+    public void runConsoleFlexGame(String _game, String[] _parameters) {
         System.out.println("ConsoleFlex!!!!");
         suspended = false;
         try {
@@ -440,13 +440,21 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
             MESS = true;
             drivers = mess056.system.drivers;
 
+
+
             // deletes devices???? --> Machine.gamedrv.dev
+            /*
+
             if (Machine != null && Machine.gamedrv != null)
                 Machine.gamedrv.dev = null;
 
+             */
+
             // init devices
-            options.image_files = new ImageFile[MAX_IMAGES];
+            /*options.image_files = new ImageFile[MAX_IMAGES];
             options.image_count=0;
+
+             */
 
             /*if (_emuView.canvas != null){
                 _emuView.mSurfaceHolder.unlockCanvasAndPost(_emuView.canvas);
@@ -476,8 +484,14 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
             ConfigurePlatform(null);
             ConfigurePlatform((platformConfigurator.i_platform_configurator)new arcoflex056.platform.android.android_Configurator());
             //ConvertArguments("arcadeflex", new String[]{"gunsmoke"});//new String[]{"coleco","-cart","HERO.col"});
-            ConvertArguments("consoleflex", new String[]{_game}); //, "-cassette","SilkWorm(1988)(Mastertronic).wav"});
-            //_emuThread = null;
+            if (_parameters == null) {
+                System.out.println("1");
+                ConvertArguments("consoleflex", new String[]{_game}); //, "-cassette","SilkWorm(1988)(Mastertronic).wav"});
+            } else {
+                System.out.println("2");
+                ConvertArguments("consoleflex", _parameters); //, "-cassette","SilkWorm(1988)(Mastertronic).wav"});
+                //_emuThread = null;
+            }
 
 
             //_emuThread.stop();
@@ -497,6 +511,10 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
             _emuThread = (new Thread(new Runnable() {
                 public void run() {
                     try {
+                        System.out.println("ARGC: "+argc);
+                        for (int _i=0;_i<argc;_i++)
+                            System.out.println("ARGV: "+argv[_i]);
+                        //System.out.println("*********DEV "+Machine.gamedrv.dev);
                         osdepend.main(argc, argv);
                     } catch (RuntimeException e){
                         System.out.println("RuntimeException!!!!!!!!!!!!");
@@ -590,7 +608,7 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
         if (_sysItem != null){
             ArcoFlexGameItem _myItem = (ArcoFlexGameItem) _sysItem;
             showConsoleFlexDevices(_myItem);
-            runConsoleFlexGame(_myItem.getShortname());
+            runConsoleFlexGame(_myItem.getShortname(), null);
 
             return true;
         }
@@ -623,6 +641,8 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
             }
 
             ArcoFlexConsoleFlexDevices.dev = _driver.dev;
+            ArcoFlexConsoleFlexDevices.input_ports = _driver.input_ports;
+
             ArcoFlexConfigConsoleFlexDriver._SystemName = consoleflexDriverName;
 
             //startActivityForResult(new Intent(this, ArcoFlexConfigConsoleFlexDriver.class), A_FILE_SELECTOR);

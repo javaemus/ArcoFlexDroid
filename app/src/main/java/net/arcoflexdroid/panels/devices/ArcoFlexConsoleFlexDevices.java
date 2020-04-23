@@ -29,11 +29,15 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Vector;
 
+import static mame056.inptportH.*;
 import mess056.messH;
 
 import static arcoflex056.platform.android.android_filemngrClass.currDir;
+import static mame056.mame.Machine;
 import static mess056.device.devices;
 import static mess056.messH.*;
 
@@ -47,9 +51,7 @@ public class ArcoFlexConsoleFlexDevices extends ListFragment {
 
     private ArcoFlexDeviceArrayAdapter adapter;
     public static IODevice[] dev;
-
-
-
+    public static InputPortTiny[] input_ports;
 
     public ArcoFlexConsoleFlexDevices(){
 
@@ -75,17 +77,48 @@ public class ArcoFlexConsoleFlexDevices extends ListFragment {
                 int _numDevs = adapter.getCount();
                 String[] _parameters;
 
+                HashMap _arrDevs = new HashMap();
+
+                int _posiDev = 0;
+
+                // select not empty devices
                 for (int _i=0 ; _i<_numDevs ; _i++){
                     ArcoFlexDeviceItem _item = adapter.getItem(_i);
-                    System.out.println(_item.getName());
+
+                    if (_item.getValue() != null && _item.getValue().length() > 0) {
+                        System.out.println(_item.getName()+"="+_item.getValue());
+                        _arrDevs.put(_posiDev, _item);
+                        _posiDev++;
+                    }
                 }
 
+                _numDevs = _arrDevs.size();
+
+                _parameters = new String[ (_numDevs * 2) + 1 ];
+                _parameters[0] = ArcoFlexConfigConsoleFlexDriver._SystemName ;
+                int _parameterPosition = 1;
+
+                for (int _i=0 ; _i<_numDevs ; _i++) {
+                    String _devName = ((ArcoFlexDeviceItem)_arrDevs.get(_i)).getName();
+                    String _devValue = ((ArcoFlexDeviceItem)_arrDevs.get(_i)).getValue();
+                    _parameters[_parameterPosition] = "-"+_devName;
+                    _parameters[_parameterPosition+1] = _devValue;
+                    _parameterPosition = _parameterPosition + 2;
+                }
+
+                for (int _i=0;_i<_parameters.length;_i++)
+                    System.out.println(_parameters[_i]);
+
+                Machine.gamedrv.dev = dev;
+                Machine.gamedrv.input_ports = input_ports;
+
+                MainActivity.mm.runConsoleFlexGame(ArcoFlexConfigConsoleFlexDriver._SystemName, null);
             }
         });
 
         Button _btnCancel = (Button) myView.findViewById(R.id.btn_device_Cancel);
 
-        _btnOK.setOnClickListener(new View.OnClickListener() {
+        _btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 System.out.println("Click CANCEL");
@@ -188,55 +221,12 @@ public class ArcoFlexConsoleFlexDevices extends ListFragment {
     }
 
 
-    private void getDir(String dirPath)
-    {
-        myPath.setText("Location: " + dirPath);
-        currDir = new File(dirPath);
-        item = new ArrayList<String>();
-        path = new ArrayList<String>();
-        File f = new File(dirPath);
-        //File f=Environment.getExternalStorageDirectory();
-        File[] files = f.listFiles();
-
-        if(!dirPath.equals(root))
-        {
-            item.add(root);
-            path.add(root);
-            item.add("../");
-            path.add(f.getParent());
-        }
-
-        for(int i=0; i < files.length; i++)
-        {
-            File file = files[i];
-
-            //if(!file.isHidden() && file.canRead()){
-            path.add(file.getPath());
-            if(file.isDirectory()){
-                item.add(file.getName() + "/");
-            }else{
-                item.add(file.getName());
-            }
-            //}
-
-            System.out.println("------------------------------------------");
-            System.out.println(file.getName());
-            System.out.println(file.getPath());
-            System.out.println(file.getAbsoluteFile().getAbsolutePath());
-            System.out.println("------------------------------------------");
-        }
-
-        ArrayAdapter<String> fileList = new ArrayAdapter<String>(getContext(), R.layout.row, item);
-        //jMESYSFileArrayAdapter fileList = new jMESYSFileArrayAdapter<String>(getContext(), R.layout.row, item);
-
-        setListAdapter(fileList);
-
-    }
-
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         ArcoFlexDeviceItem o = adapter.getItem(position);
+        adapter.listPosititon = position;
+        System.out.println("POSITION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! "+position);
         /*if(o.getImage().equalsIgnoreCase("directory_icon")||o.getImage().equalsIgnoreCase("directory_up")){
             currDir = new File(o.getPath());
             fill(currDir);
