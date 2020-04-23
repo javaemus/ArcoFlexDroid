@@ -23,6 +23,7 @@ import static net.arcoflexdroid.MainActivity.suspended;
 public class android_SoundPlayerClass implements platformConfigurator.i_SoundPlayer_class{
 
     private AudioTrack _audioTrack;
+    private int stereo = 0;
 
     public android_SoundPlayerClass(){
         super();
@@ -31,6 +32,7 @@ public class android_SoundPlayerClass implements platformConfigurator.i_SoundPla
     @Override
     public void createAudioFormat(int stereo) {
         System.out.println("--> createAudioFormat");
+        this.stereo = stereo;
         /*_audioTrack = new AudioTrack(
                 AudioManager.STREAM_MUSIC,
                 Machine.sample_rate,
@@ -120,14 +122,26 @@ public class android_SoundPlayerClass implements platformConfigurator.i_SoundPla
     public void Play() {
 
         System.out.println("--> Play");
-        _audioTrack.play();
+        try {
+            if (_audioTrack != null)
+                _audioTrack.play();
+        } catch (Exception e){
+            createAudioFormat(stereo);
+            _audioTrack.play();
+        }
     }
 
     @Override
     public void Stop() {
 
         System.out.println("--> Stop");
-        if (_audioTrack != null) {
+        try {
+            if (_audioTrack != null) {
+                _audioTrack.stop();
+                _audioTrack.release();
+            }
+        } catch (Exception e){
+            createAudioFormat(stereo);
             _audioTrack.stop();
             _audioTrack.release();
         }

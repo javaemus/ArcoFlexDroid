@@ -34,11 +34,16 @@ import java.util.List;
 import java.util.Vector;
 
 import static mame056.inptportH.*;
-import mess056.messH;
+
+import static mame056.driverH.*;
 
 import static arcoflex056.platform.android.android_filemngrClass.currDir;
 import static mame056.mame.Machine;
+import static mame056.mame.options;
+import static mame056.mameH.*;
 import static mess056.device.devices;
+import static mess056.deviceH.IO_COUNT;
+import static mess056.mess.*;
 import static mess056.messH.*;
 
 public class ArcoFlexConsoleFlexDevices extends ListFragment {
@@ -52,6 +57,8 @@ public class ArcoFlexConsoleFlexDevices extends ListFragment {
     private ArcoFlexDeviceArrayAdapter adapter;
     public static IODevice[] dev;
     public static InputPortTiny[] input_ports;
+    public static InputPort[] m_input_ports;
+    public static GameDriver gamedrv;
 
     public ArcoFlexConsoleFlexDevices(){
 
@@ -109,10 +116,23 @@ public class ArcoFlexConsoleFlexDevices extends ListFragment {
                 for (int _i=0;_i<_parameters.length;_i++)
                     System.out.println(_parameters[_i]);
 
+                int _numDevOld = dev.length;
+
+                Machine.gamedrv = gamedrv;
                 Machine.gamedrv.dev = dev;
                 Machine.gamedrv.input_ports = input_ports;
+                Machine.input_ports = m_input_ports;
 
-                MainActivity.mm.runConsoleFlexGame(ArcoFlexConfigConsoleFlexDriver._SystemName, null);
+                Machine.gamedrv.name = ArcoFlexConfigConsoleFlexDriver._SystemName;
+
+                options.image_count = 0;
+                options.image_files = null;
+                options = options = new GameOptions();
+
+                images = new image_info[IO_COUNT][MAX_INSTANCES];
+                count = new int[IO_COUNT];
+
+                MainActivity.mm.runConsoleFlexGame(ArcoFlexConfigConsoleFlexDriver._SystemName, _parameters);
             }
         });
 
@@ -121,7 +141,10 @@ public class ArcoFlexConsoleFlexDevices extends ListFragment {
         _btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Machine.gamedrv.name = ArcoFlexConfigConsoleFlexDriver._SystemName;
                 System.out.println("Click CANCEL");
+                MainActivity.mm.runConsoleFlexGame(ArcoFlexConfigConsoleFlexDriver._SystemName, null);
+                //ArcoFlexConfigConsoleFlexDriver.onBackPressed();
             }
         });
 

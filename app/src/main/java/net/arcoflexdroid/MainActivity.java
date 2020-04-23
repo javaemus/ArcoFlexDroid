@@ -443,18 +443,18 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
 
 
             // deletes devices???? --> Machine.gamedrv.dev
-            /*
+            
 
-            if (Machine != null && Machine.gamedrv != null)
-                Machine.gamedrv.dev = null;
+            /*if (Machine != null && Machine.gamedrv != null)
+                Machine.gamedrv.dev = null;*/
 
-             */
+             
 
             // init devices
-            /*options.image_files = new ImageFile[MAX_IMAGES];
+            options.image_files = new ImageFile[MAX_IMAGES];
             options.image_count=0;
+            Machine.gamedrv.name = _game;
 
-             */
 
             /*if (_emuView.canvas != null){
                 _emuView.mSurfaceHolder.unlockCanvasAndPost(_emuView.canvas);
@@ -515,7 +515,14 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
                         for (int _i=0;_i<argc;_i++)
                             System.out.println("ARGV: "+argv[_i]);
                         //System.out.println("*********DEV "+Machine.gamedrv.dev);
+                        /*Runtime rt = Runtime.getRuntime();
+                        Process proc = rt.exec(osdepend.main(argc, argv));
+                        Runtime.exec();
+
+                         */
+
                         osdepend.main(argc, argv);
+
                     } catch (RuntimeException e){
                         System.out.println("RuntimeException!!!!!!!!!!!!");
                         e.printStackTrace(System.out);
@@ -608,7 +615,7 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
         if (_sysItem != null){
             ArcoFlexGameItem _myItem = (ArcoFlexGameItem) _sysItem;
             showConsoleFlexDevices(_myItem);
-            runConsoleFlexGame(_myItem.getShortname(), null);
+            //runConsoleFlexGame(_myItem.getShortname(), null);
 
             return true;
         }
@@ -640,10 +647,15 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
                 }
             }
 
-            ArcoFlexConsoleFlexDevices.dev = _driver.dev;
+
             ArcoFlexConsoleFlexDevices.input_ports = _driver.input_ports;
+            ArcoFlexConsoleFlexDevices.m_input_ports = Machine.input_ports;
+            ArcoFlexConsoleFlexDevices.dev = _driver.dev;
+            ArcoFlexConsoleFlexDevices.gamedrv = _driver;
+
 
             ArcoFlexConfigConsoleFlexDriver._SystemName = consoleflexDriverName;
+            ArcoFlexConsoleFlexDevices.gamedrv.name = consoleflexDriverName;
 
             //startActivityForResult(new Intent(this, ArcoFlexConfigConsoleFlexDriver.class), A_FILE_SELECTOR);
             ArcoFlexConfigConsoleFlexDriver _myDialogDevices = new ArcoFlexConfigConsoleFlexDriver();
