@@ -255,6 +255,10 @@ import static WIP.mame056.drivers.circusc.*;
 import static WIP.mame056.drivers.ddrible.*;
 import static WIP.mame056.drivers.atetris.*;
 import static WIP.mame056.drivers.mrdo.*;
+import static WIP.mame056.drivers._1942.*;
+import static WIP.mame056.drivers.wc90.*;
+import static WIP.mame056.drivers.citycon.*;
+import static WIP.mame056.drivers.airbustr.*;
 
 public class driver {
 
@@ -1868,9 +1872,9 @@ public class driver {
         /*TODO*///	driver_vulgusj,	/*  5/1984 (c) 1984 */
         driver_sonson, /*  7/1984 (c) 1984 */
         driver_sonsonj, /*  7/1984 (c) 1984 (Japan) */
-        /*TODO*///	driver_1942,		/* 12/1984 (c) 1984 */
-        /*TODO*///	driver_1942a,		/* 12/1984 (c) 1984 */
-        /*TODO*///	driver_1942b,		/* 12/1984 (c) 1984 */
+        driver_1942,		/* 12/1984 (c) 1984 */
+        driver_1942a,		/* 12/1984 (c) 1984 */
+        driver_1942b,		/* 12/1984 (c) 1984 */
         driver_exedexes, /*  2/1985 (c) 1985 */
         driver_savgbees, /*  2/1985 (c) 1985 + Memetron license */
         driver_commando, /*  5/1985 (c) 1985 (World) */
@@ -2801,8 +2805,8 @@ public class driver {
         /*TODO*///	driver_ryukendn,	/* 6215 - (c) 1989 Tecmo (Japan) */
         /*TODO*///	driver_tknight,	/* (c) 1989 Tecmo */
         /*TODO*///	driver_wildfang,	/* (c) 1989 Tecmo */
-        /*TODO*///	driver_wc90,		/* (c) 1989 Tecmo */
-        /*TODO*///	driver_wc90a,		/* (c) 1989 Tecmo */
+        driver_wc90,		/* (c) 1989 Tecmo */
+        driver_wc90a,		/* (c) 1989 Tecmo */
         /*TODO*///TESTdriver_wc90t,		/* (c) 1989 Tecmo */
         /*TODO*///	driver_wc90b,		/* bootleg */
         /*TODO*///	driver_fstarfrc,	/* (c) 1992 Tecmo */
@@ -3604,9 +3608,9 @@ public class driver {
         driver_exerionb, /* bootleg */
         /*TODO*///TESTdriver_formatz,	/* (c) 1984 Jaleco */
         /*TODO*///TESTdriver_aeroboto,	/* (c) 1984 Williams */
-        /*TODO*///	driver_citycon,	/* (c) 1985 Jaleco */
-        /*TODO*///	driver_citycona,	/* (c) 1985 Jaleco */
-        /*TODO*///	driver_cruisin,	/* (c) 1985 Jaleco/Kitkorp */
+        driver_citycon,	/* (c) 1985 Jaleco */
+        driver_citycona,	/* (c) 1985 Jaleco */
+        driver_cruisin,	/* (c) 1985 Jaleco/Kitkorp */
         driver_pinbo,		/* (c) 1984 Jaleco */
         driver_pinbos,	/* (c) 1985 Strike */
         driver_momoko, /* (c) 1986 Jaleco */
@@ -3763,8 +3767,8 @@ public class driver {
         /*TODO*///
         /*TODO*///	/* other Kaneko games */
         /*TODO*///	driver_galpanic,	/* (c) 1990 Kaneko */
-        /*TODO*///	driver_airbustr,	/* (c) 1990 Kaneko */
-        /*TODO*///
+        driver_airbustr,	/* (c) 1990 Kaneko */
+        
         /* Seta games */
         driver_hanaawas,	/* (c) SetaKikaku */
         /*TODO*///	driver_srmp2,		/* UB or UC?? (c) 1987 */

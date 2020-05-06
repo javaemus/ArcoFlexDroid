@@ -141,7 +141,8 @@ public class ArcoFlexConsoleFlexDevices extends ListFragment {
         _btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Machine.gamedrv.name = ArcoFlexConfigConsoleFlexDriver._SystemName;
+                if (Machine.gamedrv != null)
+                    Machine.gamedrv.name = ArcoFlexConfigConsoleFlexDriver._SystemName;
                 System.out.println("Click CANCEL");
                 MainActivity.mm.runConsoleFlexGame(ArcoFlexConfigConsoleFlexDriver._SystemName, null);
                 //ArcoFlexConfigConsoleFlexDriver.onBackPressed();

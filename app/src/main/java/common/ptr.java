@@ -26,6 +26,10 @@ public class ptr {
         public UBytePtr(char[] m) {
             set(m, 0);
         }
+        
+        public UBytePtr(int[] m) {
+            set(m, 0);
+        }
 
         public UBytePtr(char[] m, int b) {
             set(m, b);
@@ -37,6 +41,13 @@ public class ptr {
 
         public UBytePtr(UBytePtr cp) {
             set(cp.memory, cp.offset);
+        }
+        
+        public void set(int[] m, int b) {
+            int _size= m.length;
+            for (int _i=0 ; _i<_size ; _i++)
+                memory[_i] = (char) m[_i];
+            offset = b;
         }
 
         public void set(char[] m, int b) {
@@ -202,7 +213,7 @@ public class ptr {
      */
     public static class UShortPtr {
 
-        public int bsize = 2;
+        public int bsize = 1;
         public char[] memory;
         public int offset;
 
@@ -263,17 +274,20 @@ public class ptr {
         }
 
         public char read(int index) {
-            return (char) (((memory[offset + 1 + index * 2] << 8) & 0xFF) | (memory[offset + index * 2] & 0xFF));
+            //return (char) (((memory[offset + 1 + index * 2] << 8) & 0xFF) | (memory[offset + index * 2] & 0xFF));
+            return (char) (memory[offset + index]);
         }
 
         public void write(int index, char value) {
             
-            memory[offset + index * 2] = (char) (value & 0xFF);
-            memory[offset + index * 2 + 1] = (char) ((value >> 8) & 0xFF);
+            //memory[offset + index * 2] = (char) (value & 0xFF);
+            //memory[offset + index * 2 + 1] = (char) ((value >> 8) & 0xFF);
+            memory[offset + index] = (char) (value);
         }
         public void write(char value) {
-            memory[offset] = (char) (value & 0xFF);
-            memory[offset + 1] = (char) ((value >> 8) & 0xFF);
+            //memory[offset] = (char) (value & 0xFF);
+            //memory[offset + 1] = (char) ((value >> 8) & 0xFF);
+            memory[offset] = (char) (value);
         }
         public void inc() {
             offset += bsize;

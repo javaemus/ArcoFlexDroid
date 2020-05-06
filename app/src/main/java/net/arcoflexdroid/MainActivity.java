@@ -453,7 +453,9 @@ public class MainActivity extends AppCompatActivity implements GameKeyListener {
             // init devices
             options.image_files = new ImageFile[MAX_IMAGES];
             options.image_count=0;
-            Machine.gamedrv.name = _game;
+
+            if (Machine.gamedrv != null)
+                Machine.gamedrv.name = _game;
 
 
             /*if (_emuView.canvas != null){
